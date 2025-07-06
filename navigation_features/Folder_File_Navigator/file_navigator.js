@@ -2,6 +2,8 @@ const vscode = require("vscode");
 const {
   speakMessage,
 } = require("../../program_settings/speech_settings/speechHandler");
+const fs = require("fs");
+const path = require("path");
 
 let currentFileIndex = 0;
 
@@ -19,7 +21,7 @@ async function navigateToNextFile() {
 
   const workspacePath = workspaceFolders[0].uri.fsPath;
 
-  // Get all files in the workspace
+  // Refresh the list of files in the workspace
   const files = await vscode.workspace.findFiles("**/*", "**/node_modules/**");
 
   if (files.length === 0) {
@@ -43,7 +45,31 @@ async function navigateToNextFile() {
 }
 
 /**
- * Registers the command to navigate to the next file.
+ * Watches the workspace for new files and updates the file index.
+ */
+function watchWorkspaceForFileChanges() {
+  const workspaceFolders = vscode.workspace.workspaceFolders;
+
+  if (!workspaceFolders || workspaceFolders.length === 0) {
+    return;
+  }
+
+  const workspacePath = workspaceFolders[0].uri.fsPath;
+
+  fs.watch(workspacePath, { recursive: true }, async (eventType, filename) => {
+    if (eventType === "rename" && filename) {
+      const filePath = path.join(workspacePath, filename);
+      if (fs.existsSync(filePath) && fs.lstatSync(filePath).isFile()) {
+        vscode.window.showInformationMessage(`New file detected: ${filename}`);
+        await speakMessage(`New file detected: ${filename}`);
+        // Optionally refresh the file index here
+      }
+    }
+  });
+}
+
+/**
+ * Registers the command to navigate to the next file and starts the file watcher.
  */
 function registerFileNavigatorCommand(context) {
   const navigateCommand = vscode.commands.registerCommand(
@@ -52,6 +78,9 @@ function registerFileNavigatorCommand(context) {
   );
 
   context.subscriptions.push(navigateCommand);
+
+  // Start watching for file changes
+  watchWorkspaceForFileChanges();
 }
 
 module.exports = { registerFileNavigatorCommand };

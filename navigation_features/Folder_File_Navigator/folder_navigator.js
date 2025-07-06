@@ -66,9 +66,10 @@ async function moveToNextFolder() {
 
   currentFolderIndex = (currentFolderIndex + 1) % folderList.length;
   const currentFolder = folderList[currentFolderIndex];
+  const folderName = path.basename(currentFolder); // Extract only the folder name
 
-  vscode.window.showInformationMessage(`Moved to folder: ${currentFolder}`);
-  await speakMessage(`Moved to folder: ${currentFolder}`);
+  vscode.window.showInformationMessage(`Moved to folder: ${folderName}`);
+  await speakMessage(`Moved to folder: ${folderName}`);
 
   // Get files in the current folder
   const files = fs
@@ -77,12 +78,12 @@ async function moveToNextFolder() {
     .map((entry) => path.join(currentFolder, entry.name));
 
   if (files.length > 0) {
-    const firstFile = files[0];
+    const firstFile = path.basename(files[0]); // Extract only the file name
     vscode.window.showInformationMessage(`First file in folder: ${firstFile}`);
     await speakMessage(`First file in folder: ${firstFile}`);
   } else {
-    vscode.window.showInformationMessage(`Folder is empty: ${currentFolder}`);
-    await speakMessage(`Folder is empty: ${currentFolder}`);
+    vscode.window.showInformationMessage(`Folder is empty: ${folderName}`);
+    await speakMessage(`Folder is empty: ${folderName}`);
   }
 }
 
@@ -99,9 +100,10 @@ async function moveToPreviousFolder() {
   currentFolderIndex =
     (currentFolderIndex - 1 + folderList.length) % folderList.length;
   const currentFolder = folderList[currentFolderIndex];
+  const folderName = path.basename(currentFolder); // Extract only the folder name
 
-  vscode.window.showInformationMessage(`Moved to folder: ${currentFolder}`);
-  await speakMessage(`Moved to folder: ${currentFolder}`);
+  vscode.window.showInformationMessage(`Moved to folder: ${folderName}`);
+  await speakMessage(`Moved to folder: ${folderName}`);
 
   // Get files in the current folder
   const files = fs
@@ -110,12 +112,12 @@ async function moveToPreviousFolder() {
     .map((entry) => path.join(currentFolder, entry.name));
 
   if (files.length > 0) {
-    const firstFile = files[0];
+    const firstFile = path.basename(files[0]); // Extract only the file name
     vscode.window.showInformationMessage(`First file in folder: ${firstFile}`);
     await speakMessage(`First file in folder: ${firstFile}`);
   } else {
-    vscode.window.showInformationMessage(`Folder is empty: ${currentFolder}`);
-    await speakMessage(`Folder is empty: ${currentFolder}`);
+    vscode.window.showInformationMessage(`Folder is empty: ${folderName}`);
+    await speakMessage(`Folder is empty: ${folderName}`);
   }
 }
 

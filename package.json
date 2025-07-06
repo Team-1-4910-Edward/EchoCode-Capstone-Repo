@@ -295,18 +295,15 @@
       },
       {
         "command": "echocode.navigateToNextFile",
-        "key": "ctrl+alt+p",
-        "when": "editorTextFocus"
+        "key": "ctrl+alt+p"
       },
       {
         "command": "echocode.moveToNextFolder",
-        "key": "ctrl+alt+[",
-        "when": "editorTextFocus"
+        "key": "ctrl+alt+["
       },
       {
         "command": "echocode.moveToPreviousFolder",
-        "key": "ctrl+alt+]",
-        "when": "editorTextFocus"
+        "key": "ctrl+alt+]"
       },
       {
         "command": "echocode.initializeFolderList",

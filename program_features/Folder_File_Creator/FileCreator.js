@@ -20,6 +20,9 @@ async function createFile() {
     return;
   }
 
+  // Announce the file name prompt
+  await speakMessage("Enter file name.");
+
   // Prompt the user for the file name
   const fileName = await vscode.window.showInputBox({
     prompt: "Enter the name of the new file (e.g., newFile.js):",

@@ -10,9 +10,9 @@
     const voiceButton = document.getElementById('voice-button');
     const listeningIndicator = document.getElementById('listening-indicator');
     const loadingIndicator = document.getElementById('loading-indicator');
-    
+
     let currentAssistantMessage = null;
-    
+
     // Send a message
     function sendMessage() {
         const text = userInput.value.trim();
@@ -51,14 +51,7 @@
         
         return contentElement;
     }
-    
-    // Start voice recognition
-    function startVoiceRecognition() {
-        vscode.postMessage({
-            type: 'startVoiceRecognition'
-        });
-    }
-    
+
     // Event listeners
     sendButton.addEventListener('click', sendMessage);
     
@@ -69,7 +62,15 @@
         }
     });
     
-    voiceButton.addEventListener('click', startVoiceRecognition);
+    //Mic button to tell extension to start voice input
+    voiceButton.addEventListener('click', () => {
+        vscode.postMessage({ type: "startVoiceInput" });
+        // Show indicator while extension records
+        voiceButton.classList.add('active');
+        listeningIndicator.classList.remove('hidden');
+        listeningIndicator.classList.add('visible');
+        userInput.placeholder = 'Listening...';
+    });
     
     // Handle messages from the extension
     window.addEventListener('message', (event) => {
@@ -77,7 +78,6 @@
         
         switch (message.type) {
             case 'response':
-                // For full responses
                 if (currentAssistantMessage) {
                     currentAssistantMessage.textContent = message.text;
                     currentAssistantMessage = null;
@@ -87,7 +87,6 @@
                 break;
                 
             case 'responseFragment':
-                // For incremental responses
                 if (currentAssistantMessage) {
                     currentAssistantMessage.textContent += message.text;
                     messagesContainer.scrollTop = messagesContainer.scrollHeight;
@@ -95,12 +94,10 @@
                 break;
                 
             case 'responseComplete':
-                // Finalize the response
                 currentAssistantMessage = null;
                 break;
                 
             case 'responseLoading':
-                // Show/hide loading indicator
                 if (message.started) {
                     loadingIndicator.classList.remove('hidden');
                     loadingIndicator.classList.add('visible');
@@ -111,52 +108,33 @@
                 break;
                 
             case 'responseError':
-                // Handle errors in response
                 if (currentAssistantMessage) {
                     currentAssistantMessage.textContent = message.error || 'Error getting response';
                     currentAssistantMessage.parentElement.classList.add('error');
                     currentAssistantMessage = null;
                 }
                 break;
-                
-            case 'voiceListeningStarted':
-                // Visual indicator that voice input is active
-                voiceButton.classList.add('active');
-                listeningIndicator.classList.remove('hidden');
-                listeningIndicator.classList.add('visible');
-                userInput.placeholder = 'Listening...';
-                break;
-                
-            case 'voiceListeningStopped':
-                // Visual indicator that voice input has stopped
+
+            case 'voiceRecognitionResult':
+                // Transcript will come back from extension
+                userInput.value = message.text;
+                userInput.focus();
+                // Reset UI state
                 voiceButton.classList.remove('active');
                 listeningIndicator.classList.add('hidden');
                 listeningIndicator.classList.remove('visible');
                 userInput.placeholder = 'Ask a question about your code...';
                 break;
                 
-            case 'voiceRecognitionResult':
-                // Add recognized text to input field
-                userInput.value = message.text;
-                userInput.focus();
-                break;
-                
             case 'voiceRecognitionError':
-                // Handle voice recognition errors
                 voiceButton.classList.remove('active');
                 listeningIndicator.classList.add('hidden');
                 listeningIndicator.classList.remove('visible');
                 userInput.placeholder = 'Ask a question about your code...';
                 addMessageToUI('system', `Voice recognition error: ${message.error || 'Unknown error'}`);
                 break;
-                
-            case 'startVoiceInput':
-                // Trigger voice input from command
-                startVoiceRecognition();
-                break;
         }
         
-        // Always scroll to the latest message
         messagesContainer.scrollTop = messagesContainer.scrollHeight;
     });
 })();

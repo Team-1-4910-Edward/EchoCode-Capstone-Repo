@@ -26,3 +26,6 @@ Thumbs.db
 # Morgan is using this file for reference
 *-messy.js
 
+# Ignore environment variable files
+.env
+

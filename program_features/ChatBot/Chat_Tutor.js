@@ -42,6 +42,8 @@ class EchoCodeChatViewProvider {
     this._view = null;
     this.conversationHistory = [];
     this._isListening = false;
+
+    this._currentWebview = null;
   }
 
   resolveWebviewView(webviewView, context, token) {
@@ -50,6 +52,11 @@ class EchoCodeChatViewProvider {
       enableScripts: true,
       localResourceRoots: [this.context.extensionUri],
     };
+
+    this._currentWebview = webviewView.webview;
+    webviewView.onDidDispose(() => {
+      this._currentWebview = null;
+    });
 
     // Set the initial HTML content
     webviewView.webview.html = this._getHtmlForWebview(webviewView.webview);
@@ -63,8 +70,8 @@ class EchoCodeChatViewProvider {
         );
         if (message.type === "userInput") {
           await this.handleUserMessage(message.text);
-        } else if (message.type === "startVoiceRecognition") {
-          await this.startVoiceRecognition();
+        } else if (message.type === "startVoiceInput") {
+          vscode.commands.executeCommand("echocode._startWhisperSTT");
         }
       },
       undefined,
@@ -231,15 +238,11 @@ class EchoCodeChatViewProvider {
   }
 
   startVoiceInput() {
-    if (this._view) {
-      this.startVoiceRecognition();
+    if (this._view && this._currentWebview) {
+      this._currentWebview.postMessage({ type: "startVoiceInput" });
     } else {
-      vscode.window.showInformationMessage(
-        "Please open the EchoCode Tutor view to use voice input."
-      );
-      this.outputChannel.appendLine(
-        "Voice input command invoked with no active chat view."
-      );
+      vscode.window.showInformationMessage("Please open the EchoCode Tutor view to use voice input.");
+      this.outputChannel.appendLine("Voice input command invoked with no active chat view.");
     }
   }
 

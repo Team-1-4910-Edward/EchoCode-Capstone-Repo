@@ -71,6 +71,13 @@ const {
   registerCharacterReadOutCommand,
 } = require("./program_features/WhatIsThis/CharacterReadOut");
 
+const {
+  connectFile,
+  handleCopyFileNameCommand,
+  handlePasteImportCommand,
+  registerFileConnectorCommands,
+} = require("./program_features/FileConnector/File_Connector");
+
 let activeDecorations = [];
 let annotationsVisible = false;
 
@@ -117,6 +124,9 @@ async function activate(context) {
   registerReadCurrentLineCommand(context);
   registerDescribeCurrentLineCommand(context);
   registerCharacterReadOutCommand(context);
+
+  // Register file connector commands
+  registerFileConnectorCommands(context, vscode);
 
   outputChannel.appendLine(
     "Commands registered: echocode.readErrors, echocode.annotate, echocode.speakNextAnnotation, echocode.readAllAnnotations, echocode.summarizeClass, echocode.summarizeFunction, echocode.jumpToNextFunction, echocode.jumpToPreviousFunction, echocode.openChat, echocode.startVoiceInput, echocode.loadAssignmentFile, echocode.rescanUserCode, echocode.readNextSequentialTask, echocode.increaseSpeechSpeed, echocode.decreaseSpeechSpeed"

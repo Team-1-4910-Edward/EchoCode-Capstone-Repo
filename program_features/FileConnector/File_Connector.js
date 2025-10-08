@@ -9,7 +9,7 @@ function connectFile(filePath) {
   const fileName = parts.pop();
   const folderPath = parts.join("/");
   const extension = fileName.split(".").pop().toLowerCase();
-
+  //For this switch case, the cases are the file extensions. We can expand on this later with more langauges. CR
   switch (extension) {
     case "py":
       return folderPath

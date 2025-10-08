@@ -1,3 +1,7 @@
+const {
+  speakMessage,
+} = require("../../program_settings/speech_settings/speechHandler");
+
 let copiedFileName = null;
 
 function connectFile(filePath) {
@@ -20,9 +24,20 @@ function connectFile(filePath) {
       }${fileName}';`;
     case "cpp":
       return `#include "${folderPath ? folderPath + "/" : ""}${fileName}"`;
+    case "h":
+      return `#include "${folderPath ? folderPath + "/" : ""}${fileName}"`;
     default:
       return `// Unsupported file type: ${extension}`;
   }
+}
+
+function areExtensionsCompatible(source, dest) {
+  const sourceExt = source.split(".").pop().toLowerCase();
+  const destExt = dest.split(".").pop().toLowerCase();
+
+  if (sourceExt === destExt) return true;
+  if (sourceExt === "h" && destExt === "cpp") return true;
+  return false;
 }
 
 function registerFileConnectorCommands(context, vscode) {
@@ -36,7 +51,6 @@ function registerFileConnectorCommands(context, vscode) {
           return;
         }
         const filePath = editor.document.fileName;
-        // Normalize to workspace-relative path
         const workspaceFolder = vscode.workspace.getWorkspaceFolder(
           editor.document.uri
         );
@@ -48,24 +62,41 @@ function registerFileConnectorCommands(context, vscode) {
         vscode.window.showInformationMessage(
           `Copied file path: ${relativePath}`
         );
+        await speakMessage(`Copied file path ${relativePath}`);
       }
     ),
-    vscode.commands.registerCommand("echocode.pasteImportAtCursor", () => {
-      if (!copiedFileName) {
-        vscode.window.showWarningMessage("No file name copied.");
-        return;
+    vscode.commands.registerCommand(
+      "echocode.pasteImportAtCursor",
+      async () => {
+        if (!copiedFileName) {
+          vscode.window.showWarningMessage("No file name copied.");
+          return;
+        }
+        const editor = vscode.window.activeTextEditor;
+        if (!editor) {
+          vscode.window.showWarningMessage("No active editor.");
+          return;
+        }
+        const destinationFilePath = editor.document.fileName;
+        const destinationFile = destinationFilePath.split(/[\\/]/).pop();
+        const sourceFile = copiedFileName.split(/[\\/]/).pop();
+
+        if (!areExtensionsCompatible(sourceFile, destinationFile)) {
+          const errorMsg = `Cannot import ${sourceFile} into ${destinationFile}: incompatible file types.`;
+          vscode.window.showWarningMessage(errorMsg);
+          await speakMessage(errorMsg);
+          return;
+        }
+
+        const importStatement = connectFile(copiedFileName);
+        await editor.edit((editBuilder) => {
+          editBuilder.insert(editor.selection.active, importStatement + "\n");
+        });
+        const message = `Copied ${sourceFile} to ${destinationFile}`;
+        vscode.window.showInformationMessage(message);
+        await speakMessage(message);
       }
-      const editor = vscode.window.activeTextEditor;
-      if (!editor) {
-        vscode.window.showWarningMessage("No active editor.");
-        return;
-      }
-      const importStatement = connectFile(copiedFileName);
-      editor.edit((editBuilder) => {
-        editBuilder.insert(editor.selection.active, importStatement + "\n");
-      });
-      vscode.window.showInformationMessage("Import statement pasted.");
-    })
+    )
   );
 }
 

@@ -58,12 +58,6 @@ function connectFunction(sourcePath, destPath, functionName, extension) {
       return _generatePythonImport(sourcePath, functionName);
     case ".js":
       return _generateJsImport(sourcePath, destPath, functionName);
-    case ".h": {
-      const relPath = path
-        .relative(path.dirname(destPath), sourcePath)
-        .replace(/\\/g, "/");
-      return `#include "${relPath}"`; // C++ includes headers, not specific functions
-    }
     default:
       return `// Unsupported file type for function import: ${extension}`;
   }
@@ -91,7 +85,6 @@ function areExtensionsCompatible(source, dest) {
   const destExt = dest.split(".").pop().toLowerCase();
 
   if (sourceExt === destExt) return true;
-  if (sourceExt === "h" && destExt === "cpp") return true;
   if (
     (sourceExt === "js" && destExt === "ts") ||
     (sourceExt === "ts" && destExt === "js")

@@ -24,7 +24,7 @@
 - **AI Code Tutoring Annotations**  
   Provides inline annotations explaining **common coding mistakes** and suggesting improvements.
 
-  - 🆕 New functions for generating big O(n) annotations
+  - functions for generating big O(n) annotations
 
 - **Interactive Chat Tutor**  
   An AI-powered tutor that reads your active file and answers questions or provides exercises specific to its content. Open it with `Ctrl+Alt+C` and ask about your code directly.

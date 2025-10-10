@@ -143,18 +143,16 @@ Before using Echo Code, ensure the following are installed:
 
 ## **Release Notes**
 
-### **1.7**
+### **1.9**
 
-- Added function to see what has been typed on the line
-- Added function to generate a summary on what the line does and check if there is any error
-- Added function to toggle on and off a character reader
-- Added new hot keys for the above functions
+- Added function to copy a function for importing to another file. Autogenerates the necessary imports and calls. 
+- Added function to paste a function for importing to another file. Autogenerates necessary imports. 
   **New Hotkeys:**
 
 | Shortcut     | Description                                                                                             |
-| ------------ | ------------------------------------------------------------------------------------------------------- | --- |
+| ------------ | ------------------------------------------------------------------------------------------------------- |
 | `Ctrl+Alt+C` | Generates an import function for Python and JS to be pasted for connecting multiple files at the cursor |
-| `Ctrl+Alt+V` | Pastes the import function for Python and JS at the cursor                                              |     |
+| `Ctrl+Alt+V` | Pastes the import function for Python and JS at the cursor                                              |
 
 ---
 

@@ -158,4 +158,4 @@ Before using Echo Code, ensure the following are installed:
 
 ## **Author & License**
 
-Developed by Group 1 - Team Jacob
+Developed by Group 1 - Team Edward

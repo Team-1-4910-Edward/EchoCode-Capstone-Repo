@@ -2,7 +2,7 @@
   "name": "echo-code",
   "displayName": "Echo Code",
   "description": "Reads Python errors aloud using Pylint for visually impaired students.",
-  "version": "1.7.0",
+  "version": "1.8.1",
   "repository": {
     "type": "git",
     "url": "https://github.com/tjcrozier/CSCE-3444.001-Group-1.git"
@@ -18,7 +18,6 @@
   ],
   "activationEvents": [
     "onLanguage:python",
-    "onSave",
     "onView:echocode.chatView",
     "onCommand:echocode.openChat",
     "onCommand:echocode.readHotkeyGuide",
@@ -36,7 +35,10 @@
     "onCommand:echocode.decreaseSpeechSpeed",
     "onCommand:echocode.rescanUserCode",
     "onCommand:echocode.readNextSequentialTask",
-    "onCommand:echocode.whereAmI"
+    "onCommand:echocode.whereAmI",
+    "onCommand:echocode.ptt.start",
+    "onCommand:echocode.ptt.stop",
+    "onStartupFinished"
   ],
   "main": "./extension.js",
   "extensionDependencies": [
@@ -45,87 +47,28 @@
   ],
   "contributes": {
     "commands": [
-      {
-        "command": "echocode.readHotkeyGuide",
-        "title": "EchoCode: Read Hotkey Guide"
-      },
-      {
-        "command": "echocode.readErrors",
-        "title": "Read Python Errors Aloud"
-      },
-      {
-        "command": "echocode.annotate",
-        "title": "Toggle EchoCode Annotations",
-        "icon": "$(comment)"
-      },
-      {
-        "command": "echocode.readAllAnnotations",
-        "title": "Read All Annotations Aloud"
-      },
-      {
-        "command": "echocode.jumpToNextFunction",
-        "title": "Jump to Next Function"
-      },
-      {
-        "command": "echocode.jumpToPreviousFunction",
-        "title": "Jump to Previous Function"
-      },
-      {
-        "command": "echocode.summarizeClass",
-        "title": "Summarize Current Class"
-      },
-      {
-        "command": "echocode.summarizeFunction",
-        "title": "Summarize Current Function"
-      },
-      {
-        "command": "echocode.summarizeProgram",
-        "title": "Summarize Current Program"
-      },
-      {
-        "command": "echocode.openChat",
-        "title": "Open EchoCode Tutor Chat"
-      },
-      {
-        "command": "echocode.startVoiceInput",
-        "title": "Start Voice Input"
-      },
-      {
-        "command": "echocode.loadAssignmentFile",
-        "title": "Load Assignment File"
-      },
-      {
-        "command": "echocode.increaseSpeechSpeed",
-        "title": "Increase Speech Speed"
-      },
-      {
-        "command": "echocode.decreaseSpeechSpeed",
-        "title": "Decrease Speech Speed"
-      },
-      {
-        "command": "echocode.rescanUserCode",
-        "title": "Rescan Code for Completed Tasks"
-      },
-      {
-        "command": "echocode.readNextSequentialTask",
-        "title": "Read Next Sequential Task"
-      },
-      {
-        "command": "echocode.whereAmI",
-        "title": "Where Am I?"
-      },
-      {
-        "command": "echocode.readCurrentLine",
-        "title": "Read Current Line"
-      },
-      {
-        "command": "echocode.describeCurrentLine",
-        "title": "Describe Current Line"
-      },
-      {
-        "command": "echocode.toggleCharacterReadOut",
-        "title": "Toggle Character Read-Out"
-      }
+      { "command": "echocode.readHotkeyGuide", "title": "EchoCode: Read Hotkey Guide" },
+      { "command": "echocode.readErrors", "title": "Read Python Errors Aloud" },
+      { "command": "echocode.annotate", "title": "Toggle EchoCode Annotations", "icon": "$(comment)" },
+      { "command": "echocode.readAllAnnotations", "title": "Read All Annotations Aloud" },
+      { "command": "echocode.jumpToNextFunction", "title": "Jump to Next Function" },
+      { "command": "echocode.jumpToPreviousFunction", "title": "Jump to Previous Function" },
+      { "command": "echocode.summarizeClass", "title": "Summarize Current Class" },
+      { "command": "echocode.summarizeFunction", "title": "Summarize Current Function" },
+      { "command": "echocode.summarizeProgram", "title": "Summarize Current Program" },
+      { "command": "echocode.openChat", "title": "Open EchoCode Tutor Chat" },
+      { "command": "echocode.startVoiceInput", "title": "Start Voice Input" },
+      { "command": "echocode.loadAssignmentFile", "title": "Load Assignment File" },
+      { "command": "echocode.increaseSpeechSpeed", "title": "Increase Speech Speed" },
+      { "command": "echocode.decreaseSpeechSpeed", "title": "Decrease Speech Speed" },
+      { "command": "echocode.rescanUserCode", "title": "Rescan Code for Completed Tasks" },
+      { "command": "echocode.readNextSequentialTask", "title": "Read Next Sequential Task" },
+      { "command": "echocode.whereAmI", "title": "Where Am I?" },
+      { "command": "echocode.readCurrentLine", "title": "Read Current Line" },
+      { "command": "echocode.describeCurrentLine", "title": "Describe Current Line" },
+      { "command": "echocode.toggleCharacterReadOut", "title": "Toggle Character Read-Out" },
+      { "command": "echocode.ptt.start", "title": "EchoCode: Start Push-to-Talk" },
+      { "command": "echocode.ptt.stop", "title": "EchoCode: Stop Push-to-Talk" }
     ],
     "configuration": {
       "title": "EchoCode",
@@ -143,166 +86,52 @@
       }
     },
     "keybindings": [
-      {
-        "key": "f1",
-        "command": "echocode.readHotkeyGuide",
-        "when": "editorTextFocus"
-      },
-      {
-        "command": "echocode.speakNextAnnotation",
-        "key": "ctrl+alt+s",
-        "when": "editorTextFocus"
-      },
-      {
-        "command": "echocode.annotate",
-        "key": "ctrl+alt+a",
-        "when": "editorTextFocus"
-      },
-      {
-        "command": "echocode.readAllAnnotations",
-        "key": "ctrl+alt+q",
-        "when": "editorTextFocus"
-      },
-      {
-        "command": "echocode.jumpToNextFunction",
-        "key": "ctrl+alt+down",
-        "when": "editorTextFocus"
-      },
-      {
-        "command": "echocode.jumpToPreviousFunction",
-        "key": "ctrl+alt+up",
-        "when": "editorTextFocus"
-      },
-      {
-        "command": "echocode.summarizeClass",
-        "key": "ctrl+alt+space C",
-        "when": "editorTextFocus && editorLangId == 'python'"
-      },
-      {
-        "command": "echocode.summarizeFunction",
-        "key": "ctrl+alt+space F",
-        "when": "editorTextFocus && editorLangId == 'python'"
-      },
-      {
-        "command": "echocode.summarizeProgram",
-        "key": "ctrl+alt+space P",
-        "when": "editorTextFocus && editorLangId == 'python'"
-      },
-      {
-        "command": "echocode.startVoiceInput",
-        "key": "ctrl+alt+v"
-      },
-      {
-        "command": "echocode.openChat",
-        "key": "ctrl+alt+c",
-        "when": "editorTextFocus"
-      },
-      {
-        "command": "code-tutor.analyzeBigO",
-        "key": "ctrl+alt+n",
-        "when": "editorTextFocus && editorLangId == 'python'"
-      },
-      {
-        "command": "echocode.whereAmI",
-        "key": "ctrl+alt+space W",
-        "when": "editorTextFocus && editorLangId == 'python'"
-      },
-      {
-        "command": "code-tutor.iterateBigOQueue",
-        "key": "ctrl+alt+b",
-        "when": "editorTextFocus"
-      },
-      {
-        "command": "code-tutor.readEntireBigOQueue",
-        "key": "ctrl+alt+h"
-      },
-      {
-        "key": "ctrl+alt+o",
-        "command": "echocode.loadAssignmentFile",
-        "when": "editorTextFocus"
-      },
-      {
-        "key": "ctrl+alt+x",
-        "command": "echocode.stopSpeech"
-      },
-      {
-        "key": "ctrl+alt+u",
-        "command": "echocode.increaseSpeechSpeed",
-        "when": "editorTextFocus"
-      },
-      {
-        "key": "ctrl+alt+d",
-        "command": "echocode.decreaseSpeechSpeed",
-        "when": "editorTextFocus"
-      },
-      {
-        "command": "echocode.rescanUserCode",
-        "key": "ctrl+alt+y",
-        "when": "editorTextFocus"
-      },
-      {
-        "command": "echocode.readNextSequentialTask",
-        "key": "ctrl+alt+/",
-        "when": "editorTextFocus"
-      },
-      {
-        "command": "echocode.readNextTask",
-        "key": "ctrl+alt+t",
-        "when": "editorTextFocus"
-      },
-      {
-        "command": "echocode.markTaskComplete",
-        "key": "ctrl+alt+m",
-        "when": "editorTextFocus"
-      },
-      {
-        "command": "echocode.readCurrentLine",
-        "key": "ctrl+alt+l",
-        "when": "editorTextFocus"
-      },
-      {
-        "command": "echocode.describeCurrentLine",
-        "key": "ctrl+alt+k",
-        "when": "editorTextFocus"
-      },
-      {
-        "command": "echocode.toggleCharacterReadOut",
-        "key": "ctrl+alt+r",
-        "when": "editorTextFocus"
-      }
+      { "key": "f1", "command": "echocode.readHotkeyGuide", "when": "editorTextFocus" },
+      { "command": "echocode.speakNextAnnotation", "key": "ctrl+alt+s", "when": "editorTextFocus" },
+      { "command": "echocode.annotate", "key": "ctrl+alt+a", "when": "editorTextFocus" },
+      { "command": "echocode.readAllAnnotations", "key": "ctrl+alt+q", "when": "editorTextFocus" },
+      { "command": "echocode.jumpToNextFunction", "key": "ctrl+alt+down", "when": "editorTextFocus" },
+      { "command": "echocode.jumpToPreviousFunction", "key": "ctrl+alt+up", "when": "editorTextFocus" },
+      { "command": "echocode.summarizeClass", "key": "ctrl+alt+space C", "when": "editorTextFocus && editorLangId == 'python'" },
+      { "command": "echocode.summarizeFunction", "key": "ctrl+alt+space F", "when": "editorTextFocus && editorLangId == 'python'" },
+      { "command": "echocode.summarizeProgram", "key": "ctrl+alt+space P", "when": "editorTextFocus && editorLangId == 'python'" },
+
+      { "command": "echocode.ptt.start", "key": "ctrl+alt+v", "when": "!echocode.pttRecording && editorTextFocus" },
+      { "command": "echocode.ptt.stop",  "key": "ctrl+alt+v", "when": "echocode.pttRecording && editorTextFocus" },
+
+      { "command": "echocode.openChat", "key": "ctrl+alt+c", "when": "editorTextFocus" },
+      { "command": "code-tutor.analyzeBigO", "key": "ctrl+alt+n", "when": "editorTextFocus && editorLangId == 'python'" },
+      { "command": "echocode.whereAmI", "key": "ctrl+alt+space W", "when": "editorTextFocus && editorLangId == 'python'" },
+      { "command": "code-tutor.iterateBigOQueue", "key": "ctrl+alt+b", "when": "editorTextFocus" },
+      { "command": "code-tutor.readEntireBigOQueue", "key": "ctrl+alt+h" },
+      { "key": "ctrl+alt+o", "command": "echocode.loadAssignmentFile", "when": "editorTextFocus" },
+      { "key": "ctrl+alt+x", "command": "echocode.stopSpeech" },
+      { "key": "ctrl+alt+u", "command": "echocode.increaseSpeechSpeed", "when": "editorTextFocus" },
+      { "key": "ctrl+alt+d", "command": "echocode.decreaseSpeechSpeed", "when": "editorTextFocus" },
+      { "command": "echocode.rescanUserCode", "key": "ctrl+alt+y", "when": "editorTextFocus" },
+      { "command": "echocode.readNextSequentialTask", "key": "ctrl+alt+/", "when": "editorTextFocus" },
+      { "command": "echocode.readNextTask", "key": "ctrl+alt+t", "when": "editorTextFocus" },
+      { "command": "echocode.markTaskComplete", "key": "ctrl+alt+m", "when": "editorTextFocus" },
+      { "command": "echocode.readCurrentLine", "key": "ctrl+alt+l", "when": "editorTextFocus" },
+      { "command": "echocode.describeCurrentLine", "key": "ctrl+alt+k", "when": "editorTextFocus" },
+      { "command": "echocode.toggleCharacterReadOut", "key": "ctrl+alt+r", "when": "editorTextFocus" }
     ],
     "viewsContainers": {
       "activitybar": [
-        {
-          "id": "echocode",
-          "title": "EchoCode",
-          "icon": "images/icon.png"
-        }
+        { "id": "echocode", "title": "EchoCode", "icon": "images/icon.png" }
       ]
     },
     "views": {
       "echocode": [
-        {
-          "id": "echocode.chatView",
-          "name": "EchoCode Tutor",
-          "type": "webview"
-        }
+        { "id": "echocode.chatView", "name": "EchoCode Tutor", "type": "webview" }
       ]
     },
     "menus": {
       "editor/title": [
-        {
-          "command": "echocode.annotate",
-          "group": "navigation"
-        }
+        { "command": "echocode.annotate", "group": "navigation" }
       ],
       "view/title": [
-        {
-          "command": "echocode.startVoiceInput",
-          "when": "view == echocode.chatView",
-          "group": "navigation",
-          "icon": "$(comment)"
-        }
+        { "command": "echocode.startVoiceInput", "when": "view == echocode.chatView", "group": "navigation", "icon": "$(comment)" }
       ]
     }
   },

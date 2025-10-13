@@ -1,77 +1,106 @@
 const fs = require("fs");
-const mic = require("mic");
 const path = require("path");
 const os = require("os");
-const ffmpeg = require("fluent-ffmpeg");
-const ffmpegPath = require("ffmpeg-static");
 const OpenAI = require("openai");
+const ffmpegPath = require("ffmpeg-static");
 const { spawn } = require("child_process");
 
-ffmpeg.setFfmpegPath(ffmpegPath);
-
-let micInstance;
-let micInputStream;
-
-function convertToMp3(inputFile, outputFile) {
-  return new Promise((resolve, reject) => {
-    ffmpeg(inputFile)
-      .audioChannels(1)
-      .audioFrequency(16000)
-      .toFormat("mp3")
-      .on("end", () => resolve(outputFile))
-      .on("error", reject)
-      .save(outputFile);
-  });
+function makeTempWav() {
+  return path.join(os.tmpdir(), `echocode-${Date.now()}.wav`);
 }
 
-async function recordAndTranscribe(apiKey, outputChannel) {
-  const client = new OpenAI({ apiKey });
-
-  const tmpWav = path.join(os.tmpdir(), `echocode-${Date.now()}.wav`);
-
-  return new Promise((resolve, reject) => {
-    outputChannel?.appendLine("Recording 5s of audio with ffmpeg...");
-
-    // Have to hardcode the devive name here. You can get a list of devices by running:
-    // ffmpeg -list_devices true -f dshow -i dummy
-    const ffmpegArgs = [
-      "-y", // overwrite output
-      "-f", "dshow",
-      "-i", "audio=Microphone Array (2- Intel® Smart Sound Technology for Digital Microphones)",
-      "-t", "5",       // record 5 seconds
-      "-ac", "1",      // mono
-      "-ar", "16000",  // 16kHz
-      tmpWav
-    ];
-
-    const rec = spawn(ffmpegPath, ffmpegArgs);
-
-    rec.stderr.on("data", d => outputChannel?.appendLine("[ffmpeg] " + d.toString()));
-
-    rec.on("error", err => reject(err));
-
-    rec.on("close", async code => {
-      if (code !== 0) {
-        reject(new Error("ffmpeg exited with code " + code));
-        return;
-      }
-
-      try {
-        outputChannel?.appendLine("Sending audio to Whisper API...");
-        const resp = await client.audio.transcriptions.create({
-          file: fs.createReadStream(tmpWav),
-          model: "whisper-1",
-        });
-
-        const transcript = resp.text.trim();
-        outputChannel?.appendLine(`[Whisper] Transcript: ${transcript}`);
-        fs.unlink(tmpWav, () => {});
-        resolve(transcript);
-      } catch (err) {
-        reject(err);
-      }
-    });
-  });
+function buildInputArgs(deviceName) {
+  const plat = process.platform;
+  if (plat === "win32") {
+    return ["-f", "dshow", "-i", deviceName ? `audio=${deviceName}` : "audio=default"];
+  } else if (plat === "darwin") {
+    return ["-f", "avfoundation", "-i", deviceName || ":0"];
+  } else {
+    return ["-f", "alsa", "-i", deviceName || "default"];
+  }
 }
 
-module.exports = { recordAndTranscribe };
+function startMicCapture({ deviceName, outputChannel } = {}) {
+  if (!ffmpegPath) throw new Error("ffmpeg-static not found. Run: npm i ffmpeg-static");
+
+  const tmpWav = makeTempWav();
+  const inputArgs = buildInputArgs(deviceName);
+  const args = ["-y", ...inputArgs, "-ac", "1", "-ar", "16000", "-c:a", "pcm_s16le", tmpWav];
+
+  outputChannel?.appendLine(`[Whisper] ffmpeg path: ${ffmpegPath}`);
+  outputChannel?.appendLine(`[Whisper] ffmpeg args: ${JSON.stringify(args)}`);
+
+  const ff = spawn(ffmpegPath, args, { stdio: ["pipe", "pipe", "pipe"] });
+
+  let stderrBuf = "";
+  ff.stderr.on("data", (d) => {
+    const s = d.toString();
+    stderrBuf += s;
+    outputChannel?.appendLine(`[ffmpeg] ${s.trim()}`);
+  });
+
+  let closed = false;
+  ff.on("close", (code) => {
+    closed = true;
+    outputChannel?.appendLine(`[Whisper] ffmpeg exited with code ${code}`);
+  });
+
+  ff.on("error", (err) => {
+    outputChannel?.appendLine(`[Whisper] spawn error: ${err.message}`);
+  });
+
+  return {
+    tmpWav,
+    async stop(client) {
+      return new Promise((resolve, reject) => {
+        try { ff.stdin.write("q"); ff.stdin.end(); } catch (_) {}
+        const wait = () => {
+          if (!closed) return setTimeout(wait, 120);
+          (async () => {
+            try {
+              if (!fs.existsSync(tmpWav)) {
+                return reject(new Error(`ffmpeg did not produce output file.\n${stderrBuf}`));
+              }
+              const resp = await client.audio.transcriptions.create({
+                file: fs.createReadStream(tmpWav),
+                model: "whisper-1",
+              });
+              const text = (resp?.text || "").trim();
+              try { fs.unlinkSync(tmpWav); } catch (_) {}
+              resolve(text);
+            } catch (e) {
+              reject(e);
+            }
+          })();
+        };
+        wait();
+      });
+    },
+  };
+}
+
+function getOpenAIClient(apiKey) {
+  if (!apiKey) throw new Error("No API key provided to whisperService.");
+  return new OpenAI({ apiKey });
+}
+
+/**
+ * Compatibility function for existing code that calls recordAndTranscribe().
+ */
+async function recordAndTranscribe(apiKey, outputChannel, opts = {}) {
+  const client = getOpenAIClient(apiKey);
+  const controller = startMicCapture({
+    deviceName: opts.deviceName,
+    outputChannel,
+  });
+  const ms = Number(opts.durationMs ?? 5000);
+  await new Promise((r) => setTimeout(r, ms));
+  const text = await controller.stop(client);
+  return text;
+}
+
+module.exports = {
+  startMicCapture,
+  getOpenAIClient,
+  recordAndTranscribe,
+};

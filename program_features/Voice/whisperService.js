@@ -1,75 +1,103 @@
 const fs = require("fs");
-const mic = require("mic");
 const path = require("path");
 const os = require("os");
+const { spawn } = require("child_process");
 const ffmpeg = require("fluent-ffmpeg");
 const ffmpegPath = require("ffmpeg-static");
-const OpenAI = require("openai");
-const { spawn } = require("child_process");
 
 ffmpeg.setFfmpegPath(ffmpegPath);
 
-let micInstance;
-let micInputStream;
-
-function convertToMp3(inputFile, outputFile) {
-  return new Promise((resolve, reject) => {
-    ffmpeg(inputFile)
-      .audioChannels(1)
-      .audioFrequency(16000)
-      .toFormat("mp3")
-      .on("end", () => resolve(outputFile))
-      .on("error", reject)
-      .save(outputFile);
-  });
-}
-
-async function recordAndTranscribe(apiKey, outputChannel) {
-  const client = new OpenAI({ apiKey });
+/**
+ * Records 5 seconds of microphone audio using ffmpeg and transcribes it
+ * with the local faster-whisper model (offline).
+ *
+ * @param {vscode.OutputChannel} outputChannel - VS Code output channel for logs.
+ * @returns {Promise<string>} Transcript of the audio.
+ */
+async function recordAndTranscribe(outputChannel) {
+  if (!outputChannel || typeof outputChannel.appendLine !== "function") {
+    // fallback to console logging if no VS Code channel
+    outputChannel = { appendLine: console.log };
+  }
 
   const tmpWav = path.join(os.tmpdir(), `echocode-${Date.now()}.wav`);
+  const pythonScript = path.join(__dirname, "local_whisper_stt.py");
 
   return new Promise((resolve, reject) => {
-    outputChannel?.appendLine("Recording 5s of audio with ffmpeg...");
+    outputChannel.appendLine("🎙️ Recording 5 seconds of audio...");
 
-    // Have to hardcode the devive name here. You can get a list of devices by running:
-    // ffmpeg -list_devices true -f dshow -i dummy
+    // const ffmpegArgs = [
+    //   "-y",
+    //   "-f", "dshow",
+    //   "-i", "audio=Microphone Array (2- Intel® Smart Sound Technology for Digital Microphones)", // change device name if needed
+    //   "-t", "5",
+    //   "-ac", "1",
+    //   "-ar", "16000",
+    //   tmpWav
+    // ];
+
     const ffmpegArgs = [
-      "-y", // overwrite output
+      "-y",
       "-f", "dshow",
       "-i", "audio=Microphone Array (2- Intel® Smart Sound Technology for Digital Microphones)",
-      "-t", "5",       // record 5 seconds
-      "-ac", "1",      // mono
-      "-ar", "16000",  // 16kHz
+      "-t", "5",
+      "-ac", "1",
+      "-ar", "16000",
+      "-filter:a", "volume=15dB",  // 🔊 amplify by 15 decibels
       tmpWav
     ];
 
+    // const micName = "Microphone Array (2- Intel® Smart Sound Technology for Digital Microphones)";
+    // const ffmpegArgs = [
+    //   "-y", "-f", "dshow",
+    //   "-i", `audio=${micName}`,
+    //   "-t", "5", "-ac", "1", "-ar", "16000",
+    //   "-af", "loudnorm,volume=200dB",
+    //   tmpWav
+    // ];
+
     const rec = spawn(ffmpegPath, ffmpegArgs);
-
-    rec.stderr.on("data", d => outputChannel?.appendLine("[ffmpeg] " + d.toString()));
-
+    rec.stderr.on("data", d => outputChannel.appendLine("[ffmpeg] " + d.toString()));
     rec.on("error", err => reject(err));
 
     rec.on("close", async code => {
       if (code !== 0) {
-        reject(new Error("ffmpeg exited with code " + code));
+        reject(new Error(`ffmpeg exited with code ${code}`));
         return;
       }
 
-      try {
-        outputChannel?.appendLine("Sending audio to Whisper API...");
-        const resp = await client.audio.transcriptions.create({
-          file: fs.createReadStream(tmpWav),
-          model: "whisper-1",
-        });
+      outputChannel.appendLine("✅ Recording complete. Running local Whisper model...");
 
-        const transcript = resp.text.trim();
-        outputChannel?.appendLine(`[Whisper] Transcript: ${transcript}`);
+      const py = spawn("python", [pythonScript, tmpWav]);
+      let transcript = "";
+
+      py.stdout.on("data", (data) => {
+        transcript += data.toString();
+      });
+
+      let stderrOutput = "";
+
+      py.stdout.on("data", (data) => {
+        transcript += data.toString();
+      });
+
+      py.stderr.on("data", (data) => {
+        stderrOutput += data.toString();
+        outputChannel.appendLine("[Whisper Local STDERR] " + data.toString());
+      });
+
+      py.on("close", (code) => {
         fs.unlink(tmpWav, () => {});
-        resolve(transcript);
-      } catch (err) {
-        reject(err);
-      }
+        if (code !== 0) {
+          outputChannel.appendLine(`[Whisper Local Error] Python exited with code ${code}`);
+          if (stderrOutput) outputChannel.appendLine(`[Python Error Traceback]:\n${stderrOutput}`);
+          reject(new Error(`Local Whisper script exited with code ${code}`));
+        } else {
+          const clean = transcript.trim();
+          outputChannel.appendLine(`[Local Whisper] Transcript: ${clean}`);
+          resolve(clean);
+        }
+      });
     });
   });
 }

@@ -148,7 +148,7 @@ async function activate(context) {
           return;
         }
 
-        const transcript = await recordAndTranscribe(apiKey, outputChannel);
+        const transcript = await recordAndTranscribe(outputChannel);
         if (transcript) {
           // 1. Route transcript through your LLM → execute command
           vscode.commands.executeCommand("echocode._internalVoiceRoute", transcript);

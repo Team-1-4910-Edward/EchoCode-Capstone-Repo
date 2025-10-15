@@ -82,8 +82,8 @@
 | `f1`               | Reads out the hotkey options by letting you choose 1-7 depending on the option |
 | `Ctrl+Alt+L`       | `echocode.readCurrentLine`                                                     | Tells the user what is on the line exactly                                                                 |
 | `Ctrl+Alt+K`       | `echocode.describeCurrentLine`                                                 | Generates and tells a user what is on the line                                                             |
-| `Ctrl+Alt+C`       | `echocode.copyFileNameForImport`                                               | Generates an import function for Python and JS to be pasted for connecting multiple files at the cursor 🆕 |
-| `Ctrl+Alt+V`       | `echocode.pasteImportAtCursor`                                                 | Pastes the import function for Python and JS at the cursor 🆕                                              |
+| `Ctrl+Alt+I`       | `echocode.copyFileNameForImport`                                               | Generates an import function for Python and JS to be pasted for connecting multiple files at the cursor 🆕 |
+| `Ctrl+Shift+I`     | `echocode.pasteImportAtCursor`                                                 | Pastes the import function for Python and JS at the cursor 🆕                                              |
 
 ---
 

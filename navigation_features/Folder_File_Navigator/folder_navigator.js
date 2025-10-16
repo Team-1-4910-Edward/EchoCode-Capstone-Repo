@@ -68,6 +68,16 @@ async function moveToNextFolder() {
   const currentFolder = folderList[currentFolderIndex];
   const folderName = path.basename(currentFolder); // Extract only the folder name
 
+  // Collapse all folders, then reveal and expand the new one
+  await vscode.commands.executeCommand(
+    "workbench.files.action.collapseExplorerFolders"
+  );
+  await vscode.commands.executeCommand(
+    "revealInExplorer",
+    vscode.Uri.file(currentFolder)
+  );
+  await vscode.commands.executeCommand("list.expand"); // This will expand the selected folder
+
   vscode.window.showInformationMessage(`Moved to folder: ${folderName}`);
   await speakMessage(`Moved to folder: ${folderName}`);
 
@@ -101,6 +111,16 @@ async function moveToPreviousFolder() {
     (currentFolderIndex - 1 + folderList.length) % folderList.length;
   const currentFolder = folderList[currentFolderIndex];
   const folderName = path.basename(currentFolder); // Extract only the folder name
+
+  // Collapse all folders, then reveal and expand the new one
+  await vscode.commands.executeCommand(
+    "workbench.files.action.collapseExplorerFolders"
+  );
+  await vscode.commands.executeCommand(
+    "revealInExplorer",
+    vscode.Uri.file(currentFolder)
+  );
+  await vscode.commands.executeCommand("list.expand"); // This will expand the selected folder
 
   vscode.window.showInformationMessage(`Moved to folder: ${folderName}`);
   await speakMessage(`Moved to folder: ${folderName}`);

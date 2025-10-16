@@ -19,6 +19,9 @@ async function createFolder() {
 
   const workspacePath = workspaceFolders[0].uri.fsPath;
 
+  // Speak the prompt before showing the input box
+  await speakMessage("What would you like to name the new folder?");
+
   // Prompt the user for the folder name
   const folderName = await vscode.window.showInputBox({
     prompt: "Enter the name of the new folder:",

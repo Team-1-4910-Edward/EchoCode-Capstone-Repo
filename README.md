@@ -24,7 +24,9 @@
 - **AI Code Tutoring Annotations**  
   Provides inline annotations explaining **common coding mistakes** and suggesting improvements.
 
+
   - functions for generating big O(n) annotations
+
 
 - **Interactive Chat Tutor**  
   An AI-powered tutor that reads your active file and answers questions or provides exercises specific to its content. Open it with `Ctrl+Alt+C` and ask about your code directly.
@@ -84,6 +86,12 @@
 | `Ctrl+Alt+K`       | `echocode.describeCurrentLine`                                                 | Generates and tells a user what is on the line                                                             |
 | `Ctrl+Alt+I`       | `echocode.copyFileNameForImport`                                               | Generates an import function for Python and JS to be pasted for connecting multiple files at the cursor 🆕 |
 | `Ctrl+Shift+I`     | `echocode.pasteImportAtCursor`                                                 | Pastes the import function for Python and JS at the cursor 🆕                                              |
+| `Ctrl+Alt+;`       | `echocode.createFile`                                                          | Creates a new file in the current folder 🆕                      |
+| `Ctrl+Alt+F`       | `echocode.createFolder`                                                        | Creates a new folder in the workspace 🆕                         |
+| `Ctrl+Alt+P`       | `echocode.navigateToNextFile`                                                  | Moves to the next file in the current folder 🆕                  |
+| `Ctrl+Alt+[`       | `echocode.moveToNextFolder`                                                    | Navigates to the next folder in the workspace 🆕                 |
+| `Ctrl+Alt+]`       | `echocode.moveToPreviousFolder`                                                | Navigates to the previous folder in the workspace 🆕             |
+
 
 ---
 
@@ -147,12 +155,22 @@ Before using Echo Code, ensure the following are installed:
 
 - Added function to copy a function for importing to another file. Autogenerates the necessary imports and calls. 
 - Added function to paste a function for importing to another file. Autogenerates necessary imports. 
+- Added function to see what has been typed on the line
+- Added function to generate a summary on what the line does and check if there is any error
+- Added function to toggle on and off a character reader
+- Added new hot keys for the above functions
   **New Hotkeys:**
 
 | Shortcut     | Description                                                                                             |
 | ------------ | ------------------------------------------------------------------------------------------------------- |
 | `Ctrl+Alt+C` | Generates an import function for Python and JS to be pasted for connecting multiple files at the cursor |
 | `Ctrl+Alt+V` | Pastes the import function for Python and JS at the cursor                                              |
+| `Ctrl+Alt+;` | Creates a new file for the user to name   |
+| `Ctrl+Alt+F` | Creates a new folder for the user to name |
+| `Ctrl+Alt+P` | Navigates to the new file                 |
+| `Ctrl+Alt+[` | Moves to the next folder                  |
+| `Ctrl+Alt+]` | Moves to the previous folder              |
+
 
 ---
 

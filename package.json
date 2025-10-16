@@ -115,6 +115,34 @@
         "title": "Where Am I?"
       },
       {
+        "command": "echocode.createFile",
+        "title": "Create File"
+      },
+      {
+        "command": "echocode.createFolder",
+        "title": "Create Folder"
+      },
+      {
+        "command": "echocode.navigateToNextFile",
+        "title": "Navigate to Next File"
+      },
+      {
+        "command": "echocode.initializeFolderList",
+        "title": "Initialize Folder List"
+      },
+      {
+        "command": "echocode.moveToNextFolder",
+        "title": "Move to Next Folder"
+      },
+      {
+        "command": "echocode.moveToPreviousFolder",
+        "title": "Move to Previous Folder"
+      },
+      {
+        "command": "echocode.navigateFilesInCurrentFolder",
+        "title": "Navigate Files in Current Folder"
+      },
+      {
         "command": "echocode.readCurrentLine",
         "title": "Read Current Line"
       },
@@ -262,6 +290,32 @@
         "command": "echocode.markTaskComplete",
         "key": "ctrl+alt+m",
         "when": "editorTextFocus"
+      },
+      {
+        "command": "echocode.createFile",
+        "key": "ctrl+alt+;",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "echocode.createFolder",
+        "key": "ctrl+alt+f",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "echocode.navigateToNextFile",
+        "key": "ctrl+alt+p"
+      },
+      {
+        "command": "echocode.moveToNextFolder",
+        "key": "ctrl+alt+["
+      },
+      {
+        "command": "echocode.moveToPreviousFolder",
+        "key": "ctrl+alt+]"
+      },
+      {
+        "command": "echocode.initializeFolderList",
+        "title": "Initialize Folder List"
       },
       {
         "command": "echocode.readCurrentLine",

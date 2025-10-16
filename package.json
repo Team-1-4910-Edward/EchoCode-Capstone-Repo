@@ -153,6 +153,14 @@
       {
         "command": "echocode.toggleCharacterReadOut",
         "title": "Toggle Character Read-Out"
+      },
+      {
+        "command": "echocode.copyFileNameForImport",
+        "title": "Copy File Name for Import"
+      },
+      {
+        "command": "echocode.pasteImportAtCursor",
+        "title": "Paste Import Statement at Cursor"
       }
     ],
     "configuration": {
@@ -322,6 +330,16 @@
       {
         "command": "echocode.toggleCharacterReadOut",
         "key": "ctrl+alt+r",
+        "when": "editorTextFocus"
+      },
+      {
+        "key": "ctrl+alt+i",
+        "command": "echocode.copyFileNameForImport",
+        "when": "editorTextFocus"
+      },
+      {
+        "key": "ctrl+shift+i",
+        "command": "echocode.pasteImportAtCursor",
         "when": "editorTextFocus"
       }
     ],

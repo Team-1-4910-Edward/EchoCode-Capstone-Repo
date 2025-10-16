@@ -24,7 +24,9 @@
 - **AI Code Tutoring Annotations**  
   Provides inline annotations explaining **common coding mistakes** and suggesting improvements.
 
-  - 🆕 New functions for generating big O(n) annotations
+
+  - functions for generating big O(n) annotations
+
 
 - **Interactive Chat Tutor**  
   An AI-powered tutor that reads your active file and answers questions or provides exercises specific to its content. Open it with `Ctrl+Alt+C` and ask about your code directly.
@@ -57,37 +59,39 @@
 
 ## **Keyboard Shortcuts**
 
-| Shortcut           | Command                                                                        | Description                                                      |
-| ------------------ | ------------------------------------------------------------------------------ | ---------------------------------------------------------------- |
-| `Ctrl+Alt+A`       | `code-tutor.Annotate`                                                          | Generates the annotations.                                       |
-| `Ctrl+Alt+S`       | `code-tutor.speakNextAnnotation`                                               | Reads the next annotation, including line number and suggestion. |
-| `Ctrl+Alt+Q`       | `code-tutor.readAllAnnotation`                                                 | Reads all the annotations in the queue.                          |
-| `Ctrl+Alt+Down`    | `echocode.jumpToNextFunction`                                                  | Jumps to the next function in the file.                          |
-| `Ctrl+Alt+Up`      | `echocode.jumpToPreviousFunction`                                              | Jumps to the previous function.                                  |
-| `Ctrl+Alt+Space C` | `echocode.summarizeClass`                                                      | Summarizes the current class.                                    |
-| `Ctrl+Alt+Space F` | `echocode.summarizeFunction`                                                   | Summarizes the current function.                                 |
-| `Ctrl+Alt+Space P` | `echocode.summarizeProgram`                                                    | Summarize full program.                                          |
-| `Ctrl+Alt+Space W` | `echocode.whereAmI`                                                            | Describes the scope the user is in.                              |
-| `Ctrl+Alt+U`       | `echocode.increaseSpeechSpeed`                                                 | Increases speech rate.                                           |
-| `Ctrl+Alt+D`       | `echocode.decreaseSpeechSpeed`                                                 | Decreases speech rate.                                           |
-| `Ctrl+Alt+X`       | `echocode.stopSpeech`                                                          | Stops current speech playback.                                   |
-| `Ctrl+Alt+O`       | `echocode.loadAssignmentFile`                                                  | Uploads an assignment file for task tracking.                    |
-| `Ctrl+Alt+T`       | `echocode.readNextTask`                                                        | Reads the next task aloud.                                       |
-| `Ctrl+Alt+M`       | `echocode.markTaskComplete`                                                    | Marks the current task as complete.                              |
-| `Ctrl + Alt + N`   | `code-tutor.analyzeBigO`                                                       | Queue up the big O annotations                                   |
-| `Ctrl + Alt + B`   | `code-tutor.iterateBigOQueue`                                                  | Read next big O recommendation outloud                           |
-| `Ctrl + Alt + H`   | `code-tutor.readEntireBigOQueue`                                               | Read all big O recommendations one at a time                     |
-| `Ctrl+Alt+C`       | `echocode.openChat`                                                            | Opens the EchoCode Tutor chat interface.                         |
-| `Ctrl+Alt+V`       | `echocode.voiceInput`                                                          | Starts voice input to ask the chat a question. Future feature    |
+| Shortcut           | Command                                                                        | Description                                                                                                |
+| ------------------ | ------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------- |
+| `Ctrl+Alt+A`       | `code-tutor.Annotate`                                                          | Generates the annotations.                                                                                 |
+| `Ctrl+Alt+S`       | `code-tutor.speakNextAnnotation`                                               | Reads the next annotation, including line number and suggestion.                                           |
+| `Ctrl+Alt+Q`       | `code-tutor.readAllAnnotation`                                                 | Reads all the annotations in the queue.                                                                    |
+| `Ctrl+Alt+Down`    | `echocode.jumpToNextFunction`                                                  | Jumps to the next function in the file.                                                                    |
+| `Ctrl+Alt+Up`      | `echocode.jumpToPreviousFunction`                                              | Jumps to the previous function.                                                                            |
+| `Ctrl+Alt+Space C` | `echocode.summarizeClass`                                                      | Summarizes the current class.                                                                              |
+| `Ctrl+Alt+Space F` | `echocode.summarizeFunction`                                                   | Summarizes the current function.                                                                           |
+| `Ctrl+Alt+Space P` | `echocode.summarizeProgram`                                                    | Summarize full program.                                                                                    |
+| `Ctrl+Alt+Space W` | `echocode.whereAmI`                                                            | Describes the scope the user is in.                                                                        |
+| `Ctrl+Alt+U`       | `echocode.increaseSpeechSpeed`                                                 | Increases speech rate.                                                                                     |
+| `Ctrl+Alt+D`       | `echocode.decreaseSpeechSpeed`                                                 | Decreases speech rate.                                                                                     |
+| `Ctrl+Alt+X`       | `echocode.stopSpeech`                                                          | Stops current speech playback.                                                                             |
+| `Ctrl+Alt+O`       | `echocode.loadAssignmentFile`                                                  | Uploads an assignment file for task tracking.                                                              |
+| `Ctrl+Alt+T`       | `echocode.readNextTask`                                                        | Reads the next task aloud.                                                                                 |
+| `Ctrl+Alt+M`       | `echocode.markTaskComplete`                                                    | Marks the current task as complete.                                                                        |
+| `Ctrl + Alt + N`   | `code-tutor.analyzeBigO`                                                       | Queue up the big O annotations                                                                             |
+| `Ctrl + Alt + B`   | `code-tutor.iterateBigOQueue`                                                  | Read next big O recommendation outloud                                                                     |
+| `Ctrl + Alt + H`   | `code-tutor.readEntireBigOQueue`                                               | Read all big O recommendations one at a time                                                               |
+| `Ctrl+Alt+C`       | `echocode.openChat`                                                            | Opens the EchoCode Tutor chat interface.                                                                   |
+| `Ctrl+Alt+V`       | `echocode.voiceInput`                                                          | Starts voice input to ask the chat a question. Future feature                                              |
 | `f1`               | Reads out the hotkey options by letting you choose 1-7 depending on the option |
-| `Ctrl+Alt+L`       | `echocode.readCurrentLine`                                                     | Tells the user what is on the line exactly                       |
-| `Ctrl+Alt+K`       | `echocode.describeCurrentLine`                                                 | Generates and tells a user what is on the line                   |
-| `Ctrl+Alt+R`       | `echocode.toggleCharacterReadOut`                                              | Toggles the character reader 🆕                                  |
+| `Ctrl+Alt+L`       | `echocode.readCurrentLine`                                                     | Tells the user what is on the line exactly                                                                 |
+| `Ctrl+Alt+K`       | `echocode.describeCurrentLine`                                                 | Generates and tells a user what is on the line                                                             |
+| `Ctrl+Alt+I`       | `echocode.copyFileNameForImport`                                               | Generates an import function for Python and JS to be pasted for connecting multiple files at the cursor 🆕 |
+| `Ctrl+Shift+I`     | `echocode.pasteImportAtCursor`                                                 | Pastes the import function for Python and JS at the cursor 🆕                                              |
 | `Ctrl+Alt+;`       | `echocode.createFile`                                                          | Creates a new file in the current folder 🆕                      |
 | `Ctrl+Alt+F`       | `echocode.createFolder`                                                        | Creates a new folder in the workspace 🆕                         |
 | `Ctrl+Alt+P`       | `echocode.navigateToNextFile`                                                  | Moves to the next file in the current folder 🆕                  |
 | `Ctrl+Alt+[`       | `echocode.moveToNextFolder`                                                    | Navigates to the next folder in the workspace 🆕                 |
 | `Ctrl+Alt+]`       | `echocode.moveToPreviousFolder`                                                | Navigates to the previous folder in the workspace 🆕             |
+
 
 ---
 
@@ -147,24 +151,29 @@ Before using Echo Code, ensure the following are installed:
 
 ## **Release Notes**
 
-### **1.7**
+### **1.9**
 
+- Added function to copy a function for importing to another file. Autogenerates the necessary imports and calls. 
+- Added function to paste a function for importing to another file. Autogenerates necessary imports. 
 - Added function to see what has been typed on the line
 - Added function to generate a summary on what the line does and check if there is any error
 - Added function to toggle on and off a character reader
 - Added new hot keys for the above functions
   **New Hotkeys:**
 
-| Shortcut     | Description                               |
-| ------------ | ----------------------------------------- |
+| Shortcut     | Description                                                                                             |
+| ------------ | ------------------------------------------------------------------------------------------------------- |
+| `Ctrl+Alt+C` | Generates an import function for Python and JS to be pasted for connecting multiple files at the cursor |
+| `Ctrl+Alt+V` | Pastes the import function for Python and JS at the cursor                                              |
 | `Ctrl+Alt+;` | Creates a new file for the user to name   |
 | `Ctrl+Alt+F` | Creates a new folder for the user to name |
 | `Ctrl+Alt+P` | Navigates to the new file                 |
 | `Ctrl+Alt+[` | Moves to the next folder                  |
 | `Ctrl+Alt+]` | Moves to the previous folder              |
 
+
 ---
 
 ## **Author & License**
 
-Developed by Group 1 - Team Jacob
+Developed by Group 1 - Team Edward

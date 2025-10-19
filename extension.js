@@ -2,6 +2,11 @@ const vscode = require("vscode");
 const path = require("path");
 const { spawn } = require("child_process");
 const ffmpegBin = require("ffmpeg-static");
+const fs = require("fs");
+const os = require("os");
+const sound = require("sound-play");
+const say = require("say");
+
 require("dotenv").config({ path: path.join(__dirname, ".env") });
 
 console.log("EchoCode: Loaded API_KEY?", !!process.env.API_KEY);
@@ -52,12 +57,8 @@ async function routeVoiceCommandNLU(transcript, outputChannel) {
   await vscode.commands.executeCommand(cmdId);
 }
 
-// Set up and run Pylint
-const {
-  ensurePylintInstalled,
-  runPylint,
-} = require("./program_settings/program_settings/pylintHandler");
-
+// Pylint + speech + features imports (unchanged)
+const { ensurePylintInstalled, runPylint } = require("./program_settings/program_settings/pylintHandler");
 const {
   speakMessage,
   stopSpeaking,
@@ -66,73 +67,36 @@ const {
   increaseSpeechSpeed,
   decreaseSpeechSpeed,
 } = require("./program_settings/speech_settings/speechHandler");
-
-// Error handling
-const {
-  initializeErrorHandling,
-  registerErrorHandlingCommands,
-} = require("./program_features/ErrorHandling/errorHandler");
-
-const {
-  registerSummarizerCommands,
-} = require("./program_features/Summarizer/summaryGenerator.js");
-
-const {
-  registerHotkeyGuideCommand,
-} = require("./program_settings/guide_settings/hotkeyGuide");
+const { initializeErrorHandling, registerErrorHandlingCommands } = require("./program_features/ErrorHandling/errorHandler");
+const { registerSummarizerCommands } = require("./program_features/Summarizer/summaryGenerator.js");
+const { registerHotkeyGuideCommand } = require("./program_settings/guide_settings/hotkeyGuide");
 const Queue = require("./program_features/Annotations_BigO/queue_system");
-const {
-  registerBigOCommand,
-} = require("./program_features/Annotations_BigO/bigOAnalysis");
+const { registerBigOCommand } = require("./program_features/Annotations_BigO/bigOAnalysis");
 const {
   parseChatResponse,
   applyDecoration,
   clearDecorations,
   getVisibleCodeWithLineNumbers,
-  annotationQueue, // Unused?
-  ANNOTATION_PROMPT, // Unused?
+  annotationQueue,
+  ANNOTATION_PROMPT,
   registerAnnotationCommands,
 } = require("./program_features/Annotations_BigO/annotations");
-
 const {
   loadAssignmentFile,
   readNextTask,
   rescanUserCode,
   readNextSequentialTask,
 } = require("./program_features/Assignment_Tracker/assignmentTracker");
-const {
-  registerAssignmentTrackerCommands,
-} = require("./program_features/Assignment_Tracker/assignmentTracker");
-
-const {
-  registerChatCommands,
-} = require("./program_features/ChatBot/chat_tutor");
-
-// Navigation features
-const {
-  registerMoveCursor,
-} = require("./navigation_features/navigationHandler");
+const { registerAssignmentTrackerCommands } = require("./program_features/Assignment_Tracker/assignmentTracker");
+const { registerChatCommands } = require("./program_features/ChatBot/chat_tutor");
+const { registerMoveCursor } = require("./navigation_features/navigationHandler");
 const { registerWhereAmICommand } = require("./navigation_features/whereAmI");
-const {
-  registerReadCurrentLineCommand,
-} = require("./program_features/WhatIsThis/WhatIsThis");
-const {
-  registerDescribeCurrentLineCommand,
-} = require("./program_features/WhatIsThis/DescribeThis");
-const {
-  registerCharacterReadOutCommand,
-} = require("./program_features/WhatIsThis/CharacterReadOut");
-
-let activeDecorations = [];
-let annotationsVisible = false;
+const { registerReadCurrentLineCommand } = require("./program_features/WhatIsThis/WhatIsThis");
+const { registerDescribeCurrentLineCommand } = require("./program_features/WhatIsThis/DescribeThis");
+const { registerCharacterReadOutCommand } = require("./program_features/WhatIsThis/CharacterReadOut");
 
 let outputChannel;
-let debounceTimer = null;
-let isRunning = false;
-
-// Mic toggle state (status bar)
-let isMicOn = false;
-let micController = null;
+// Status bar item (read-only indicator)
 let statusItem = null;
 
 // PTT state
@@ -140,15 +104,83 @@ let pttController = null;
 let pttClient = null;
 let pttSafetyTimer = null;
 
-// --- helpers for context gating the keybindings ---
+// ===== Audio cues: system sounds on Windows; fallbacks elsewhere =====
+const _cueQ = [];
+let _cueBusy = false;
+
+async function _runCueQueue() {
+  if (_cueBusy) return;
+  _cueBusy = true;
+  try {
+    while (_cueQ.length) {
+      const job = _cueQ.shift();
+      await job();
+    }
+  } finally {
+    _cueBusy = false;
+  }
+}
+
+/** "Mic ON" cue */
+function playBeep() {
+  _cueQ.push(async () => {
+    try {
+      if (process.platform === "win32") {
+        // Use Windows system sound (Asterisk) so it's always audible via default output
+        spawn("powershell", [
+          "-NoProfile",
+          "-Command",
+          "[System.Reflection.Assembly]::LoadWithPartialName('System.Windows.Forms') | Out-Null; [System.Media.SystemSounds]::Asterisk.Play()"
+        ], { windowsHide: true, stdio: "ignore" });
+      } else {
+        // macOS/Linux fallback: brief "beep" via say
+        await new Promise((res) => { try { say.speak("beep", undefined, 1.0, res); } catch (_) { res(); } });
+      }
+      outputChannel?.appendLine("[Cue] Mic ON sound played.");
+    } catch (e) {
+      outputChannel?.appendLine("[Cue] Mic ON sound error: " + (e?.message || e));
+    }
+  });
+  _runCueQueue();
+}
+
+/** "Mic OFF" cue */
+function speakMicOff() {
+  _cueQ.push(async () => {
+    try {
+      if (process.platform === "win32") {
+        // Use Windows system sound (Exclamation) for stop; more noticeable than Asterisk
+        spawn("powershell", [
+          "-NoProfile",
+          "-Command",
+          "[System.Reflection.Assembly]::LoadWithPartialName('System.Windows.Forms') | Out-Null; [System.Media.SystemSounds]::Exclamation.Play()"
+        ], { windowsHide: true, stdio: "ignore" });
+      } else {
+        // macOS/Linux fallback: "Mic off"
+        await new Promise((res) => { try { say.speak("Mic off", undefined, 1.0, res); } catch (_) { res(); } });
+      }
+      outputChannel?.appendLine("[Cue] Mic OFF sound played.");
+    } catch (e) {
+      outputChannel?.appendLine("[Cue] Mic OFF sound error: " + (e?.message || e));
+    }
+  });
+  _runCueQueue();
+}
+
+function speakMicOff() {
+  _cueQ.push(() => new Promise((res) => {
+    try { say.speak("Mic off", undefined, 1.0, res); }
+    catch (_) { res(); }
+  }));
+  _runCueQueue();
+}
+
+// Context key used by keybindings
 async function setPTTContext(on) {
   await vscode.commands.executeCommand("setContext", "echocode.pttRecording", !!on);
 }
 
-/** OPTION 1: Auto-detect a reasonable Windows microphone.
- *  - Lists dshow devices with ffmpeg and picks the first "real" mic (filters virtual/loopback).
- *  - Returns undefined on non-Windows (so platform defaults apply).
- */
+/** Auto-detect a reasonable Windows microphone. */
 async function autoDetectWindowsMic(outputChannel) {
   return new Promise((resolve) => {
     if (process.platform !== "win32") return resolve(undefined);
@@ -160,15 +192,11 @@ async function autoDetectWindowsMic(outputChannel) {
     let stderr = "";
     proc.stderr.on("data", (d) => (stderr += d.toString()));
     proc.on("close", () => {
-      // capture names like:  "Microphone (Yeti Stereo Microphone)" (audio)
       const names = Array.from(stderr.matchAll(/"([^"]+)"\s*\(audio\)/g)).map((m) => m[1]);
-      // filter out common virtual devices
-      const filtered = names.filter(
-        (n) => !/virtual|obs|broadcast|cable|loopback|stereo\s*mix/i.test(n)
-      );
-      const pick = filtered[0] || names[0]; // fallback to first if nothing filtered
+      const filtered = names.filter((n) => !/virtual|obs|broadcast|cable|loopback|stereo\s*mix/i.test(n));
+      const pick = filtered[0] || names[0];
       outputChannel?.appendLine(`[Whisper] autoDetectWindowsMic → ${pick || "none"}`);
-      resolve(pick); // may be undefined if nothing found
+      resolve(pick);
     });
   });
 }
@@ -185,7 +213,6 @@ async function startPTT(chatViewProvider) {
   try {
     pttClient = getOpenAIClient(apiKey);
 
-    // Auto-pick a "real" device on Windows; let other platforms default
     let deviceName;
     if (process.platform === "win32") {
       deviceName = await autoDetectWindowsMic(outputChannel);
@@ -197,9 +224,18 @@ async function startPTT(chatViewProvider) {
 
     pttController = startMicCapture({ deviceName, outputChannel });
     await setPTTContext(true);
+
+    // Update status bar indicator
+    if (statusItem) {
+      statusItem.text = "$(mic-filled) EchoCode Mic: Listening…";
+      statusItem.tooltip = "Press Ctrl+Alt+V to stop";
+    }
+
+    // 🔊 Cue: beep on start
+    playBeep();
+
     outputChannel.appendLine("[PTT] Recording started… (press Ctrl+Alt+V again to stop)");
 
-    // optional safety cutoff (e.g., 60s)
     clearTimeout(pttSafetyTimer);
     pttSafetyTimer = setTimeout(() => {
       vscode.commands.executeCommand("echocode.ptt.stop");
@@ -222,12 +258,16 @@ async function stopPTT(chatViewProvider) {
 
     const text = await pttController.stop(pttClient);
     outputChannel.appendLine("[PTT] Recording stopped.");
+
+    // Update status bar indicator
+    if (statusItem) {
+      statusItem.text = "$(mic) EchoCode Mic: Off";
+      statusItem.tooltip = "Press Ctrl+Alt+V to start";
+    }
+
     if (text && text.trim()) {
       outputChannel.appendLine(`[PTT] Transcript: ${text.trim()}`);
-      // Route to your existing internal router
       await vscode.commands.executeCommand("echocode._internalVoiceRoute", text.trim());
-
-      // Mirror to chat webview if present
       if (chatViewProvider && chatViewProvider._currentWebview) {
         chatViewProvider._currentWebview.postMessage({
           type: "voiceRecognitionResult",
@@ -244,35 +284,31 @@ async function stopPTT(chatViewProvider) {
     pttController = null;
     pttClient = null;
     await setPTTContext(false);
+
+    // 🔊 Cue: speak "Mic off" after stopping
+    speakMicOff();
   }
 }
 
 async function activate(context) {
   outputChannel = vscode.window.createOutputChannel("EchoCode");
   outputChannel.appendLine("EchoCode activated.");
+
+  // Usual setup…
   loadSavedSpeechSpeed();
   await ensurePylintInstalled();
   initializeErrorHandling(outputChannel);
-  outputChannel.appendLine("Pylint installed and initialized.");
   registerErrorHandlingCommands(context);
-  outputChannel.appendLine("Error handling commands registered.");
-
-  // Register assignment tracker commands
   registerAssignmentTrackerCommands(context);
-
-  // Register hotkey guide command
   registerHotkeyGuideCommand(context);
-
-  // Register chat commands
   const chatViewProvider = registerChatCommands(context, outputChannel);
 
-  // Early API key nudge
   const apiKeyBoot = process.env.API_KEY || process.env.OPENAI_API_KEY;
   if (!apiKeyBoot) {
     vscode.window.showErrorMessage("EchoCode: No OpenAI API key found in .env or system variables.");
   }
 
-  // --- Internal voice router command (so executeCommand(...) works) ---
+  // Router command for transcript → action
   context.subscriptions.push(
     vscode.commands.registerCommand("echocode._internalVoiceRoute", async (transcript) => {
       try {
@@ -288,129 +324,14 @@ async function activate(context) {
     })
   );
 
-  // Status bar item for mic (your existing toggle)
+  // Read-only status bar indicator (no command attached)
   statusItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100);
-  statusItem.command = "echocode.toggleMic";
   statusItem.text = "$(mic) EchoCode Mic: Off";
-  statusItem.tooltip = "Toggle EchoCode Microphone (Ctrl+Alt+M)";
+  statusItem.tooltip = "Press Ctrl+Alt+V to start";
   statusItem.show();
   context.subscriptions.push(statusItem);
 
-  // Toggle mic command (continuous STT)
-  context.subscriptions.push(
-    vscode.commands.registerCommand("echocode.toggleMic", async () => {
-      try {
-        const apiKey = process.env.API_KEY || process.env.OPENAI_API_KEY;
-        if (!apiKey) {
-          vscode.window.showErrorMessage("EchoCode: No OpenAI API key found.");
-          return;
-        }
-        const client = getOpenAIClient(apiKey);
-
-        if (!isMicOn) {
-          outputChannel.appendLine("[Whisper] Starting microphone...");
-
-          // Auto-pick a real mic on Windows
-          let deviceName;
-          if (process.platform === "win32") {
-            deviceName = await autoDetectWindowsMic(outputChannel);
-            if (!deviceName) {
-              vscode.window.showErrorMessage("EchoCode: No Windows microphone detected. Check Sound settings.");
-              return;
-            }
-          }
-
-          micController = startMicCapture({
-            deviceName,
-            outputChannel,
-          });
-          isMicOn = true;
-          statusItem.text = "$(mic-filled) EchoCode Mic: Listening… (Ctrl+Alt+M to stop)";
-        } else {
-          outputChannel.appendLine("[Whisper] Stopping microphone, transcribing...");
-          const transcript = await micController.stop(client);
-          isMicOn = false;
-          micController = null;
-          statusItem.text = "$(mic) EchoCode Mic: Off";
-
-          if (transcript) {
-            outputChannel.appendLine(`[Whisper] Transcript: ${transcript}`);
-            // Route to your existing internal router
-            vscode.commands.executeCommand("echocode._internalVoiceRoute", transcript);
-
-            // Also show in chat webview
-            if (chatViewProvider && chatViewProvider._currentWebview) {
-              chatViewProvider._currentWebview.postMessage({
-                type: "voiceRecognitionResult",
-                text: transcript,
-              });
-            }
-          } else {
-            vscode.window.showInformationMessage("EchoCode: No speech detected.");
-          }
-        }
-      } catch (err) {
-        isMicOn = false;
-        micController = null;
-        statusItem.text = "$(mic) EchoCode Mic: Off";
-        vscode.window.showErrorMessage("EchoCode Whisper STT error: " + (err?.message || err));
-        outputChannel.appendLine("[Whisper] Error: " + (err?.message || err));
-      }
-    })
-  );
-
-  // Legacy one-shot STT command (records ~5s, transcribes, routes)
-  context.subscriptions.push(
-    vscode.commands.registerCommand("echocode._startWhisperSTT", async () => {
-      try {
-        const apiKey = process.env.API_KEY || process.env.OPENAI_API_KEY;
-        if (!apiKey) {
-          vscode.window.showErrorMessage("EchoCode: No OpenAI API key found.");
-          return;
-        }
-
-        // Auto-pick a real mic on Windows
-        let deviceName;
-        if (process.platform === "win32") {
-          deviceName = await autoDetectWindowsMic(outputChannel);
-          if (!deviceName) {
-            vscode.window.showErrorMessage("EchoCode: No Windows microphone detected. Check Sound settings.");
-            return;
-          }
-        }
-
-        const transcript = await recordAndTranscribe(apiKey, outputChannel, {
-          deviceName,
-          durationMs: 5000,
-        });
-
-        if (transcript) {
-          vscode.commands.executeCommand("echocode._internalVoiceRoute", transcript);
-
-          if (chatViewProvider && chatViewProvider._currentWebview) {
-            chatViewProvider._currentWebview.postMessage({
-              type: "voiceRecognitionResult",
-              text: transcript,
-            });
-          }
-        } else {
-          vscode.window.showInformationMessage("EchoCode: No speech detected.");
-        }
-      } catch (err) {
-        vscode.window.showErrorMessage("EchoCode Whisper STT error: " + (err?.message || err));
-        outputChannel.appendLine("[Whisper] Error: " + (err?.message || err));
-
-        if (chatViewProvider && chatViewProvider._currentWebview) {
-          chatViewProvider._currentWebview.postMessage({
-            type: "voiceRecognitionError",
-            error: err?.message || String(err),
-          });
-        }
-      }
-    })
-  );
-
-  // ===== Push-to-Talk (Ctrl+Alt+V press/press toggle via context key) =====
+  // Push-to-Talk commands
   await setPTTContext(false);
   context.subscriptions.push(
     vscode.commands.registerCommand("echocode.ptt.start", async () => {
@@ -421,41 +342,30 @@ async function activate(context) {
     })
   );
 
-  // Optional: auto-stop PTT if window loses focus (prevents stuck recording)
+  // Auto-stop PTT if window loses focus (prevents stuck recording)
   vscode.window.onDidChangeWindowState((state) => {
     if (!state.focused && pttController) {
       vscode.commands.executeCommand("echocode.ptt.stop");
     }
   });
 
-  // Register Big O commands
+  // Register remaining features
   registerBigOCommand(context);
-
-  // Register annotation commands
   registerAnnotationCommands(context, outputChannel);
-
-  // Register summarizer commands
   registerSummarizerCommands(context, outputChannel);
-
-  // Register speech commands
   registerSpeechCommands(context, outputChannel);
-
-  // Navigation commands
   registerWhereAmICommand(context);
   registerMoveCursor(context);
-
-  // What is this commands
   registerReadCurrentLineCommand(context);
   registerDescribeCurrentLineCommand(context);
   registerCharacterReadOutCommand(context);
 
   outputChannel.appendLine(
-    "Commands registered: echocode.readErrors, echocode.annotate, echocode.speakNextAnnotation, echocode.readAllAnnotations, echocode.summarizeClass, echocode.summarizeFunction, echocode.jumpToNextFunction, echocode.jumpToPreviousFunction, echocode.openChat, echocode.startVoiceInput, echocode.loadAssignmentFile, echocode.rescanUserCode, echocode.readNextSequentialTask, echocode.increaseSpeechSpeed, echocode.decreaseSpeechSpeed, echocode.ptt.start, echocode.ptt.stop"
+    "Commands registered: …, echocode.ptt.start, echocode.ptt.stop"
   );
 }
 
 function deactivate() {
-  try { if (micController) micController.stop?.(); } catch (_) {}
   try { if (pttController) pttController.stop?.(); } catch (_) {}
   if (outputChannel) {
     outputChannel.appendLine("EchoCode deactivated.");

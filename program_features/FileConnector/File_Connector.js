@@ -33,31 +33,12 @@ function _generatePythonImport(sourcePath, functionName) {
 }
 
 /**
- * Generates a relative import statement for a JavaScript function.
- */
-function _generateJsImport(sourcePath, destPath, functionName) {
-  let relPath = path
-    .relative(path.dirname(destPath), sourcePath)
-    .replace(/\\/g, "/");
-
-  // Ensure the relative path starts with './' or '../' for JS modules
-  if (!relPath.startsWith("..") && !relPath.startsWith(".")) {
-    relPath = "./" + relPath;
-  }
-
-  // Generate a named import for the specific function
-  return `import { ${functionName} } from '${relPath}';`;
-}
-
-/**
  * Generates an import statement by dispatching to a language-specific function.
  */
 function connectFunction(sourcePath, destPath, functionName, extension) {
   switch (extension) {
     case ".py":
       return _generatePythonImport(sourcePath, functionName);
-    case ".js":
-      return _generateJsImport(sourcePath, destPath, functionName);
     default:
       return `// Unsupported file type for function import: ${extension}`;
   }
@@ -85,11 +66,6 @@ function areExtensionsCompatible(source, dest) {
   const destExt = dest.split(".").pop().toLowerCase();
 
   if (sourceExt === destExt) return true;
-  if (
-    (sourceExt === "js" && destExt === "ts") ||
-    (sourceExt === "ts" && destExt === "js")
-  )
-    return true;
   return false;
 }
 
@@ -125,37 +101,9 @@ function registerFileConnectorCommands(context, vscode) {
             extension: path.extname(document.uri.fsPath).toLowerCase(),
           };
 
-          // --- New Logic to Auto-Export on Copy for JavaScript ---
-          if (copiedSymbol.extension === ".js") {
-            const fileContent = document.getText();
-            const functionName = copiedSymbol.functionName;
-            const edit = new vscode.WorkspaceEdit();
-
-            const exportsRegex = /module\.exports\s*=\s*{([^}]*)}/;
-            const match = fileContent.match(exportsRegex);
-
-            if (match) {
-              // module.exports = { ... } already exists
-              const existingExports = match[1];
-              const isAlreadyExported = new RegExp(`\\b${functionName}\\b`).test(existingExports);
-
-              if (!isAlreadyExported) {
-                const endBraceIndex = fileContent.lastIndexOf("}");
-                const positionToInsert = document.positionAt(endBraceIndex);
-                // Add the function to the existing exports object
-                edit.insert(document.uri, positionToInsert, `  ${functionName},\n`);
-              }
-            } else {
-              // module.exports does not exist, so create it
-              const endOfFile = new vscode.Position(document.lineCount, 0);
-              const newExportStatement = `\n\nmodule.exports = {\n  ${functionName},\n};\n`;
-              edit.insert(document.uri, endOfFile, newExportStatement);
-            }
-            await vscode.workspace.applyEdit(edit);
-          }
-          // --- End of New Logic ---
-
-          const message = `Copied and exported function "${funcSymbol.name}" from ${path.basename(document.uri.fsPath)}`;
+          const message = `Copied and exported function "${
+            funcSymbol.name
+          }" from ${path.basename(document.uri.fsPath)}`;
           vscode.window.showInformationMessage(message);
           await speakMessage(message);
         } else {
@@ -190,41 +138,6 @@ function registerFileConnectorCommands(context, vscode) {
         }
 
         await editor.edit(async (editBuilder) => {
-          // --- New Consolidation Logic for JavaScript ---
-          if (copiedSymbol.extension === ".js") {
-            const fileContent = document.getText();
-            const functionToImport = copiedSymbol.functionName;
-
-            // Calculate the relative path that would appear in the import statement
-            let relPath = path.relative(path.dirname(destinationFilePath), copiedSymbol.filePath).replace(/\\/g, "/");
-            if (!relPath.startsWith("..") && !relPath.startsWith(".")) {
-              relPath = "./" + relPath;
-            }
-
-            // Regex to find an existing import from the same file path
-            const importRegex = new RegExp(`import\\s*\\{([^}]+)\}\\s*from\\s*['"](${relPath})['"];`);
-            const match = fileContent.match(importRegex);
-
-            if (match) {
-              const existingImports = match[1].trim();
-              const lineIndex = document.getText().split('\n').findIndex(line => line.includes(match[0]));
-              const line = document.lineAt(lineIndex);
-
-              if (!new RegExp(`\\b${functionToImport}\\b`).test(existingImports)) {
-                // Add the new function to the existing list
-                const newImports = `{ ${existingImports}, ${functionToImport} }`;
-                const newLine = `import ${newImports} from '${relPath}';`;
-                editBuilder.replace(line.range, newLine);
-                // Import is handled, so we can stop here for JS
-                return;
-              } else {
-                // Function is already imported, do nothing.
-                return;
-              }
-            }
-          }
-          // --- End of New JS Logic ---
-
           // Default behavior for other languages or if no consolidation was possible
           const importStatement = connectFunction(
             copiedSymbol.filePath,

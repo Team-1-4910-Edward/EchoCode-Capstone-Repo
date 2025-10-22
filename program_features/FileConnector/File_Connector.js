@@ -3,6 +3,7 @@ const {
 } = require("../../program_settings/speech_settings/speechHandler");
 const path = require("path");
 const vscode = require("vscode");
+const fs = require("fs");
 
 let copiedSymbol = null; // Will store { filePath, functionName, extension }
 
@@ -33,14 +34,27 @@ function _generatePythonImport(sourcePath, functionName) {
 }
 
 /**
+ * Generates a C++ include directive that directly includes the source file
+ */
+function _generateCppImport(sourcePath, destPath) {
+  const relativePath = path.relative(path.dirname(destPath), sourcePath);
+  // Normalize the path to use forward slashes for C++ includes
+  const normalizedPath = relativePath.replace(/\\/g, "/");
+
+  return `#include "${normalizedPath}"`;
+}
+
+/**
  * Generates an import statement by dispatching to a language-specific function.
  */
 function connectFunction(sourcePath, destPath, functionName, extension) {
   switch (extension) {
     case ".py":
       return _generatePythonImport(sourcePath, functionName);
+    case ".cpp":
+      return _generateCppImport(sourcePath, destPath);
     default:
-      return `// Unsupported file type for function import: ${extension}`;
+      throw new Error(`Unsupported file type: ${extension}`);
   }
 }
 
@@ -72,7 +86,7 @@ function areExtensionsCompatible(source, dest) {
 function registerFileConnectorCommands(context, vscode) {
   context.subscriptions.push(
     vscode.commands.registerCommand(
-      "echocode.copyFileNameForImport", // This command now also handles exporting the function
+      "echocode.copyFileNameForImport",
       async () => {
         const editor = vscode.window.activeTextEditor;
         if (!editor) {
@@ -82,6 +96,7 @@ function registerFileConnectorCommands(context, vscode) {
 
         const document = editor.document;
         const position = editor.selection.active;
+        const extension = path.extname(document.uri.fsPath).toLowerCase();
         const symbols = await vscode.commands.executeCommand(
           "vscode.executeDocumentSymbolProvider",
           document.uri
@@ -98,10 +113,10 @@ function registerFileConnectorCommands(context, vscode) {
           copiedSymbol = {
             filePath: document.uri.fsPath,
             functionName: funcSymbol.name,
-            extension: path.extname(document.uri.fsPath).toLowerCase(),
+            extension: extension,
           };
 
-          const message = `Copied and exported function "${
+          const message = `Copied function "${
             funcSymbol.name
           }" from ${path.basename(document.uri.fsPath)}`;
           vscode.window.showInformationMessage(message);
@@ -114,7 +129,7 @@ function registerFileConnectorCommands(context, vscode) {
       }
     ),
     vscode.commands.registerCommand(
-      "echocode.pasteImportAtCursor", // This command now consolidates JS imports
+      "echocode.pasteImportAtCursor",
       async () => {
         if (!copiedSymbol) {
           vscode.window.showWarningMessage("No function copied.");
@@ -138,7 +153,6 @@ function registerFileConnectorCommands(context, vscode) {
         }
 
         await editor.edit(async (editBuilder) => {
-          // Default behavior for other languages or if no consolidation was possible
           const importStatement = connectFunction(
             copiedSymbol.filePath,
             destinationFilePath,
@@ -174,8 +188,20 @@ function registerFileConnectorCommands(context, vscode) {
             editBuilder.insert(new vscode.Position(0, 0), fullPreamble);
           }
 
-          // Insert the actual function import at the cursor
-          editBuilder.insert(editor.selection.active, importStatement + "\n");
+          // For C++, check if include already exists
+          if (copiedSymbol.extension === ".cpp") {
+            const fileContent = document.getText();
+            if (!fileContent.includes(importStatement)) {
+              // Insert at the top of the file with other includes
+              editBuilder.insert(
+                new vscode.Position(0, 0),
+                importStatement + "\n"
+              );
+            }
+          } else {
+            // For Python, insert at cursor
+            editBuilder.insert(editor.selection.active, importStatement + "\n");
+          }
         });
 
         const message = `Imported function "${copiedSymbol.functionName}" into ${destinationFile}`;

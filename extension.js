@@ -1,7 +1,10 @@
 const vscode = require("vscode");
 require("dotenv").config();
 
-const { recordAndTranscribe } = require("./program_features/Voice/whisperService");
+const {
+  startRecording,
+  stopAndTranscribe,
+} = require("./program_features/Voice/whisperService");
 
 // ===== LLM voice intent routing =====
 const { classifyVoiceIntent } = require("./program_settings/program_settings/AIrequest");
@@ -139,41 +142,27 @@ async function activate(context) {
 
   // Register chat commands
   const chatViewProvider = registerChatCommands(context, outputChannel);
+  
+  // start recording (no transcript yet)
   context.subscriptions.push(
-    vscode.commands.registerCommand("echocode._startWhisperSTT", async () => {
-      try {
-        const apiKey = process.env.API_KEY;
-        if (!apiKey) {
-          vscode.window.showErrorMessage("EchoCode: No OpenAI API key found.");
-          return;
-        }
-
-        const transcript = await recordAndTranscribe(outputChannel);
-        if (transcript) {
-          // 1. Route transcript through your LLM → execute command
-          vscode.commands.executeCommand("echocode._internalVoiceRoute", transcript);
-
-          // 2. ALSO send transcript back to chat webview to show in UI
-          if (chatViewProvider && chatViewProvider._currentWebview) {
-            chatViewProvider._currentWebview.postMessage({
-              type: "voiceRecognitionResult",
-              text: transcript
-            });
-          }
-        }
-      } catch (err) {
-        vscode.window.showErrorMessage("EchoCode Whisper STT error: " + err.message);
-        outputChannel.appendLine("[Whisper] Error: " + err.message);
-
-        // Inform the webview about the error
-        if (chatViewProvider && chatViewProvider._currentWebview) {
-          chatViewProvider._currentWebview.postMessage({
-            type: "voiceRecognitionError",
-            error: err.message
-          });
-        }
-      }
+    vscode.commands.registerCommand("echocode._voiceStart", async () => {
+      startRecording(outputChannel); // starts if not already running
     })
+  );
+
+  // stop recording and transcribe (returns text)
+  context.subscriptions.push(
+    vscode.commands.registerCommand("echocode._voiceStop", async () => {
+    try {
+      const text = await stopAndTranscribe(outputChannel);
+      return { ok: true, text };
+    } catch (err) {
+      const msg = (err && err.message) ? err.message : String(err);
+      vscode.window.showErrorMessage("EchoCode Whisper STT error: " + msg);
+      outputChannel.appendLine("[Whisper] Error: " + msg);
+      return { ok: false, error: msg };
+    }
+  })
   );
 
   // Register Big O commands

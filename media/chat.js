@@ -1,5 +1,7 @@
 // Script for the chat view
 (function () {
+    let isRecording = false;            // For STT UI state
+
     // Get VS Code API
     const vscode = acquireVsCodeApi();
     
@@ -33,6 +35,29 @@
         // Create placeholder for assistant response
         currentAssistantMessage = addMessageToUI('assistant', '');
     }
+
+    function setListeningUi() {
+        isRecording = true;
+        voiceButton.classList.add('active');                 // red/on
+        listeningIndicator.classList.remove('hidden');
+        listeningIndicator.classList.add('visible');
+        userInput.placeholder = 'Listening...';
+    }
+
+    function setProcessingUi() {
+        loadingIndicator.classList.remove('hidden');         // show "Thinking..."
+        loadingIndicator.classList.add('visible');
+    }
+
+    function resetMicUi() {
+        isRecording = false;
+        voiceButton.classList.remove('active');              // blue/off
+        listeningIndicator.classList.add('hidden');
+        listeningIndicator.classList.remove('visible');
+        loadingIndicator.classList.add('hidden');
+        loadingIndicator.classList.remove('visible');
+        userInput.placeholder = 'Ask a question about your code...';
+    }
     
     // Add message to UI
     function addMessageToUI(role, text) {
@@ -61,17 +86,20 @@
             sendMessage();
         }
     });
-    
-    //Mic button to tell extension to start voice input
+
     voiceButton.addEventListener('click', () => {
-        vscode.postMessage({ type: "startVoiceInput" });
-        // Show indicator while extension records
-        voiceButton.classList.add('active');
-        listeningIndicator.classList.remove('hidden');
-        listeningIndicator.classList.add('visible');
-        userInput.placeholder = 'Listening...';
+        if (!isRecording) {
+            // Flip UI immediately
+            setListeningUi();
+            vscode.postMessage({ type: "startVoiceInput" });
+        } else {
+            // Flip UI immediately (optimistic), show processing spinner
+            resetMicUi();
+            setProcessingUi();
+            vscode.postMessage({ type: "stopVoiceInput" });
+        }
     });
-    
+
     // Handle messages from the extension
     window.addEventListener('message', (event) => {
         const message = event.data;
@@ -114,24 +142,33 @@
                     currentAssistantMessage = null;
                 }
                 break;
+            
+            case 'voiceStopping':
+                loadingIndicator.classList.remove('hidden');
+                loadingIndicator.classList.add('visible');
+                break;
 
             case 'voiceRecognitionResult':
                 // Transcript will come back from extension
-                userInput.value = message.text;
+                userInput.value = message.text || '';
                 userInput.focus();
-                // Reset UI state
+                // resetting UI
+                loadingIndicator.classList.add('hidden');
+                loadingIndicator.classList.remove('visible');
                 voiceButton.classList.remove('active');
                 listeningIndicator.classList.add('hidden');
                 listeningIndicator.classList.remove('visible');
-                userInput.placeholder = 'Ask a question about your code...';
+                isRecording = false;
                 break;
-                
-            case 'voiceRecognitionError':
+
+            case 'voiceRecognitionError':                
+                addMessageToUI('system', `Voice recognition error: ${message.error || 'Unknown error'}`);
+                loadingIndicator.classList.add('hidden');
+                loadingIndicator.classList.remove('visible');
                 voiceButton.classList.remove('active');
                 listeningIndicator.classList.add('hidden');
                 listeningIndicator.classList.remove('visible');
-                userInput.placeholder = 'Ask a question about your code...';
-                addMessageToUI('system', `Voice recognition error: ${message.error || 'Unknown error'}`);
+                isRecording = false;
                 break;
         }
         

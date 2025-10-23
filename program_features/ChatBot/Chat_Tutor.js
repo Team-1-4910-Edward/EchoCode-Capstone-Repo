@@ -60,19 +60,27 @@ class EchoCodeChatViewProvider {
 
     // Set the initial HTML content
     webviewView.webview.html = this._getHtmlForWebview(webviewView.webview);
-
     // Handle messages from the webview
     webviewView.webview.onDidReceiveMessage(
       async (message) => {
-        // Make sure this is async
-        this.outputChannel.appendLine(
-          `Received message from webview: ${message.type}`
-        );
+        this.outputChannel.appendLine(`Received message from webview: ${message.type}`);
         if (message.type === "userInput") {
           await this.handleUserMessage(message.text);
         } else if (message.type === "startVoiceInput") {
-          vscode.commands.executeCommand("echocode._startWhisperSTT");
-        }
+          await vscode.commands.executeCommand("echocode._voiceStart");
+        } else if (message.type === "stopVoiceInput") {
+            if (this._currentWebview) {
+              this._currentWebview.postMessage({ type: "voiceStopping" });
+            }
+            const result = await vscode.commands.executeCommand("echocode._voiceStop");
+            if (this._currentWebview) {
+              if (result && result.ok) {
+                this._currentWebview.postMessage({ type: "voiceRecognitionResult", text: result.text || "" });
+              } else {
+                this._currentWebview.postMessage({ type: "voiceRecognitionError", error: result?.error || "Unknown error" });
+              }
+            }
+          }
       },
       undefined,
       this.context.subscriptions
@@ -97,9 +105,6 @@ class EchoCodeChatViewProvider {
           type: "voiceRecognitionResult",
           text: recognizedText,
         });
-
-        // Don't automatically process the recognized text
-        // Let the user press enter to send it
       }
     } catch (error) {
       this.outputChannel.appendLine(

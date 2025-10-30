@@ -22,9 +22,35 @@ const { registerChatCommands } = require("./program_features/ChatBot/chat_tutor"
 // Navigation + “What’s this”
 const { registerMoveCursor } = require("./navigation_features/navigationHandler");
 const { registerWhereAmICommand } = require("./navigation_features/whereAmI");
-const { registerReadCurrentLineCommand } = require("./program_features/WhatIsThis/WhatIsThis");
-const { registerDescribeCurrentLineCommand } = require("./program_features/WhatIsThis/DescribeThis");
-const { registerCharacterReadOutCommand } = require("./program_features/WhatIsThis/CharacterReadOut");
+const {
+  registerFileCreatorCommand,
+} = require("./program_features/Folder_File_Creator/FileCreator");
+const {
+  registerFolderCreatorCommand,
+} = require("./program_features/Folder_File_Creator/FolderCreator");
+const {
+  registerFileNavigatorCommand,
+} = require("./navigation_features/Folder_File_Navigator/file_navigator");
+const {
+  initializeFolderList,
+  registerFolderNavigatorCommands,
+} = require("./navigation_features/Folder_File_Navigator/folder_navigator");
+const {
+  registerReadCurrentLineCommand,
+} = require("./program_features/WhatIsThis/WhatIsThis");
+const {
+  registerDescribeCurrentLineCommand,
+} = require("./program_features/WhatIsThis/DescribeThis");
+const {
+  registerCharacterReadOutCommand,
+} = require("./program_features/WhatIsThis/CharacterReadOut");
+
+const {
+  connectFile,
+  handleCopyFileNameCommand,
+  handlePasteImportCommand,
+  registerFileConnectorCommands,
+} = require("./program_features/FileConnector/File_Connector");
 
 // Big-O + Annotations
 const { registerBigOCommand } = require("./program_features/Annotations_BigO/bigOAnalysis");
@@ -52,22 +78,33 @@ async function activate(context) {
   registerAssignmentTrackerCommands(context);
   registerWhereAmICommand(context);
   registerMoveCursor(context);
+  registerFileCreatorCommand(context);
+  registerFolderCreatorCommand(context);
+  registerFileNavigatorCommand(context);
+  registerFolderNavigatorCommands(context);
+
+  // What is this commands
   registerReadCurrentLineCommand(context);
   registerDescribeCurrentLineCommand(context);
   registerCharacterReadOutCommand(context);
 
+  // Register file connector commands
+  registerFileConnectorCommands(context, vscode);
 
-  // OPTIONAL: Python adapter (don’t hard-fail if Pylint missing)
-  try {
-    await ensurePylintInstalled();
-    initializeErrorHandling(outputChannel);
-    registerErrorHandlingCommands(context);
-    outputChannel.appendLine("[EchoCode] Python adapter ready (Pylint).");
-  } catch (e) {
-    outputChannel.appendLine("[EchoCode] Pylint not available — skipping Python-specific extras.");
-  }
+  outputChannel.appendLine(
+    "Commands registered: echocode.readErrors, echocode.annotate, echocode.speakNextAnnotation, echocode.readAllAnnotations, echocode.summarizeClass, echocode.summarizeFunction, echocode.jumpToNextFunction, echocode.jumpToPreviousFunction, echocode.openChat, echocode.startVoiceInput, echocode.loadAssignmentFile, echocode.rescanUserCode, echocode.readNextSequentialTask, echocode.increaseSpeechSpeed, echocode.decreaseSpeechSpeed, echocode.moveToNextFolder, echocode.moveToPreviousFolder"
+  );
 
-  outputChannel.appendLine("[EchoCode] Commands registered.");
+  // Initialize folder list when the extension starts
+  initializeFolderList();
+
+  // Listen for workspace folder changes and reinitialize the folder list
+  vscode.workspace.onDidChangeWorkspaceFolders(() => {
+    outputChannel.appendLine(
+      "Workspace folders changed. Reinitializing folder list..."
+    );
+    initializeFolderList();
+  });
 }
 
 function deactivate() {

@@ -242,6 +242,15 @@ function _generateCppImport(
 }
 
 /**
+ * Generates a C++ include directive for a header file (.h)
+ */
+function _generateCppHeaderInclude(sourcePath, destPath) {
+  const relativePath = path.relative(path.dirname(destPath), sourcePath);
+  const normalizedPath = relativePath.replace(/\\/g, "/");
+  return `#include "${normalizedPath}"`;
+}
+
+/**
  * Generates an import statement by dispatching to a language-specific function.
  */
 function connectFunction(
@@ -251,19 +260,22 @@ function connectFunction(
   extension,
   functionSignature
 ) {
-  switch (extension) {
-    case ".py":
-      return _generatePythonImport(sourcePath, functionName);
-    case ".cpp":
-      return _generateCppImport(
-        sourcePath,
-        destPath,
-        functionName,
-        functionSignature
-      );
-    default:
-      throw new Error(`Unsupported file type: ${extension}`);
+  if (extension === ".py") {
+    return _generatePythonImport(sourcePath, functionName);
   }
+  if (extension === ".cpp") {
+    return _generateCppImport(
+      sourcePath,
+      destPath,
+      functionName,
+      functionSignature
+    );
+  }
+  if (extension === ".h" && destPath.endsWith(".cpp")) {
+    // Importing a header into a cpp file
+    return _generateCppHeaderInclude(sourcePath, destPath);
+  }
+  throw new Error(`Unsupported file type: ${extension}`);
 }
 
 /**
@@ -287,7 +299,10 @@ function areExtensionsCompatible(source, dest) {
   const sourceExt = source.split(".").pop().toLowerCase();
   const destExt = dest.split(".").pop().toLowerCase();
 
-  if (sourceExt === destExt) return true;
+  // Allow .h into .cpp, .cpp into .cpp, .py into .py
+  if ((sourceExt === "h" && destExt === "cpp") || sourceExt === destExt) {
+    return true;
+  }
   return false;
 }
 

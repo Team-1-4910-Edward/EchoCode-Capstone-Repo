@@ -62,6 +62,19 @@ const {
 } = require("./navigation_features/navigationHandler");
 const { registerWhereAmICommand } = require("./navigation_features/whereAmI");
 const {
+  registerFileCreatorCommand,
+} = require("./program_features/Folder_File_Creator/FileCreator");
+const {
+  registerFolderCreatorCommand,
+} = require("./program_features/Folder_File_Creator/FolderCreator");
+const {
+  registerFileNavigatorCommand,
+} = require("./navigation_features/Folder_File_Navigator/file_navigator");
+const {
+  initializeFolderList,
+  registerFolderNavigatorCommands,
+} = require("./navigation_features/Folder_File_Navigator/folder_navigator");
+const {
   registerReadCurrentLineCommand,
 } = require("./program_features/WhatIsThis/WhatIsThis");
 const {
@@ -70,6 +83,13 @@ const {
 const {
   registerCharacterReadOutCommand,
 } = require("./program_features/WhatIsThis/CharacterReadOut");
+
+const {
+  connectFile,
+  handleCopyFileNameCommand,
+  handlePasteImportCommand,
+  registerFileConnectorCommands,
+} = require("./program_features/FileConnector/File_Connector");
 
 let activeDecorations = [];
 let annotationsVisible = false;
@@ -112,15 +132,33 @@ async function activate(context) {
   // Navigation commands
   registerWhereAmICommand(context);
   registerMoveCursor(context);
+  registerFileCreatorCommand(context);
+  registerFolderCreatorCommand(context);
+  registerFileNavigatorCommand(context);
+  registerFolderNavigatorCommands(context);
 
   // What is this commands
   registerReadCurrentLineCommand(context);
   registerDescribeCurrentLineCommand(context);
   registerCharacterReadOutCommand(context);
 
+  // Register file connector commands
+  registerFileConnectorCommands(context, vscode);
+
   outputChannel.appendLine(
-    "Commands registered: echocode.readErrors, echocode.annotate, echocode.speakNextAnnotation, echocode.readAllAnnotations, echocode.summarizeClass, echocode.summarizeFunction, echocode.jumpToNextFunction, echocode.jumpToPreviousFunction, echocode.openChat, echocode.startVoiceInput, echocode.loadAssignmentFile, echocode.rescanUserCode, echocode.readNextSequentialTask, echocode.increaseSpeechSpeed, echocode.decreaseSpeechSpeed"
+    "Commands registered: echocode.readErrors, echocode.annotate, echocode.speakNextAnnotation, echocode.readAllAnnotations, echocode.summarizeClass, echocode.summarizeFunction, echocode.jumpToNextFunction, echocode.jumpToPreviousFunction, echocode.openChat, echocode.startVoiceInput, echocode.loadAssignmentFile, echocode.rescanUserCode, echocode.readNextSequentialTask, echocode.increaseSpeechSpeed, echocode.decreaseSpeechSpeed, echocode.moveToNextFolder, echocode.moveToPreviousFolder"
   );
+
+  // Initialize folder list when the extension starts
+  initializeFolderList();
+
+  // Listen for workspace folder changes and reinitialize the folder list
+  vscode.workspace.onDidChangeWorkspaceFolders(() => {
+    outputChannel.appendLine(
+      "Workspace folders changed. Reinitializing folder list..."
+    );
+    initializeFolderList();
+  });
 }
 
 function deactivate() {

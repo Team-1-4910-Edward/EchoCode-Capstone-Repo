@@ -84,8 +84,8 @@
 | `f1`               | Reads out the hotkey options by letting you choose 1-7 depending on the option |
 | `Ctrl+Alt+L`       | `echocode.readCurrentLine`                                                     | Tells the user what is on the line exactly                                                                 |
 | `Ctrl+Alt+K`       | `echocode.describeCurrentLine`                                                 | Generates and tells a user what is on the line                                                             |
-| `Ctrl+Alt+I`       | `echocode.copyFileNameForImport`                                               | Generates an import function for Python and JS to be pasted for connecting multiple files at the cursor 🆕 |
-| `Ctrl+Shift+I`     | `echocode.pasteImportAtCursor`                                                 | Pastes the import function for Python and JS at the cursor 🆕                                              |
+| `Ctrl+Alt+I`       | `echocode.copyFileNameForImport`                                               | Generates an import function for Python and C++ to be pasted for connecting multiple files at the cursor 🆕 |
+| `Ctrl+Shift+I`     | `echocode.pasteImportAtCursor`                                                 | Pastes the import function for Python and C++ at the cursor 🆕                                              |
 | `Ctrl+Alt+;`       | `echocode.createFile`                                                          | Creates a new file in the current folder 🆕                      |
 | `Ctrl+Alt+F`       | `echocode.createFolder`                                                        | Creates a new folder in the workspace 🆕                         |
 | `Ctrl+Alt+P`       | `echocode.navigateToNextFile`                                                  | Moves to the next file in the current folder 🆕                  |
@@ -159,12 +159,13 @@ Before using Echo Code, ensure the following are installed:
 - Added function to generate a summary on what the line does and check if there is any error
 - Added function to toggle on and off a character reader
 - Added new hot keys for the above functions
+- Added C++ as a supported language
   **New Hotkeys:**
 
 | Shortcut     | Description                                                                                             |
 | ------------ | ------------------------------------------------------------------------------------------------------- |
-| `Ctrl+Alt+C` | Generates an import function for Python and JS to be pasted for connecting multiple files at the cursor |
-| `Ctrl+Alt+V` | Pastes the import function for Python and JS at the cursor                                              |
+| `Ctrl+Alt+I` | Generates an import function for Python and C++ to be pasted for connecting multiple files at the cursor |
+| `Ctrl+Shift+I` | Pastes the import function for Python and C++ at the cursor                                              |
 | `Ctrl+Alt+;` | Creates a new file for the user to name   |
 | `Ctrl+Alt+F` | Creates a new folder for the user to name |
 | `Ctrl+Alt+P` | Navigates to the new file                 |

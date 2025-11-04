@@ -66,10 +66,10 @@
 | `Ctrl+Alt+Q`       | `code-tutor.readAllAnnotation`                                                 | Reads all the annotations in the queue.                                                                    |
 | `Ctrl+Alt+Down`    | `echocode.jumpToNextFunction`                                                  | Jumps to the next function in the file.                                                                    |
 | `Ctrl+Alt+Up`      | `echocode.jumpToPreviousFunction`                                              | Jumps to the previous function.                                                                            |
-| `Ctrl+Alt+Space C` | `echocode.summarizeClass`                                                      | Summarizes the current class.                                                                              |
-| `Ctrl+Alt+Space F` | `echocode.summarizeFunction`                                                   | Summarizes the current function.                                                                           |
-| `Ctrl+Alt+Space P` | `echocode.summarizeProgram`                                                    | Summarize full program.                                                                                    |
-| `Ctrl+Alt+Space W` | `echocode.whereAmI`                                                            | Describes the scope the user is in.                                                                        |
+| `Ctrl+Alt+E C` | `echocode.summarizeClass`                                                      | Summarizes the current class.                                                                              |
+| `Ctrl+Alt+E F` | `echocode.summarizeFunction`                                                   | Summarizes the current function.                                                                           |
+| `Ctrl+Alt+E P` | `echocode.summarizeProgram`                                                    | Summarize full program.                                                                                    |
+| `Ctrl+Alt+E W` | `echocode.whereAmI`                                                            | Describes the scope the user is in.                                                                        |
 | `Ctrl+Alt+U`       | `echocode.increaseSpeechSpeed`                                                 | Increases speech rate.                                                                                     |
 | `Ctrl+Alt+D`       | `echocode.decreaseSpeechSpeed`                                                 | Decreases speech rate.                                                                                     |
 | `Ctrl+Alt+X`       | `echocode.stopSpeech`                                                          | Stops current speech playback.                                                                             |

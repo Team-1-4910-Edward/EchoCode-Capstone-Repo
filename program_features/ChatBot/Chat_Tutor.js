@@ -1,7 +1,7 @@
 const vscode = require("vscode");
 const {
   speakMessage,
-} = require("../../program_settings/speech_settings/speechHandler");
+} = require("../../Core/program_settings/speech_settings/speechHandler");
 
 // Mock voice recognition for demo/development purposes
 function performVoiceRecognition() {

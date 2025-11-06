@@ -1,44 +1,40 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
-import * as vscode from 'vscode';
+import * as vscode from "vscode";
 
-// This method is called when your extension is activated
-// Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
+  console.log("EchoCode: activate() starting. Env =", process.env.VSCODE_TEST);
 
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "echolint" is now active!');
+  const isTest = process.env.VSCODE_TEST === "true";
+  if (isTest) {
+    console.log("EchoCode: test mode active. Skipping heavy startup like TTS and Copilot.");
+  } else {
+    console.log('EchoCode: normal mode activation.');
+    // here you'd start TTS, Copilot, etc
+  }
 
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
-	const disposable = vscode.commands.registerCommand('echolint.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from EchoLint!');
-	});
+  // Always register commands (even in test mode)
+  const disposable = vscode.commands.registerCommand("echolint.helloWorld", () => {
+    const msg = isTest
+      ? "[Test] Hello World simulated!"
+      : "Hello World from EchoLint!";
+    vscode.window.showInformationMessage(msg);
+  });
 
-	context.subscriptions.push(disposable);
+  context.subscriptions.push(disposable);
 }
 
+export function deactivate() {
+  console.log("EchoCode: extension deactivated.");
+}
 
+// Optional helper: visible code reader
 function getVisibleCodeWithLineNumbers(textEditor: vscode.TextEditor) {
-	// get the position of the first and last visible lines
-	let currentLine = textEditor.visibleRanges[0].start.line;
-	const endLine = textEditor.visibleRanges[0].end.line;
-  
-	let code = '';
-  
-	// get the text from the line at the current position.
-	// The line number is 0-based, so we add 1 to it to make it 1-based.
-	while (currentLine < endLine) {
-	  code += `${currentLine + 1}: ${textEditor.document.lineAt(currentLine).text} \n`;
-	  // move to the next line position
-	  currentLine++;
-	}
-	return code;
+  let currentLine = textEditor.visibleRanges[0].start.line;
+  const endLine = textEditor.visibleRanges[0].end.line;
+  let code = "";
+
+  while (currentLine < endLine) {
+    code += `${currentLine + 1}: ${textEditor.document.lineAt(currentLine).text}\n`;
+    currentLine++;
   }
-  
-// This method is called when your extension is deactivated
-export function deactivate() {}
+  return code;
+}

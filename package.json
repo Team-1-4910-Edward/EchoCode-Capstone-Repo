@@ -3,6 +3,7 @@
   "displayName": "Echo Code",
   "description": "Reads Python errors aloud using Pylint for visually impaired students.",
   "version": "1.7.0",
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "https://github.com/tjcrozier/CSCE-3444.001-Group-1.git"
@@ -365,21 +366,25 @@
     "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
-    "pretest": "npm run compile && npm run lint",
+    "pretest": "npm run compile",
     "lint": "eslint",
-    "test": "vscode-test"
+    "test": "node --loader ./test/alias-loader.mjs ./node_modules/mocha/bin/_mocha --require ts-node/register --require test/setup.mjs --recursive test/**/*.test.ts --timeout 10000",
+    "int-test": "npm run test"
   },
   "devDependencies": {
     "@eslint/js": "^9.24.0",
     "@stylistic/eslint-plugin": "^2.13.0",
     "@types/mocha": "^10.0.10",
     "@types/node": "^20.17.30",
-    "@types/vscode": "^1.99.1",
+    "@types/vscode": "^1.105.0",
     "@vscode/test-cli": "^0.0.9",
     "@vscode/test-electron": "^2.5.2",
+    "chai": "^6.2.0",
     "eslint": "^9.24.0",
     "glob": "^10.3.10",
-    "mocha": "^10.2.0",
+    "mocha": "^10.8.2",
+    "nyc": "^17.1.0",
+    "ts-node": "^10.9.2",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.29.1"
   },

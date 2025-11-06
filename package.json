@@ -18,6 +18,9 @@
   ],
   "activationEvents": [
     "onLanguage:python",
+    "onLanguage:cpp",
+    "onLanguage:java",
+    "onLanguage:csharp",
     "onSave",
     "onView:echocode.chatView",
     "onCommand:echocode.openChat",
@@ -115,6 +118,34 @@
         "title": "Where Am I?"
       },
       {
+        "command": "echocode.createFile",
+        "title": "Create File"
+      },
+      {
+        "command": "echocode.createFolder",
+        "title": "Create Folder"
+      },
+      {
+        "command": "echocode.navigateToNextFile",
+        "title": "Navigate to Next File"
+      },
+      {
+        "command": "echocode.initializeFolderList",
+        "title": "Initialize Folder List"
+      },
+      {
+        "command": "echocode.moveToNextFolder",
+        "title": "Move to Next Folder"
+      },
+      {
+        "command": "echocode.moveToPreviousFolder",
+        "title": "Move to Previous Folder"
+      },
+      {
+        "command": "echocode.navigateFilesInCurrentFolder",
+        "title": "Navigate Files in Current Folder"
+      },
+      {
         "command": "echocode.readCurrentLine",
         "title": "Read Current Line"
       },
@@ -125,6 +156,14 @@
       {
         "command": "echocode.toggleCharacterReadOut",
         "title": "Toggle Character Read-Out"
+      },
+      {
+        "command": "echocode.copyFileNameForImport",
+        "title": "Copy File Name for Import"
+      },
+      {
+        "command": "echocode.pasteImportAtCursor",
+        "title": "Paste Import Statement at Cursor"
       }
     ],
     "configuration": {
@@ -176,17 +215,17 @@
       {
         "command": "echocode.summarizeClass",
         "key": "ctrl+alt+space C",
-        "when": "editorTextFocus && editorLangId == 'python'"
+        "when": "editorTextFocus"
       },
       {
         "command": "echocode.summarizeFunction",
         "key": "ctrl+alt+space F",
-        "when": "editorTextFocus && editorLangId == 'python'"
+        "when": "editorTextFocus"
       },
       {
         "command": "echocode.summarizeProgram",
         "key": "ctrl+alt+space P",
-        "when": "editorTextFocus && editorLangId == 'python'"
+        "when": "editorTextFocus"
       },
       {
         "command": "echocode.startVoiceInput",
@@ -200,12 +239,12 @@
       {
         "command": "code-tutor.analyzeBigO",
         "key": "ctrl+alt+n",
-        "when": "editorTextFocus && editorLangId == 'python'"
+        "when": "editorTextFocus"
       },
       {
         "command": "echocode.whereAmI",
         "key": "ctrl+alt+space W",
-        "when": "editorTextFocus && editorLangId == 'python'"
+        "when": "editorTextFocus"
       },
       {
         "command": "code-tutor.iterateBigOQueue",
@@ -256,6 +295,32 @@
         "when": "editorTextFocus"
       },
       {
+        "command": "echocode.createFile",
+        "key": "ctrl+alt+;",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "echocode.createFolder",
+        "key": "ctrl+alt+f",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "echocode.navigateToNextFile",
+        "key": "ctrl+alt+p"
+      },
+      {
+        "command": "echocode.moveToNextFolder",
+        "key": "ctrl+alt+["
+      },
+      {
+        "command": "echocode.moveToPreviousFolder",
+        "key": "ctrl+alt+]"
+      },
+      {
+        "command": "echocode.initializeFolderList",
+        "title": "Initialize Folder List"
+      },
+      {
         "command": "echocode.readCurrentLine",
         "key": "ctrl+alt+l",
         "when": "editorTextFocus"
@@ -268,6 +333,16 @@
       {
         "command": "echocode.toggleCharacterReadOut",
         "key": "ctrl+alt+r",
+        "when": "editorTextFocus"
+      },
+      {
+        "key": "ctrl+alt+i",
+        "command": "echocode.copyFileNameForImport",
+        "when": "editorTextFocus"
+      },
+      {
+        "key": "ctrl+shift+i",
+        "command": "echocode.pasteImportAtCursor",
         "when": "editorTextFocus"
       }
     ],

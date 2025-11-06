@@ -1,7 +1,7 @@
 const vscode = require("vscode");
 const {
   speakMessage,
-} = require("../program_settings/speech_settings/speechHandler");
+} = require("../Core/program_settings/speech_settings/speechHandler");
 
 let lastTimeout = null; // Stores the last scheduled speech event
 

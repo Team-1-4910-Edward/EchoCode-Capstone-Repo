@@ -22,3 +22,5 @@ test/
 # 🚀 Ignore unnecessary config files
 **/jsconfig.json
 **/eslint.config.mjs
+
+samplePython/**/*

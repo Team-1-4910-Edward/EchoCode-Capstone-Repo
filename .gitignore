@@ -29,3 +29,6 @@ Thumbs.db
 # Ignore environment variable files
 .env
 
+# Ignore venv folders for Python virtual environments
+echocode-venv/
+

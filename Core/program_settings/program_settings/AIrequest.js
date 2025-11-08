@@ -62,7 +62,10 @@ async function classifyVoiceIntent(transcript, commands, opts = {}) {
 
   // 2) System + user messages
   const systemPrompt =
-    "You classify a user's voice command for the EchoCode VS Code extension into a single command ID from a provided list. " +
+    "You are a command router. Match the user's spoken intent to the closest command ID from this list. \
+    Output only JSON like {\"command\": \"<id>\"}. \
+    Do not explain. If the phrase 'create new folder' appears, match to echocode.createFolder. \
+    If 'make folder', 'new folder', or 'create folder' appears, match the same." +
     "Reply ONLY with strict minified JSON: {\"command\":\"<id-or-none>\"}. " +
     "If the user intent is unclear, return {\"command\":\"none\"}. No extra text.";
 

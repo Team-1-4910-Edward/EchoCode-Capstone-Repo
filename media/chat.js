@@ -149,17 +149,22 @@
                 break;
 
             case 'voiceRecognitionResult':
-                // Transcript will come back from extension
-                userInput.value = message.text || '';
+                const transcript = message.text?.trim() || "";
+
+                // Put the transcript in the box for visibility
+                userInput.value = transcript;
                 userInput.focus();
-                // resetting UI
-                loadingIndicator.classList.add('hidden');
-                loadingIndicator.classList.remove('visible');
+
+                // Immediately send it for execution
+                vscode.postMessage({ type: "executeVoiceCommand", text: transcript });
+
+                // Reset UI state
                 voiceButton.classList.remove('active');
                 listeningIndicator.classList.add('hidden');
                 listeningIndicator.classList.remove('visible');
-                isRecording = false;
+                userInput.placeholder = 'Ask a question about your code...';
                 break;
+
 
             case 'voiceRecognitionError':                
                 addMessageToUI('system', `Voice recognition error: ${message.error || 'Unknown error'}`);

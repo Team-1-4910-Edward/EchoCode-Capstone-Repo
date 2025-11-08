@@ -66,21 +66,58 @@ class EchoCodeChatViewProvider {
         this.outputChannel.appendLine(`Received message from webview: ${message.type}`);
         if (message.type === "userInput") {
           await this.handleUserMessage(message.text);
-        } else if (message.type === "startVoiceInput") {
+        } else if (message.type === "executeVoiceCommand") {
+          const transcript = message.text || "";
+          const { tryExecuteVoiceCommand } = require("../../extension");
+          const outputChannel = this.outputChannel;
+          const result = await tryExecuteVoiceCommand(transcript, outputChannel);
+
+          if (result.handled) {
+            this._currentWebview.postMessage({
+              type: "response",
+              text: `✅ Executed command: ${result.command}`
+            });
+          } else {
+            await this.handleUserMessage(transcript);
+          }
+        }
+        else if (message.type === "startVoiceInput") {
           await vscode.commands.executeCommand("echocode._voiceStart");
-        } else if (message.type === "stopVoiceInput") {
-            if (this._currentWebview) {
-              this._currentWebview.postMessage({ type: "voiceStopping" });
-            }
-            const result = await vscode.commands.executeCommand("echocode._voiceStop");
-            if (this._currentWebview) {
-              if (result && result.ok) {
-                this._currentWebview.postMessage({ type: "voiceRecognitionResult", text: result.text || "" });
-              } else {
-                this._currentWebview.postMessage({ type: "voiceRecognitionError", error: result?.error || "Unknown error" });
+        } 
+        else if (message.type === "stopVoiceInput") {
+          if (this._currentWebview) {
+            this._currentWebview.postMessage({ type: "voiceStopping" });
+          }
+          const result = await vscode.commands.executeCommand("echocode._voiceStop");
+          if (this._currentWebview) {
+            if (result && result.ok) {
+              this._currentWebview.postMessage({ type: "voiceRecognitionResult", text: result.text || "" });
+
+              // === NEW: Try to execute a voice-mapped command before Copilot ===
+              const { tryExecuteVoiceCommand } = require("../../extension");
+              const outputChannel = this.outputChannel;
+              const voiceResult = await tryExecuteVoiceCommand(transcript, outputChannel);
+
+              if (voiceResult.handled) {
+                // ✅ Voice command recognized and executed — stop here
+                this._currentWebview.postMessage({
+                  type: "response",
+                  text: `✅ Executed command: ${voiceResult.command}`
+                });
+                return; // do NOT fall through to Copilot
               }
+
+              // else: fall through to normal Copilot behavior
+              await this.handleUserMessage(result.text || "");
+
+            } else {
+              this._currentWebview.postMessage({
+                type: "voiceRecognitionError",
+                error: result?.error || "Unknown error",
+              });
             }
           }
+        }
       },
       undefined,
       this.context.subscriptions

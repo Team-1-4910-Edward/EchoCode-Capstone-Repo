@@ -77,11 +77,10 @@ function stopAndTranscribe(outputChannel) {
     try { rec.stdin.write("q"); } catch (_) {}
     try { rec.stdin.end(); } catch (_) {}
 
-    // Give ffmpeg enough time to flush. Too short => null code & empty file.
+    // Much shorter flush time (faster reaction)
     const killTimer = setTimeout(() => {
-      outputChannel.appendLine("Forcing ffmpeg to exit (timeout).");
       try { rec.kill("SIGKILL"); } catch (_) {}
-    }, 2500);
+    }, 500);
 
     rec.on("close", (code, signal) => {
       clearTimeout(killTimer);
@@ -89,7 +88,7 @@ function stopAndTranscribe(outputChannel) {
 
       // Check if file exists and has audio-like size (5s mono 16k PCM ~ 150–200 KB)
       fs.stat(tmpWav, (err, stats) => {
-        const hasAudio = !err && stats && stats.size > 100 * 1024;
+        const hasAudio = !err && stats && stats.size > 20 * 1024;
 
         if (!hasAudio) {
           // One more short grace period: sometimes write finishes right after close
@@ -107,7 +106,7 @@ function stopAndTranscribe(outputChannel) {
                 (e) =>   { current = null; reject(e); }
               );
             });
-          }, 200);
+          }, 30);
           return;
         }
 

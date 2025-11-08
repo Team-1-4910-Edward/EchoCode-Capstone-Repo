@@ -86,7 +86,7 @@ function stopAndTranscribe(outputChannel) {
       clearTimeout(killTimer);
       outputChannel.appendLine(`ffmpeg closed. code=${code}, signal=${signal}`);
 
-      // Check if file exists and has audio-like size (5s mono 16k PCM ~ 150–200 KB)
+      // Check if file exists and has audio-like size (0.7s ~ 70/80 KB)
       fs.stat(tmpWav, (err, stats) => {
         const hasAudio = !err && stats && stats.size > 20 * 1024;
 

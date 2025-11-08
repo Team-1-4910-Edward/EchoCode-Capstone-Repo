@@ -10,7 +10,6 @@ const { autoRouteVoiceIntent } = require("./Core/program_settings/program_settin
 // ===== LLM voice intent routing =====
 const { classifyVoiceIntent } = require("./Core/program_settings/program_settings/AIrequest");
 
-
 async function tryExecuteVoiceCommand(transcript, outputChannel) {
   try {
     const t = transcript.toLowerCase().trim();
@@ -131,11 +130,11 @@ async function tryExecuteVoiceCommand(transcript, outputChannel) {
       return { handled: true, command: "echocode.createFolder" };
     }
 
-    if (t.includes("create file") || t.includes("new file") || t.includes("make file")) {
-      await vscode.commands.executeCommand("echocode.createFile");
-      vscode.window.showInformationMessage("📄 Created new file");
-      return { handled: true, command: "echocode.createFile" };
-    }
+    // if (t.includes("create file") || t.includes("new file") || t.includes("make file")) {
+    //   await vscode.commands.executeCommand("echocode.createFile");
+    //   vscode.window.showInformationMessage("📄 Created new file");
+    //   return { handled: true, command: "echocode.createFile" };
+    // }
 
     if (t.includes("next file") || t.includes("go to next file")) {
       await vscode.commands.executeCommand("echocode.navigateToNextFile");
@@ -188,8 +187,16 @@ async function tryExecuteVoiceCommand(transcript, outputChannel) {
     }
 
     // ========== FALLBACK: AI / LLM CLASSIFICATION ==========
-    // const cmdId = await classifyVoiceIntent(transcript, VOICE_COMMANDS);
-    const cmdId = await autoRouteVoiceIntent(transcript, VOICE_COMMANDS, outputChannel);
+    outputChannel.appendLine(`[Voice Intent] Testing local classifier with: ${transcript}`);
+    const { classifyLocalIntent } = require("./Core/program_settings/program_settings/localIntentRouter");
+    const cleaned = transcript.toLowerCase().replace(/[^\w\s]/g, "").trim();
+    outputChannel.appendLine(`[Local NLU] Cleaned transcript: ${cleaned}`);
+    const cmdId = await classifyLocalIntent(transcript, VOICE_COMMANDS);
+    outputChannel.appendLine(`[Local NLU] Best match: ${cmdId}`);
+    // if (cmdId === "none") {
+    //   const { classifyVoiceIntent } = require("./Core/program_settings/program_settings/AIrequest");
+    //   cmdId = await classifyVoiceIntent(transcript, VOICE_COMMANDS);
+    // }
     if (cmdId && cmdId !== "none") {
       const match = VOICE_COMMANDS.find(c => c.id === cmdId);
       const title = match ? match.title : cmdId;

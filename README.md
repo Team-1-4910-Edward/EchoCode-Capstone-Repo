@@ -1,7 +1,7 @@
 # Echo Code — AI-Assisted Python Debugging for Visually Impaired Programmers
 
-**Echo Code** is a Visual Studio Code extension that combines **AI-powered code tutoring** with **audible Python error reporting**. Designed to assist **visually impaired students**, this tool reads out Python errors detected by **Pylint**, provides inline code annotations, and offers an interactive chat tutor that analyzes your active file to answer questions and provide exercises.
-
+**Echo Code** is a Visual Studio Code extension that brings **AI-powered tutoring, speech feedback, and accessible code navigation** to all developers — especially **visually impaired programmers**.  
+Originally built for Python debugging, Echo Code has evolved into a **language-agnostic assistant** that now supports **Python**, **C++**, and general programming files across most languages.
 ---
 
 ## **Features**
@@ -120,9 +120,9 @@ Before using Echo Code, ensure the following are installed:
 
 ### **Summarizing Code**
 
-- To hear a brief summary of the current Python class: Press **Ctrl+Alt+Space C**.
-- To hear a brief summary of the current Python function: Press **Ctrl+Alt+Space F**.
-- To hear a brief summary of the current Python program: Press **Ctrl+Alt+Space P**.
+- To hear a brief summary of the current Python class: Press **Ctrl+Alt+E C**.
+- To hear a brief summary of the current Python function: Press **Ctrl+Alt+E F**.
+- To hear a brief summary of the current Python program: Press **Ctrl+Alt+E P**.
 
 ### **Using the Chat Tutor**
 
@@ -151,7 +151,7 @@ Before using Echo Code, ensure the following are installed:
 
 ## **Release Notes**
 
-### **1.9**
+### **2.0**
 
 - Added function to copy a function for importing to another file. Autogenerates the necessary imports and calls. 
 - Added function to paste a function for importing to another file. Autogenerates necessary imports. 
@@ -160,6 +160,7 @@ Before using Echo Code, ensure the following are installed:
 - Added function to toggle on and off a character reader
 - Added new hot keys for the above functions
 - Added C++ as a supported language
+- Streamlined: Speech and Copilot integration for smooth, conversational experience.
   **New Hotkeys:**
 
 | Shortcut     | Description                                                                                             |

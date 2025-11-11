@@ -130,11 +130,11 @@ async function tryExecuteVoiceCommand(transcript, outputChannel) {
       return { handled: true, command: "echocode.createFolder" };
     }
 
-    // if (t.includes("create file") || t.includes("new file") || t.includes("make file")) {
-    //   await vscode.commands.executeCommand("echocode.createFile");
-    //   vscode.window.showInformationMessage("📄 Created new file");
-    //   return { handled: true, command: "echocode.createFile" };
-    // }
+    if (t.includes("create file") || t.includes("new file") || t.includes("make file")) {
+      await vscode.commands.executeCommand("echocode.createFile");
+      vscode.window.showInformationMessage("📄 Created new file");
+      return { handled: true, command: "echocode.createFile" };
+    }
 
     if (t.includes("next file") || t.includes("go to next file")) {
       await vscode.commands.executeCommand("echocode.navigateToNextFile");

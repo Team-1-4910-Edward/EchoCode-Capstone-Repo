@@ -1,4 +1,6 @@
+const path = require("path");
 const fs = require("fs");
+const { exec } = require("child_process");
 
 // Function to parse terminal output for C++ compilation errors
 function parseCppCompilationErrors(terminalOutput) {
@@ -55,30 +57,47 @@ function parseCppCompilationErrors(terminalOutput) {
   return errors;
 }
 
-// Function to simulate reading terminal output and parsing errors
-function analyzeTerminalOutput() {
-  // Simulate terminal output (replace this with actual terminal output reading logic)
-  const terminalOutput = fs.readFileSync(
-    "path_to_terminal_output.txt",
-    "utf-8"
-  );
-
-  const errors = parseCppCompilationErrors(terminalOutput);
-
-  if (errors.length === 0) {
-    console.log("No C++ compilation errors found.");
-  } else {
-    console.log("C++ Compilation Errors Found:");
-    errors.forEach((error) => {
-      console.log(`Line ${error.line}: ${error.error}`);
-      console.log(`Explanation: ${error.explanation}`);
-      console.log(`Potential Fix: ${error.fix}`);
-      console.log("---");
-    });
-  }
+// Function to analyze C++ compilation errors
+function analyzeCppCompilation(command) {
+  exec(command, (error, stdout, stderr) => {
+    if (stderr) {
+      const errors = parseCppCompilationErrors(stderr);
+      if (errors.length === 0) {
+        console.log("No C++ compilation errors found.");
+      } else {
+        console.log("C++ Compilation Errors Found:");
+        errors.forEach((error) => {
+          console.log(`Line ${error.line}: ${error.error}`);
+          console.log(`Explanation: ${error.explanation}`);
+          console.log(`Potential Fix: ${error.fix}`);
+          console.log("---");
+        });
+      }
+    } else {
+      console.log("Compilation successful.");
+    }
+  });
 }
 
-// Export the function for use in other modules
+// New function to determine the current C++ file and compile it
+function compileCurrentCppFile(currentFilePath) {
+  // Ensure the file is a C++ file
+  if (path.extname(currentFilePath) !== ".cpp") {
+    console.error("The selected file is not a C++ file.");
+    return;
+  }
+
+  // Construct the compilation command
+  const fileName = path.basename(currentFilePath);
+  const outputFileName = fileName.replace(".cpp", "");
+  const compileCommand = `g++ "${currentFilePath}" -o "${outputFileName}"`;
+
+  console.log(`Compiling ${fileName}...`);
+  analyzeCppCompilation(compileCommand);
+}
+
+// Export the functions for use in other modules
 module.exports = {
   analyzeTerminalOutput,
+  compileCurrentCppFile,
 };

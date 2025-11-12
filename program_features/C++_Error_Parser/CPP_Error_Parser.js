@@ -1,6 +1,9 @@
 const path = require("path");
 const fs = require("fs");
 const { exec } = require("child_process");
+const {
+  speakMessage,
+} = require("../../Core/program_settings/speech_settings/speechHandler");
 
 // Function to parse terminal output for C++ compilation errors
 function parseCppCompilationErrors(terminalOutput) {
@@ -60,21 +63,39 @@ function parseCppCompilationErrors(terminalOutput) {
 // Function to analyze C++ compilation errors
 function analyzeCppCompilation(command) {
   exec(command, (error, stdout, stderr) => {
-    if (stderr) {
+    if (error) {
+      // 'error' is non-null if the process exits with a non-zero code, indicating a failure.
       const errors = parseCppCompilationErrors(stderr);
       if (errors.length === 0) {
-        console.log("No C++ compilation errors found.");
+        const errorMessage =
+          "Compilation failed with an unknown error. Check the terminal for details.";
+        console.log(errorMessage);
+        speakMessage(errorMessage);
+        console.log(stderr);
       } else {
         console.log("C++ Compilation Errors Found:");
-        errors.forEach((error) => {
-          console.log(`Line ${error.line}: ${error.error}`);
-          console.log(`Explanation: ${error.explanation}`);
-          console.log(`Potential Fix: ${error.fix}`);
+        let speechOutput = "C++ Compilation Errors Found. ";
+        errors.forEach((err) => {
+          const errorLine = `Line ${err.line}: ${err.error}.`;
+          const explanation = `Explanation: ${err.explanation}.`;
+          const fix = `Potential Fix: ${err.fix}.`;
+          console.log(errorLine);
+          console.log(explanation);
+          console.log(fix);
           console.log("---");
+          speechOutput += `${errorLine} ${explanation} ${fix} `;
         });
+        speakMessage(speechOutput);
       }
     } else {
-      console.log("Compilation successful.");
+      // No 'error' object means compilation was successful.
+      const successMessage = "Compilation successful.";
+      console.log(successMessage);
+      speakMessage(successMessage);
+      // stderr might still contain warnings, which you can optionally log or speak.
+      if (stderr) {
+        console.log("Compiler Warnings:\n" + stderr);
+      }
     }
   });
 }
@@ -98,6 +119,5 @@ function compileCurrentCppFile(currentFilePath) {
 
 // Export the functions for use in other modules
 module.exports = {
-  analyzeTerminalOutput,
   compileCurrentCppFile,
 };

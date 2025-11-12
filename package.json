@@ -36,7 +36,8 @@
     "onCommand:echocode.decreaseSpeechSpeed",
     "onCommand:echocode.rescanUserCode",
     "onCommand:echocode.readNextSequentialTask",
-    "onCommand:echocode.whereAmI"
+    "onCommand:echocode.whereAmI",
+    "onCommand:echocode.compileAndParseCpp"
   ],
   "main": "./extension.js",
   "extensionDependencies": [
@@ -190,6 +191,10 @@
       {
         "command": "code-tutor.readEntireBigOQueue",
         "title": "Read All Big O Recommendations"
+      },
+      {
+        "command": "echocode.compileAndParseCpp",
+        "title": "EchoCode: Compile and Parse C++ File"
       }
     ],
     "configuration": {
@@ -370,6 +375,11 @@
         "key": "ctrl+shift+i",
         "command": "echocode.pasteImportAtCursor",
         "when": "editorTextFocus"
+      },
+      {
+        "key": "ctrl+alt+g",
+        "command": "echocode.compileAndParseCpp",
+        "when": "editorTextFocus && editorLangId == 'cpp'"
       }
     ],
     "viewsContainers": {

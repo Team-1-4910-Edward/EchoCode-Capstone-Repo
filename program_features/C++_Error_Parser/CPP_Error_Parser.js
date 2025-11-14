@@ -113,19 +113,63 @@ function analyzeCppCompilation(command) {
 
 // New function to determine the current C++ file and compile it
 function compileCurrentCppFile(currentFilePath) {
-  // Ensure the file is a C++ file
-  if (path.extname(currentFilePath) !== ".cpp") {
-    console.error("The selected file is not a C++ file.");
+  const fileExtension = path.extname(currentFilePath);
+  const allowedExtensions = [".cpp", ".h", ".hpp"];
+
+  if (!allowedExtensions.includes(fileExtension)) {
+    const message =
+      "This command can only be run from a C++ source or header file.";
+    console.error(message);
+    speakMessage(message);
     return;
   }
 
-  // Construct the compilation command
-  const fileName = path.basename(currentFilePath);
-  const outputFileName = fileName.replace(".cpp", "");
-  const compileCommand = `g++ "${currentFilePath}" -o "${outputFileName}"`;
+  try {
+    const projectRoot = path.dirname(currentFilePath);
+    const sourceFiles = findCppSourceFiles(projectRoot);
 
-  console.log(`Compiling ${fileName}...`);
-  analyzeCppCompilation(compileCommand);
+    if (sourceFiles.length === 0) {
+      const message = "No C++ source files (.cpp) found to compile.";
+      console.error(message);
+      speakMessage(message);
+      return;
+    }
+
+    // Construct the compilation command
+    const outputFileName = path.basename(projectRoot); // Name executable after the folder
+    const outputFilePath = path.join(projectRoot, outputFileName);
+    const filesToCompile = sourceFiles.map((file) => `"${file}"`).join(" ");
+    const compileCommand = `g++ ${filesToCompile} -o "${outputFilePath}"`;
+
+    console.log(`Compiling project in: ${projectRoot}`);
+    console.log(`Command: ${compileCommand}`);
+    analyzeCppCompilation(compileCommand);
+  } catch (e) {
+    const errorMessage =
+      "Failed to find source files or construct the compile command.";
+    console.error(errorMessage, e);
+    speakMessage(errorMessage);
+  }
+}
+
+/**
+ * Recursively finds all .cpp files in a directory.
+ * @param {string} dir - The directory to search.
+ * @returns {string[]} A list of full paths to .cpp files.
+ */
+function findCppSourceFiles(dir) {
+  let files = [];
+  const items = fs.readdirSync(dir, { withFileTypes: true });
+
+  for (const item of items) {
+    const fullPath = path.join(dir, item.name);
+    if (item.isDirectory()) {
+      files = files.concat(findCppSourceFiles(fullPath));
+    } else if (item.isFile() && item.name.endsWith(".cpp")) {
+      files.push(fullPath);
+    }
+  }
+  return files;
 }
 
 // Export the functions for use in other modules

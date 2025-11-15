@@ -1,13 +1,11 @@
 import sys, json, os
 from sentence_transformers import SentenceTransformer, util
 
-# --- persistent global model ---
 MODEL = None
 
 def get_model():
     global MODEL
     if MODEL is None:
-        # You can change this to 'all-MiniLM-L6-v2' if you want slightly faster results
         MODEL = SentenceTransformer("all-MiniLM-L6-v2")
     return MODEL
 

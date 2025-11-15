@@ -77,7 +77,7 @@ function stopAndTranscribe(outputChannel) {
     try { rec.stdin.write("q"); } catch (_) {}
     try { rec.stdin.end(); } catch (_) {}
 
-    // Much shorter flush time (faster reaction)
+    // Much shorter flush time (faster reaction) for removing the error case
     const killTimer = setTimeout(() => {
       try { rec.kill("SIGKILL"); } catch (_) {}
     }, 500);
@@ -109,7 +109,6 @@ function stopAndTranscribe(outputChannel) {
           }, 30);
           return;
         }
-
         // Proceed: WAV is ready
         runLocalWhisper(tmpWav, outputChannel).then(
           (text) => { current = null; resolve(text); },
@@ -149,13 +148,13 @@ function runLocalWhisper(tmpWav, outputChannel) {
 }
 
 /**
- * Convenience: toggle recording. If not recording → start.
+ * Toggle recording/transcription.
  * If recording → stop & transcribe.
  */
 async function toggleRecordTranscribe(outputChannel) {
   if (!current) {
     startRecording(outputChannel);
-    return null; // nothing to return yet
+    return null;              // nothing to return yet
   } else {
     const text = await stopAndTranscribe(outputChannel);
     return text;

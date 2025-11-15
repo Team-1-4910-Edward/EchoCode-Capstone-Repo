@@ -66,18 +66,19 @@ class EchoCodeChatViewProvider {
         this.outputChannel.appendLine(`Received message from webview: ${message.type}`);
         if (message.type === "userInput") {
           await this.handleUserMessage(message.text);
-        } else if (message.type === "executeVoiceCommand") {
+        } 
+        else if (message.type === "executeVoiceCommand") {
           const transcript = message.text || "";
           const { tryExecuteVoiceCommand } = require("../../extension");
           const outputChannel = this.outputChannel;
           const result = await tryExecuteVoiceCommand(transcript, outputChannel);
-
           if (result.handled) {
             this._currentWebview.postMessage({
               type: "response",
               text: `✅ Executed command: ${result.command}`
             });
-          } else {
+          }
+          else {
             await this.handleUserMessage(transcript);
           }
         }
@@ -93,16 +94,16 @@ class EchoCodeChatViewProvider {
             if (result && result.ok) {
               this._currentWebview.postMessage({ type: "voiceRecognitionResult", text: result.text || "" });
 
-              // === NEW: Try to execute a voice-mapped command before Copilot ===
+              // Try to execute a voice-mapped command before Copilot ===
               const { tryExecuteVoiceCommand } = require("../../extension");
               const outputChannel = this.outputChannel;
               const voiceResult = await tryExecuteVoiceCommand(transcript, outputChannel);
 
               if (voiceResult.handled) {
-                // ✅ Voice command recognized and executed — stop here
+                // Voice command recognized and executed — stop here
                 this._currentWebview.postMessage({
                   type: "response",
-                  text: `✅ Executed command: ${voiceResult.command}`
+                  text: `Executed command: ${voiceResult.command}`
                 });
                 return; // do NOT fall through to Copilot
               }

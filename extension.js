@@ -1,21 +1,17 @@
 const vscode = require("vscode");
 require("dotenv").config();
 
-const {
-  startRecording,
+const { startRecording,
   stopAndTranscribe,
 } = require("./program_features/Voice/whisperService");
 
 const { autoRouteVoiceIntent } = require("./Core/program_settings/program_settings/voiceIntentRouter");
-// ===== LLM voice intent routing =====
 const { classifyVoiceIntent } = require("./Core/program_settings/program_settings/AIrequest");
 
 async function tryExecuteVoiceCommand(transcript, outputChannel) {
   try {
     const t = transcript.toLowerCase().trim();
-
     // ========== QUICK LOCAL COMMANDS ==========
-    // --- Annotations ---
     if (t.includes("toggle annotation") || t.includes("annotations")) {
       await vscode.commands.executeCommand("echocode.annotate");
       vscode.window.showInformationMessage("✅ Toggled EchoCode Annotations");
@@ -186,28 +182,8 @@ async function tryExecuteVoiceCommand(transcript, outputChannel) {
       return { handled: true, command: "echocode.summarizeFunction" };
     }
 
-    // ========== FALLBACK: AI / LLM CLASSIFICATION ==========
-    outputChannel.appendLine(`[Voice Intent] Testing local classifier with: ${transcript}`);
-    const { classifyLocalIntent } = require("./Core/program_settings/program_settings/localIntentRouter");
-    const cleaned = transcript.toLowerCase().replace(/[^\w\s]/g, "").trim();
-    outputChannel.appendLine(`[Local NLU] Cleaned transcript: ${cleaned}`);
-    const cmdId = await classifyLocalIntent(transcript, VOICE_COMMANDS);
-    outputChannel.appendLine(`[Local NLU] Best match: ${cmdId}`);
-    // if (cmdId === "none") {
-    //   const { classifyVoiceIntent } = require("./Core/program_settings/program_settings/AIrequest");
-    //   cmdId = await classifyVoiceIntent(transcript, VOICE_COMMANDS);
-    // }
-    if (cmdId && cmdId !== "none") {
-      const match = VOICE_COMMANDS.find(c => c.id === cmdId);
-      const title = match ? match.title : cmdId;
-      await vscode.commands.executeCommand(cmdId);
-      vscode.window.showInformationMessage(`✅ Executed command: ${title}`);
-      return { handled: true, command: cmdId };
-    }
-
-    // No match found
+    // --- If no match, return false (let Copilot handle it) ---
     outputChannel.appendLine(`[Voice Intent] No match for: ${transcript}`);
-    vscode.window.showInformationMessage(`🤔 I couldn't match "${transcript}" to any EchoCode command.`);
     return { handled: false };
 
   } catch (err) {

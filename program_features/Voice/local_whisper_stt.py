@@ -3,10 +3,8 @@ import os
 import traceback
 from faster_whisper import WhisperModel
 
-
 def log(msg):
     print(str(msg), flush=True)
-
 
 try:
     if len(sys.argv) < 2:
@@ -16,7 +14,7 @@ try:
     AUDIO_PATH = sys.argv[1]
     SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 
-    # ✅ absolute folder path
+    # absolute folder path instead of downloading from HuggingFace
     MODEL_DIR = os.path.abspath(os.path.join(SCRIPT_DIR, "../../local_models/whisper-tiny"))
 
     if not os.path.exists(AUDIO_PATH):
@@ -27,7 +25,7 @@ try:
         log(f"Error: Model folder not found at {MODEL_DIR}")
         sys.exit(1)
 
-    # ✅ explicitly load from folder, not from HuggingFace hub
+    # explicitly load from folder, not from HuggingFace hub
     model = WhisperModel(MODEL_DIR, device="cpu", compute_type="int8")
 
     segments, _ = model.transcribe(AUDIO_PATH, beam_size=1)

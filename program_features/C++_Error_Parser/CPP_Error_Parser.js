@@ -1,7 +1,7 @@
 const path = require("path");
 const fs = require("fs");
 const { exec } = require("child_process");
-const os = require("os"); // Add os module
+const os = require("os"); 
 const {
   speakMessage,
 } = require("../../Core/program_settings/speech_settings/speechHandler");

@@ -1,6 +1,7 @@
 const path = require("path");
 const fs = require("fs");
 const { exec } = require("child_process");
+const os = require("os"); // Add os module
 const {
   speakMessage,
 } = require("../../Core/program_settings/speech_settings/speechHandler");
@@ -71,7 +72,7 @@ function parseCppCompilationErrors(terminalOutput) {
 }
 
 // Function to analyze C++ compilation errors
-function analyzeCppCompilation(command) {
+function analyzeCppCompilation(command, outputFilePath = null) {
   exec(command, (error, stdout, stderr) => {
     if (error) {
       // 'error' is non-null if the process exits with a non-zero code, indicating a failure.
@@ -100,9 +101,19 @@ function analyzeCppCompilation(command) {
       }
     } else {
       // No 'error' object means compilation was successful.
-      const successMessage = "Compilation successful.";
+      const successMessage = "No compilation errors found.";
       console.log(successMessage);
       speakMessage(successMessage);
+
+      // Clean up the generated executable to avoid clutter
+      if (outputFilePath && fs.existsSync(outputFilePath)) {
+        fs.unlink(outputFilePath, (err) => {
+          if (err) {
+            console.log("Note: Could not delete temporary executable.");
+          }
+        });
+      }
+
       // stderr might still contain warnings, which you can optionally log or speak.
       if (stderr) {
         console.log("Compiler Warnings:\n" + stderr);
@@ -126,8 +137,15 @@ function compileCurrentCppFile(currentFilePath) {
   try {
     const dir = path.dirname(currentFilePath);
     const fileName = path.basename(currentFilePath);
-    const outputFileName = fileName.replace(".cpp", "");
-    const outputFilePath = path.join(dir, outputFileName);
+
+    // Handle Windows .exe extension for correct file path resolution
+    let outputFileName = fileName.replace(".cpp", "");
+    if (process.platform === "win32") {
+      outputFileName += ".exe";
+    }
+
+    // Use system temp directory to avoid triggering workspace file watchers
+    const outputFilePath = path.join(os.tmpdir(), outputFileName);
 
     // Read the active file content
     const fileContent = fs.readFileSync(currentFilePath, "utf-8");
@@ -162,9 +180,8 @@ function compileCurrentCppFile(currentFilePath) {
     const fileList = Array.from(filesToCompile).join(" ");
     const compileCommand = `g++ ${fileList} -o "${outputFilePath}"`;
 
-    console.log(`Compiling files: ${fileList}`);
-    console.log(`Command: ${compileCommand}`);
-    analyzeCppCompilation(compileCommand);
+    console.log(`Checking for errors in: ${fileList}`);
+    analyzeCppCompilation(compileCommand, outputFilePath);
   } catch (e) {
     const errorMessage = "Failed to construct the compile command.";
     console.error(errorMessage, e);

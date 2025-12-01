@@ -114,39 +114,59 @@ function analyzeCppCompilation(command) {
 // New function to determine the current C++ file and compile it
 function compileCurrentCppFile(currentFilePath) {
   const fileExtension = path.extname(currentFilePath);
-  const allowedExtensions = [".cpp", ".h", ".hpp"];
 
-  if (!allowedExtensions.includes(fileExtension)) {
+  if (fileExtension !== ".cpp") {
     const message =
-      "This command can only be run from a C++ source or header file.";
+      "This command can only be run from a C++ source file (.cpp).";
     console.error(message);
     speakMessage(message);
     return;
   }
 
   try {
-    const projectRoot = path.dirname(currentFilePath);
-    const sourceFiles = findCppSourceFiles(projectRoot);
+    const dir = path.dirname(currentFilePath);
+    const fileName = path.basename(currentFilePath);
+    const outputFileName = fileName.replace(".cpp", "");
+    const outputFilePath = path.join(dir, outputFileName);
 
-    if (sourceFiles.length === 0) {
-      const message = "No C++ source files (.cpp) found to compile.";
-      console.error(message);
-      speakMessage(message);
-      return;
+    // Read the active file content
+    const fileContent = fs.readFileSync(currentFilePath, "utf-8");
+
+    // Set to store unique file paths to compile
+    const filesToCompile = new Set();
+    filesToCompile.add(`"${currentFilePath}"`);
+
+    // Regex to find local includes (e.g., #include "MyClass.h")
+    const includeRegex = /#include\s+"([^"]+)"/g;
+    let match;
+
+    while ((match = includeRegex.exec(fileContent)) !== null) {
+      const includedFile = match[1];
+      // Check if it's a header file
+      if (includedFile.endsWith(".h") || includedFile.endsWith(".hpp")) {
+        // Construct the potential .cpp file path (e.g., MyClass.h -> MyClass.cpp)
+        const baseName = includedFile.substring(
+          0,
+          includedFile.lastIndexOf(".")
+        );
+        const potentialCppFile = path.join(dir, `${baseName}.cpp`);
+
+        // If the .cpp file exists, add it to the compilation list
+        if (fs.existsSync(potentialCppFile)) {
+          filesToCompile.add(`"${potentialCppFile}"`);
+        }
+      }
     }
 
-    // Construct the compilation command
-    const outputFileName = path.basename(projectRoot); // Name executable after the folder
-    const outputFilePath = path.join(projectRoot, outputFileName);
-    const filesToCompile = sourceFiles.map((file) => `"${file}"`).join(" ");
-    const compileCommand = `g++ ${filesToCompile} -o "${outputFilePath}"`;
+    // Join all files into a single string for the command
+    const fileList = Array.from(filesToCompile).join(" ");
+    const compileCommand = `g++ ${fileList} -o "${outputFilePath}"`;
 
-    console.log(`Compiling project in: ${projectRoot}`);
+    console.log(`Compiling files: ${fileList}`);
     console.log(`Command: ${compileCommand}`);
     analyzeCppCompilation(compileCommand);
   } catch (e) {
-    const errorMessage =
-      "Failed to find source files or construct the compile command.";
+    const errorMessage = "Failed to construct the compile command.";
     console.error(errorMessage, e);
     speakMessage(errorMessage);
   }

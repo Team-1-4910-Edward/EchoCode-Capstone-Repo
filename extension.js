@@ -6,6 +6,9 @@ const {
   initializeErrorHandling,
   registerErrorHandlingCommands,
 } = require("./Language/Python/errorHandler");
+const {
+  checkCurrentPythonFile,
+} = require("./program_features/C++_Error_Parser/Python_Error_Parser");
 
 // Speech (core)
 const {
@@ -127,6 +130,22 @@ async function activate(context) {
     }
   );
   context.subscriptions.push(compileCppCommand);
+
+  // Register Python error checking command
+  const checkPythonCommand = vscode.commands.registerCommand(
+    "echocode.checkPythonErrors",
+    () => {
+      const editor = vscode.window.activeTextEditor;
+      if (editor && editor.document.languageId === "python") {
+        checkCurrentPythonFile(editor.document.uri.fsPath);
+      } else {
+        vscode.window.showInformationMessage(
+          "This command is only available for Python files."
+        );
+      }
+    }
+  );
+  context.subscriptions.push(checkPythonCommand);
 
   outputChannel.appendLine(
     "Commands registered: echocode.readErrors, echocode.annotate, echocode.speakNextAnnotation, echocode.readAllAnnotations, echocode.summarizeClass, echocode.summarizeFunction, echocode.jumpToNextFunction, echocode.jumpToPreviousFunction, echocode.openChat, echocode.startVoiceInput, echocode.loadAssignmentFile, echocode.rescanUserCode, echocode.readNextSequentialTask, echocode.increaseSpeechSpeed, echocode.decreaseSpeechSpeed, echocode.moveToNextFolder, echocode.moveToPreviousFolder"

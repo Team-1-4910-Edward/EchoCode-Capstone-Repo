@@ -195,6 +195,10 @@
       {
         "command": "echocode.compileAndParseCpp",
         "title": "EchoCode: Compile and Parse C++ File"
+      },
+      {
+        "command": "echocode.checkPythonErrors",
+        "title": "EchoCode: Check Python Errors"
       }
     ],
     "configuration": {
@@ -380,6 +384,11 @@
         "key": "ctrl+alt+g",
         "command": "echocode.compileAndParseCpp",
         "when": "editorTextFocus && editorLangId == 'cpp'"
+      },
+      {
+        "key": "ctrl+alt+g",
+        "command": "echocode.checkPythonErrors",
+        "when": "editorTextFocus && editorLangId == 'python'"
       }
     ],
     "viewsContainers": {

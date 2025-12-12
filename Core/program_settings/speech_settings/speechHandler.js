@@ -38,7 +38,7 @@ function getSpeechSpeed() {
 
 // Speak a message aloud
 function speakMessage(message) {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     if (isSpeaking) {
       stopSpeaking();
     }
@@ -49,19 +49,26 @@ function speakMessage(message) {
     const config = vscode.workspace.getConfiguration("echocode");
     const voice = config.get("voice") || null; // Use default if not specified
 
-    // Use say.js to speak the message with the configured voice
-    say.speak(message, voice, speechSpeed, (err) => {
+    try {
+      // Use say.js to speak the message with the configured voice
+      say.speak(message, voice, speechSpeed, (err) => {
+        isSpeaking = false;
+        currentSpeechProcess = null;
+        if (err) {
+          console.warn("[EchoCode] say.speak error", err);
+        }
+        resolve();
+      });
+
+      // Store the speech process
+      currentSpeechProcess = say;
+    } catch (err) {
+      // Gracefully degrade when TTS backend is unavailable (e.g., headless CI, missing 'say')
+      console.warn("[EchoCode] TTS unavailable; continuing without speech", err);
       isSpeaking = false;
       currentSpeechProcess = null;
-      if (err) {
-        reject(err);
-      } else {
-        resolve();
-      }
-    });
-
-    // Store the speech process
-    currentSpeechProcess = say;
+      resolve();
+    }
   });
 }
 

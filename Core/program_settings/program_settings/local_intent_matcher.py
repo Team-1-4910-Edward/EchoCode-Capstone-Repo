@@ -41,3 +41,10 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+''' 
+
+To test the local intent matcher, run the following command:
+echo '{"transcript": "create a new file", "commands": [{"id":"echocode.createFile","title":"Create New File","description":"make or open a new file"}]}' | python Core/program_settings/program_settings/local_intent_matcher.py
+
+'''

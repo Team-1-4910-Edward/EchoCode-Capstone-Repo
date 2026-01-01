@@ -1,49 +1,47 @@
 const vscode = require('vscode'); // VSCode API
 
-async function analyzeAI (code, instructionPrompt) {
-    var chatRequest;
+async function analyzeAI(code, instructionPrompt) {
+    let chatRequest;
     const craftedPrompt = [
-        vscode.LanguageModelChatMessage.User(
-        // Default prompt
-        // 'Give a brief explanation of the flow of execution of the provided python function'
-            instructionPrompt
-        ),
-        vscode.LanguageModelChatMessage.User(code)
+        vscode.LanguageModelChatMessage.User(instructionPrompt),
+        vscode.LanguageModelChatMessage.User(code),
     ];
-    const models = await vscode.lm.selectChatModels({
-        vendor: 'copilot'
-    });
-    if(models.length === 0){
-        console.log("There are no models available");
-    }
 
     try {
-        const [model] = await vscode.lm.selectChatModels({ vendor: 'copilot', family: 'gpt-4o' });
+        // Prefer GPT-4o when available; otherwise fall back to any Copilot model
+        const [preferred] = await vscode.lm.selectChatModels({
+            vendor: "copilot",
+            family: "gpt-4o",
+        });
+        let model = preferred;
+
+        if (!model) {
+            const [fallback] = await vscode.lm.selectChatModels({ vendor: "copilot" });
+            model = fallback;
+        }
+
+        if (!model) {
+            console.log("No Copilot Chat models available.");
+            return "Error: GitHub Copilot Chat is not available. Please install/enable it and sign in.";
+        }
+
         chatRequest = await model.sendRequest(craftedPrompt, {});
     } catch (err) {
-        console.log("error with requesting from model");
-        // Making the chat request might fail because
-        // - model does not exist
-        // - user consent not given
-        // - quota limits w ere exceeded
+        console.log("Error requesting from model", err);
+
         if (err instanceof vscode.LanguageModelError) {
-        console.log(err.message, err.code, err.cause);
-        if (err.cause instanceof Error && err.cause.message.includes('off_topic')) {
-            stream.markdown(
-            vscode.l10n.t("I'm sorry, I cannot summarize the provided code.")
-            );
+            console.log(err.message, err.code, err.cause);
+            return `Error: ${err.message}`;
         }
-        } else {
-        // add other error handling logic
-            throw err;
-        }
+
+        return "Error: Unable to complete AI request.";
     }
 
-    var results = '';
+    let results = "";
     for await (const fragment of chatRequest.text) {
         results += fragment;
     }
-    
+
     return results;
 }
 

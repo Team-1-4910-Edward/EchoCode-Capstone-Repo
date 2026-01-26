@@ -1,50 +1,50 @@
 const vscode = require('vscode'); // VSCode API
 
-async function analyzeAI (code, instructionPrompt) {
-    var chatRequest;
-    const craftedPrompt = [
-        vscode.LanguageModelChatMessage.User(
-        // Default prompt
-        // 'Give a brief explanation of the flow of execution of the provided python function'
-            instructionPrompt
-        ),
-        vscode.LanguageModelChatMessage.User(code)
-    ];
-    const models = await vscode.lm.selectChatModels({
-        vendor: 'copilot'
-    });
-    if(models.length === 0){
-        console.log("There are no models available");
-    }
+async function analyzeAI(code, instructionPrompt) {
+  var chatRequest;
+  const craftedPrompt = [
+    vscode.LanguageModelChatMessage.User(
+      // Default prompt
+      // 'Give a brief explanation of the flow of execution of the provided python function'
+      instructionPrompt
+    ),
+    vscode.LanguageModelChatMessage.User(code)
+  ];
+  const models = await vscode.lm.selectChatModels({
+    vendor: 'copilot'
+  });
+  if (models.length === 0) {
+    console.log("There are no models available");
+  }
 
-    try {
-        const [model] = await vscode.lm.selectChatModels({ vendor: 'copilot', family: 'gpt-4o' });
-        chatRequest = await model.sendRequest(craftedPrompt, {});
-    } catch (err) {
-        console.log("error with requesting from model");
-        // Making the chat request might fail because
-        // - model does not exist
-        // - user consent not given
-        // - quota limits w ere exceeded
-        if (err instanceof vscode.LanguageModelError) {
-        console.log(err.message, err.code, err.cause);
-        if (err.cause instanceof Error && err.cause.message.includes('off_topic')) {
-            stream.markdown(
-            vscode.l10n.t("I'm sorry, I cannot summarize the provided code.")
-            );
-        }
-        } else {
-        // add other error handling logic
-            throw err;
-        }
+  try {
+    const [model] = await vscode.lm.selectChatModels({ vendor: 'copilot', family: 'gpt-4o' });
+    chatRequest = await model.sendRequest(craftedPrompt, {});
+  } catch (err) {
+    console.log("error with requesting from model");
+    // Making the chat request might fail because
+    // - model does not exist
+    // - user consent not given
+    // - quota limits w ere exceeded
+    if (err instanceof vscode.LanguageModelError) {
+      console.log(err.message, err.code, err.cause);
+      if (err.cause instanceof Error && err.cause.message.includes('off_topic')) {
+        stream.markdown(
+          vscode.l10n.t("I'm sorry, I cannot summarize the provided code.")
+        );
+      }
+    } else {
+      // add other error handling logic
+      throw err;
     }
+  }
 
-    var results = '';
-    for await (const fragment of chatRequest.text) {
-        results += fragment;
-    }
-    
-    return results;
+  var results = '';
+  for await (const fragment of chatRequest.text) {
+    results += fragment;
+  }
+
+  return results;
 }
 
 module.exports = { analyzeAI };
@@ -112,3 +112,54 @@ async function classifyVoiceIntent(transcript, commands, opts = {}) {
 }
 
 module.exports.classifyVoiceIntent = classifyVoiceIntent;
+
+async function generateCodeFromVoice(transcript, languageId, indentation = "") {
+  // 1) Selecting Copilot model
+  const models = await vscode.lm.selectChatModels({ vendor: 'copilot' });
+  if (!models || models.length === 0) {
+    throw new Error('No Copilot models available. Please ensure GitHub Copilot Chat is installed and active.');
+  }
+  const model = models[0];
+
+  // 2) Constructing prompt
+  // We want PURE code, no markdown fencing if possible.
+  const systemPrompt = `You are an expert coding assistant. 
+    Your task is to convert the user's spoken natural language request into valid ${languageId} code.
+    - Return ONLY the code.
+    - Do not wrap in markdown code blocks.
+    - Do not include explanations or conversational text.
+    - The code will be inserted at indentation level: "${indentation}".
+    - Ensure your output is indented relative to this baseline if it creates a block (like specific to Python).
+    - If the request is asking for a loop, function, or logic, implement it fully.
+    - For Python, use standard indentation (4 spaces) and do NOT use triple quotes for the body unless asked.
+    - If the request is unclear, generate a comment in ${languageId} explaining why.`;
+
+  const messages = [
+    vscode.LanguageModelChatMessage.User(systemPrompt),
+    vscode.LanguageModelChatMessage.User(transcript)
+  ];
+
+  // 3) Send request
+  let chatReq;
+  try {
+    chatReq = await model.sendRequest(messages, { temperature: 0.1 }); // Low temp for precision
+  } catch (err) {
+    if (err instanceof vscode.LanguageModelError) {
+      throw new Error(`Copilot LM Error: ${err.message}`);
+    }
+    throw err;
+  }
+
+  // 4) Collecting response
+  let code = '';
+  for await (const fragment of chatReq.text) {
+    code += fragment;
+  }
+
+  // 5) Final Cleanup
+  code = code.replace(/^```[a-z]*\n/i, '').replace(/```$/, '').trim();
+
+  return code;
+}
+
+module.exports.generateCodeFromVoice = generateCodeFromVoice;

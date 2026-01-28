@@ -205,7 +205,7 @@
       "properties": {
         "echocode.voice": {
           "type": "string",
-          "default": "", 
+          "default": "",
           "description": "Voice name for text-to-speech. Leave blank for system default."
         },
         "echocode.rate": {

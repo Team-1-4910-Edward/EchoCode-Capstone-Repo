@@ -42,8 +42,7 @@
   "main": "./extension.js",
   "extensionDependencies": [
     "ms-python.python",
-    "ms-vscode.cpptools",
-    "github.copilot"
+    "ms-vscode.cpptools"
   ],
   "contributes": {
     "commands": [
@@ -206,8 +205,8 @@
       "properties": {
         "echocode.voice": {
           "type": "string",
-          "default": "Microsoft Zira Desktop",
-          "description": "Voice name for text-to-speech (e.g., 'Microsoft Zira Desktop', 'Alex', etc.). Leave blank for system default."
+          "default": "",
+          "description": "Voice name for text-to-speech. Leave blank for system default."
         },
         "echocode.rate": {
           "type": "number",

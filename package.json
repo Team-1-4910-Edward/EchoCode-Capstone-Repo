@@ -3,6 +3,7 @@
   "displayName": "Echo Code",
   "description": "AI-assisted speech, chat, and summaries for any language; Python lint-on-save + C++ support.",
   "version": "2.1.0",
+
   "repository": {
     "type": "git",
     "url": "https://github.com/Team-1-4910-Edward/EchoCode-Capstone-Repo.git"
@@ -42,8 +43,7 @@
   "main": "./extension.js",
   "extensionDependencies": [
     "ms-python.python",
-    "ms-vscode.cpptools",
-    "github.copilot"
+    "ms-vscode.cpptools"
   ],
   "contributes": {
     "commands": [
@@ -206,8 +206,8 @@
       "properties": {
         "echocode.voice": {
           "type": "string",
-          "default": "Microsoft Zira Desktop",
-          "description": "Voice name for text-to-speech (e.g., 'Microsoft Zira Desktop', 'Alex', etc.). Leave blank for system default."
+          "default": "",
+          "description": "Voice name for text-to-speech. Leave blank for system default."
         },
         "echocode.rate": {
           "type": "number",

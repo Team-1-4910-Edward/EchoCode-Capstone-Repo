@@ -85,9 +85,38 @@ const {
 
 let outputChannel;
 
+const copilotExtensionIds = [
+  "GitHub.copilot",
+  "GitHub.copilot-nightly",
+  "GitHub.copilot-chat",
+];
+
+async function ensureCopilotActivated(channel) {
+  const copilotExtension = copilotExtensionIds
+    .map((id) => vscode.extensions.getExtension(id))
+    .find(Boolean);
+
+  if (!copilotExtension) {
+    channel.appendLine(
+      "[EchoCode] Warning: GitHub Copilot / Copilot Chat extension not found. AI features will be unavailable."
+    );
+    return null;
+  }
+
+  if (!copilotExtension.isActive) {
+    channel.appendLine("[EchoCode] Activating GitHub Copilot dependency...");
+    await copilotExtension.activate();
+  }
+
+  return copilotExtension;
+}
+
 async function activate(context) {
   outputChannel = vscode.window.createOutputChannel("EchoCode");
   outputChannel.appendLine("[EchoCode] Activated");
+
+  // Ensure Copilot (stable, chat, or nightly) is available for AI features
+  await ensureCopilotActivated(outputChannel);
 
   // Speech prefs
   loadSavedSpeechSpeed();

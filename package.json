@@ -203,6 +203,15 @@
     "configuration": {
       "title": "EchoCode",
       "properties": {
+        "echocode.mode": {
+          "type": "string",
+          "enum": [
+            "student",
+            "dev"
+          ],
+          "default": "student",
+          "description": "Student mode locks restricted features. Dev mode enables everything."
+        },
         "echocode.voice": {
           "type": "string",
           "default": "",
@@ -224,17 +233,17 @@
       {
         "command": "echocode.speakNextAnnotation",
         "key": "ctrl+alt+s",
-        "when": "editorTextFocus"
+        "when": "editorTextFocus && echocode:isDev"
       },
       {
         "command": "echocode.annotate",
         "key": "ctrl+alt+a",
-        "when": "editorTextFocus"
+        "when": "editorTextFocus && echocode:isDev"
       },
       {
         "command": "echocode.readAllAnnotations",
         "key": "ctrl+alt+q",
-        "when": "editorTextFocus"
+        "when": "editorTextFocus && echocode:isDev"
       },
       {
         "command": "echocode.jumpToNextFunction",
@@ -249,31 +258,32 @@
       {
         "command": "echocode.summarizeClass",
         "key": "ctrl+alt+e c",
-        "when": "editorTextFocus"
+        "when": "editorTextFocus && echocode:isDev"
       },
       {
         "command": "echocode.summarizeFunction",
         "key": "ctrl+alt+e f",
-        "when": "editorTextFocus"
+        "when": "editorTextFocus && echocode:isDev"
       },
       {
         "command": "echocode.summarizeProgram",
         "key": "ctrl+alt+e p",
-        "when": "editorTextFocus"
+        "when": "editorTextFocus && echocode:isDev"
       },
       {
         "command": "echocode.startVoiceInput",
-        "key": "ctrl+alt+v"
+        "key": "ctrl+alt+v",
+        "when": "echocode:isDev"
       },
       {
         "command": "echocode.openChat",
         "key": "ctrl+alt+c",
-        "when": "editorTextFocus"
+        "when": "editorTextFocus && echocode:isDev"
       },
       {
         "command": "code-tutor.analyzeBigO",
         "key": "ctrl+alt+n",
-        "when": "editorTextFocus"
+        "when": "editorTextFocus && echocode:isDev"
       },
       {
         "command": "echocode.whereAmI",
@@ -283,11 +293,12 @@
       {
         "command": "code-tutor.iterateBigOQueue",
         "key": "ctrl+alt+b",
-        "when": "editorTextFocus"
+        "when": "editorTextFocus && echocode:isDev"
       },
       {
         "command": "code-tutor.readEntireBigOQueue",
-        "key": "ctrl+alt+h"
+        "key": "ctrl+alt+h",
+        "when": "echocode:isDev"
       },
       {
         "key": "ctrl+alt+o",
@@ -362,7 +373,7 @@
       {
         "command": "echocode.describeCurrentLine",
         "key": "ctrl+alt+k",
-        "when": "editorTextFocus"
+        "when": "editorTextFocus && echocode:isDev"
       },
       {
         "command": "echocode.toggleCharacterReadOut",
@@ -372,22 +383,22 @@
       {
         "key": "ctrl+alt+i",
         "command": "echocode.copyFileNameForImport",
-        "when": "editorTextFocus"
+        "when": "editorTextFocus && echocode:isDev"
       },
       {
         "key": "ctrl+shift+i",
         "command": "echocode.pasteImportAtCursor",
-        "when": "editorTextFocus"
+        "when": "editorTextFocus && echocode:isDev"
       },
       {
         "key": "ctrl+alt+g",
         "command": "echocode.compileAndParseCpp",
-        "when": "editorTextFocus && editorLangId == 'cpp'"
+        "when": "editorTextFocus && editorLangId == 'cpp' && echocode:isDev"
       },
       {
         "key": "ctrl+alt+g",
         "command": "echocode.checkPythonErrors",
-        "when": "editorTextFocus && editorLangId == 'python'"
+        "when": "editorTextFocus && editorLangId == 'python' && echocode:isDev"
       }
     ],
     "viewsContainers": {
@@ -412,13 +423,14 @@
       "editor/title": [
         {
           "command": "echocode.annotate",
+          "when": "echocode:isDev",
           "group": "navigation"
         }
       ],
       "view/title": [
         {
           "command": "echocode.startVoiceInput",
-          "when": "view == echocode.chatView",
+          "when": "view == echocode.chatView && echocode:isDev",
           "group": "navigation",
           "icon": "$(comment)"
         }
@@ -453,6 +465,7 @@
     "axios": "^1.8.3",
     "dotenv": "^16.4.7",
     "mammoth": "^1.9.0",
+    "openai": "^6.21.0",
     "pdf-parse": "^1.1.1",
     "say": "^0.16.0",
     "sound-play": "^1.1.0"

@@ -1,5 +1,10 @@
 const vscode = require("vscode");
 
+//student/dev mode system
+const { refreshModeContext, onModeChange } = require("./Core/program_settings/mode");
+const { guard } = require("./Core/program_settings/guard");
+
+
 // Python (optional adapter)
 const { ensurePylintInstalled } = require("./Language/Python/pylintHandler");
 const {
@@ -115,6 +120,16 @@ async function activate(context) {
   outputChannel = vscode.window.createOutputChannel("EchoCode");
   outputChannel.appendLine("[EchoCode] Activated");
 
+    // Initialize student/dev mode context
+  await refreshModeContext();
+
+  context.subscriptions.push(
+    onModeChange(async () => {
+      const mode = await refreshModeContext();
+      outputChannel.appendLine(`[EchoCode] Mode changed: ${mode}`);
+    })
+  );
+
   // Ensure Copilot (stable, chat, or nightly) is available for AI features
   await ensureCopilotActivated(outputChannel);
 
@@ -146,35 +161,36 @@ async function activate(context) {
 
   // Register C++ compilation command
   const compileCppCommand = vscode.commands.registerCommand(
-    "echocode.compileAndParseCpp",
-    () => {
-      const editor = vscode.window.activeTextEditor;
-      if (editor && editor.document.languageId === "cpp") {
-        compileCurrentCppFile(editor.document.uri.fsPath);
-      } else {
-        vscode.window.showInformationMessage(
-          "This command is only available for C++ files."
-        );
-      }
+  "echocode.compileAndParseCpp",
+  guard("echocode.compileAndParseCpp", () => {
+    const editor = vscode.window.activeTextEditor;
+    if (editor && editor.document.languageId === "cpp") {
+      compileCurrentCppFile(editor.document.uri.fsPath);
+    } else {
+      vscode.window.showInformationMessage(
+        "This command is only available for C++ files."
+      );
     }
-  );
-  context.subscriptions.push(compileCppCommand);
+  })
+);
+context.subscriptions.push(compileCppCommand);
 
   // Register Python error checking command
   const checkPythonCommand = vscode.commands.registerCommand(
-    "echocode.checkPythonErrors",
-    () => {
-      const editor = vscode.window.activeTextEditor;
-      if (editor && editor.document.languageId === "python") {
-        checkCurrentPythonFile(editor.document.uri.fsPath);
-      } else {
-        vscode.window.showInformationMessage(
-          "This command is only available for Python files."
-        );
-      }
+  "echocode.checkPythonErrors",
+  guard("echocode.checkPythonErrors", () => {
+    const editor = vscode.window.activeTextEditor;
+    if (editor && editor.document.languageId === "python") {
+      checkCurrentPythonFile(editor.document.uri.fsPath);
+    } else {
+      vscode.window.showInformationMessage(
+        "This command is only available for Python files."
+      );
     }
-  );
-  context.subscriptions.push(checkPythonCommand);
+  })
+);
+context.subscriptions.push(checkPythonCommand);
+
 
   outputChannel.appendLine(
     "Commands registered: echocode.readErrors, echocode.annotate, echocode.speakNextAnnotation, echocode.readAllAnnotations, echocode.summarizeClass, echocode.summarizeFunction, echocode.jumpToNextFunction, echocode.jumpToPreviousFunction, echocode.openChat, echocode.startVoiceInput, echocode.loadAssignmentFile, echocode.rescanUserCode, echocode.readNextSequentialTask, echocode.increaseSpeechSpeed, echocode.decreaseSpeechSpeed, echocode.moveToNextFolder, echocode.moveToPreviousFolder"

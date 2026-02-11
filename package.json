@@ -197,6 +197,11 @@
       {
         "command": "echocode.checkPythonErrors",
         "title": "EchoCode: Check Python Errors"
+      },
+      {
+        "command": "echocode.selectMicrophone",
+        "title": "EchoCode: Select Microphone",
+        "category": "EchoCode Voice"
       }
     ],
     "configuration": {

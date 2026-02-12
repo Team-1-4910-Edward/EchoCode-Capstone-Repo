@@ -51,6 +51,19 @@ function listAudioDevices(outputChannel) {
       if (isWin) {
         for (let i = 0; i < lines.length; i++) {
           const line = lines[i].trim();
+
+          // Regex checking: Look for lines ending in "(audio)"
+          // Example: [dshow @ ...] "Microphone Array" (audio) or just: "Microphone Array" (audio)
+          const audioMatch = line.match(/"([^"]+)"\s+\(audio\)$/);
+          if (audioMatch) {
+            const deviceName = audioMatch[1];
+            if (!deviceMatches.includes(deviceName)) {
+              deviceMatches.push(deviceName);
+            }
+            continue;
+          }
+
+          // Legacy section-based fallback (if headers exist)
           if (line.includes("DirectShow audio devices")) {
             isAudioSection = true;
             continue;
@@ -179,20 +192,9 @@ async function startRecording(outputChannel, context) {
   // --- Windows Configuration ---
   if (isWin) {
     if (micName === "default") {
-      outputChannel.appendLine(`[Voice] Attempting default Windows input...`);
-      // Generic fallback guess for Windows
-      ffmpegArgs = [
-        "-f",
-        "dshow",
-        "-i",
-        "audio=Microphone (Realtek(R) Audio)",
-        "-ac",
-        "1",
-        "-ar",
-        "16000",
-        "-y",
-        tmpWav,
-      ];
+      outputChannel.appendLine(`[Voice] Error: No microphone found.`);
+      vscode.window.showErrorMessage("EchoCode: No microphone found. Please check your audio settings.");
+      return false;
     } else {
       outputChannel.appendLine(`[Voice] Using Microphone: "${micName}"`);
       ffmpegArgs = [
@@ -314,7 +316,7 @@ function stopAndTranscribe(outputChannel, globalState) {
         try {
           process.kill(rec.pid, "SIGINT");
           setTimeout(() => rec.kill(), 200);
-        } catch (e) {}
+        } catch (e) { }
       }
     }, 1500);
 
@@ -366,7 +368,7 @@ function runLocalWhisper(tmpWav, outputChannel, pythonCommand) {
     });
 
     py.on("close", (code) => {
-      fs.unlink(tmpWav, () => {});
+      fs.unlink(tmpWav, () => { });
 
       if (code !== 0) {
         return reject(new Error(`Whisper process exited with code ${code}`));

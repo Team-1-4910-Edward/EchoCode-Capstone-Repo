@@ -41,8 +41,7 @@
   ],
   "main": "./extension.js",
   "extensionDependencies": [
-    "ms-python.python",
-    "ms-vscode.cpptools"
+    "ms-python.python"
   ],
   "contributes": {
     "commands": [
@@ -198,6 +197,11 @@
       {
         "command": "echocode.checkPythonErrors",
         "title": "EchoCode: Check Python Errors"
+      },
+      {
+        "command": "echocode.selectMicrophone",
+        "title": "EchoCode: Select Microphone",
+        "category": "EchoCode Voice"
       }
     ],
     "configuration": {
@@ -451,10 +455,15 @@
   "dependencies": {
     "@vscode/codicons": "^0.0.33",
     "axios": "^1.8.3",
-    "dotenv": "^16.4.7",
+    "dotenv": "^16.6.1",
+    "ffmpeg-static": "^5.2.0",
+    "fluent-ffmpeg": "^2.1.3",
     "mammoth": "^1.9.0",
+    "mic": "^2.1.2",
+    "openai": "^5.20.0",
     "pdf-parse": "^1.1.1",
     "say": "^0.16.0",
-    "sound-play": "^1.1.0"
+    "sound-play": "^1.1.0",
+    "uuid": "^13.0.0"
   }
 }

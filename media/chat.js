@@ -1,5 +1,7 @@
 // Script for the chat view
 (function () {
+    let isRecording = false;            // For STT UI state
+
     // Get VS Code API
     const vscode = acquireVsCodeApi();
     
@@ -10,9 +12,9 @@
     const voiceButton = document.getElementById('voice-button');
     const listeningIndicator = document.getElementById('listening-indicator');
     const loadingIndicator = document.getElementById('loading-indicator');
-    
+
     let currentAssistantMessage = null;
-    
+
     // Send a message
     function sendMessage() {
         const text = userInput.value.trim();
@@ -33,6 +35,29 @@
         // Create placeholder for assistant response
         currentAssistantMessage = addMessageToUI('assistant', '');
     }
+
+    function setListeningUi() {
+        isRecording = true;
+        voiceButton.classList.add('active');                 // red/on
+        listeningIndicator.classList.remove('hidden');
+        listeningIndicator.classList.add('visible');
+        userInput.placeholder = 'Listening...';
+    }
+
+    function setProcessingUi() {
+        loadingIndicator.classList.remove('hidden');         // show "Thinking..."
+        loadingIndicator.classList.add('visible');
+    }
+
+    function resetMicUi() {
+        isRecording = false;
+        voiceButton.classList.remove('active');              // blue/off
+        listeningIndicator.classList.add('hidden');
+        listeningIndicator.classList.remove('visible');
+        loadingIndicator.classList.add('hidden');
+        loadingIndicator.classList.remove('visible');
+        userInput.placeholder = 'Ask a question about your code...';
+    }
     
     // Add message to UI
     function addMessageToUI(role, text) {
@@ -51,14 +76,7 @@
         
         return contentElement;
     }
-    
-    // Start voice recognition
-    function startVoiceRecognition() {
-        vscode.postMessage({
-            type: 'startVoiceRecognition'
-        });
-    }
-    
+
     // Event listeners
     sendButton.addEventListener('click', sendMessage);
     
@@ -68,16 +86,26 @@
             sendMessage();
         }
     });
-    
-    voiceButton.addEventListener('click', startVoiceRecognition);
-    
+
+    voiceButton.addEventListener('click', () => {
+        if (!isRecording) {
+            // Flip UI immediately
+            setListeningUi();
+            vscode.postMessage({ type: "startVoiceInput" });
+        } else {
+            // Flip UI immediately (optimistic), show processing spinner
+            resetMicUi();
+            setProcessingUi();
+            vscode.postMessage({ type: "stopVoiceInput" });
+        }
+    });
+
     // Handle messages from the extension
     window.addEventListener('message', (event) => {
         const message = event.data;
         
         switch (message.type) {
             case 'response':
-                // For full responses
                 if (currentAssistantMessage) {
                     currentAssistantMessage.textContent = message.text;
                     currentAssistantMessage = null;
@@ -87,7 +115,6 @@
                 break;
                 
             case 'responseFragment':
-                // For incremental responses
                 if (currentAssistantMessage) {
                     currentAssistantMessage.textContent += message.text;
                     messagesContainer.scrollTop = messagesContainer.scrollHeight;
@@ -95,12 +122,10 @@
                 break;
                 
             case 'responseComplete':
-                // Finalize the response
                 currentAssistantMessage = null;
                 break;
                 
             case 'responseLoading':
-                // Show/hide loading indicator
                 if (message.started) {
                     loadingIndicator.classList.remove('hidden');
                     loadingIndicator.classList.add('visible');
@@ -111,52 +136,47 @@
                 break;
                 
             case 'responseError':
-                // Handle errors in response
                 if (currentAssistantMessage) {
                     currentAssistantMessage.textContent = message.error || 'Error getting response';
                     currentAssistantMessage.parentElement.classList.add('error');
                     currentAssistantMessage = null;
                 }
                 break;
-                
-            case 'voiceListeningStarted':
-                // Visual indicator that voice input is active
-                voiceButton.classList.add('active');
-                listeningIndicator.classList.remove('hidden');
-                listeningIndicator.classList.add('visible');
-                userInput.placeholder = 'Listening...';
+            
+            case 'voiceStopping':
+                loadingIndicator.classList.remove('hidden');
+                loadingIndicator.classList.add('visible');
                 break;
-                
-            case 'voiceListeningStopped':
-                // Visual indicator that voice input has stopped
-                voiceButton.classList.remove('active');
-                listeningIndicator.classList.add('hidden');
-                listeningIndicator.classList.remove('visible');
-                userInput.placeholder = 'Ask a question about your code...';
-                break;
-                
+
             case 'voiceRecognitionResult':
-                // Add recognized text to input field
-                userInput.value = message.text;
+                const transcript = message.text?.trim() || "";
+
+                // Put the transcript in the box for visibility
+                userInput.value = transcript;
                 userInput.focus();
-                break;
-                
-            case 'voiceRecognitionError':
-                // Handle voice recognition errors
+
+                // Immediately send it for execution
+                vscode.postMessage({ type: "executeVoiceCommand", text: transcript });
+
+                // Reset UI state
                 voiceButton.classList.remove('active');
                 listeningIndicator.classList.add('hidden');
                 listeningIndicator.classList.remove('visible');
                 userInput.placeholder = 'Ask a question about your code...';
-                addMessageToUI('system', `Voice recognition error: ${message.error || 'Unknown error'}`);
                 break;
-                
-            case 'startVoiceInput':
-                // Trigger voice input from command
-                startVoiceRecognition();
+
+
+            case 'voiceRecognitionError':                
+                addMessageToUI('system', `Voice recognition error: ${message.error || 'Unknown error'}`);
+                loadingIndicator.classList.add('hidden');
+                loadingIndicator.classList.remove('visible');
+                voiceButton.classList.remove('active');
+                listeningIndicator.classList.add('hidden');
+                listeningIndicator.classList.remove('visible');
+                isRecording = false;
                 break;
         }
         
-        // Always scroll to the latest message
         messagesContainer.scrollTop = messagesContainer.scrollHeight;
     });
 })();

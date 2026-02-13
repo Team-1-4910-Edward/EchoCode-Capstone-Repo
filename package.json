@@ -37,7 +37,9 @@
     "onCommand:echocode.rescanUserCode",
     "onCommand:echocode.readNextSequentialTask",
     "onCommand:echocode.whereAmI",
-    "onCommand:echocode.compileAndParseCpp"
+    "onCommand:echocode.compileAndParseCpp",
+    "onCommand:echocode.setGuidanceLevel",
+    "onCommand:echocode.cycleGuidanceLevel"
   ],
   "main": "./extension.js",
   "extensionDependencies": [
@@ -198,6 +200,14 @@
       {
         "command": "echocode.checkPythonErrors",
         "title": "EchoCode: Check Python Errors"
+      },
+      {
+        "command": "echocode.setGuidanceLevel",
+        "title": "EchoCode: Set Guidance Level"
+      },
+      {
+        "command": "echocode.cycleGuidanceLevel",
+        "title": "EchoCode: Cycle Guidance Level"
       }
     ],
     "configuration": {
@@ -212,6 +222,17 @@
           "type": "number",
           "default": 1,
           "description": "Speech rate for text-to-speech (0.5 = slow, 1.0 = normal, 1.5 = fast)."
+        },
+        "echocode.guidanceLevel": {
+          "type": "string",
+          "default": "balanced",
+          "enum": ["guided", "balanced", "concise"],
+          "enumDescriptions": [
+            "Step-by-step explanations with minimal jargon.",
+            "Balanced explanations with brief rules and a couple options.",
+            "Concise, technical output with the raw error included."
+          ],
+          "description": "Controls how much detail EchoCode provides when explaining errors."
         }
       }
     },
@@ -388,6 +409,11 @@
         "key": "ctrl+alt+g",
         "command": "echocode.checkPythonErrors",
         "when": "editorTextFocus && editorLangId == 'python'"
+      },
+      {
+        "command": "echocode.cycleGuidanceLevel",
+        "key": "ctrl+alt+z",
+        "when": "editorTextFocus"
       }
     ],
     "viewsContainers": {

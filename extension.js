@@ -179,6 +179,64 @@ async function activate(context) {
   outputChannel.appendLine(
     "Commands registered: echocode.readErrors, echocode.annotate, echocode.speakNextAnnotation, echocode.readAllAnnotations, echocode.summarizeClass, echocode.summarizeFunction, echocode.jumpToNextFunction, echocode.jumpToPreviousFunction, echocode.openChat, echocode.startVoiceInput, echocode.loadAssignmentFile, echocode.rescanUserCode, echocode.readNextSequentialTask, echocode.increaseSpeechSpeed, echocode.decreaseSpeechSpeed, echocode.moveToNextFolder, echocode.moveToPreviousFolder"
   );
+  
+  const setGuidanceLevelCommand = vscode.commands.registerCommand(
+  "echocode.setGuidanceLevel",
+  async () => {
+    const pick = await vscode.window.showQuickPick(
+      [
+        { label: "Guided", value: "guided", detail: "Step-by-step, minimal jargon" },
+        { label: "Balanced", value: "balanced", detail: "Rule + a couple fix options" },
+        { label: "Concise", value: "concise", detail: "Technical, raw error included" },
+      ],
+      { placeHolder: "Choose EchoCode Guidance Level" }
+    );
+
+    if (!pick) return;
+
+    await vscode.workspace
+      .getConfiguration("echocode")
+      .update("guidanceLevel", pick.value, vscode.ConfigurationTarget.Global);
+
+    vscode.window.showInformationMessage(
+      `EchoCode guidance level set to ${pick.label}.`
+    );
+  }
+);
+
+const cycleGuidanceLevelCommand = vscode.commands.registerCommand(
+  "echocode.cycleGuidanceLevel",
+  async () => {
+    const config = vscode.workspace.getConfiguration("echocode");
+    const current = config.get("guidanceLevel", "balanced");
+
+    const order = ["guided", "balanced", "concise"];
+    const idx = order.indexOf(current);
+    const next = order[(idx >= 0 ? idx : 1) + 1 >= order.length ? 0 : (idx >= 0 ? idx : 1) + 1];
+
+    await config.update("guidanceLevel", next, vscode.ConfigurationTarget.Global);
+
+    const label =
+      next === "guided" ? "Guided" :
+      next === "balanced" ? "Balanced" :
+      "Concise";
+
+    vscode.window.showInformationMessage(`EchoCode guidance level: ${label}`);
+
+    // Optional: speak confirmation (uses your existing TTS setup)
+    try {
+      // speakMessage is not imported in extension.js, so require it here
+      const { speakMessage } = require("./Core/program_settings/speech_settings/speechHandler");
+      await speakMessage(`Guidance level set to ${label}.`);
+    } catch (_) {
+      // If TTS unavailable, silently ignore
+    }
+  }
+);
+
+context.subscriptions.push(cycleGuidanceLevelCommand);
+
+context.subscriptions.push(setGuidanceLevelCommand);
 
   // Initialize folder list when the extension starts
   initializeFolderList();

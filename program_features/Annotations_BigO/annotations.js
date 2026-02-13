@@ -4,6 +4,11 @@ const {
   speakMessage,
 } = require("../../Core/program_settings/speech_settings/speechHandler"); // Add this import
 
+const {
+  formatHelpByGuidance,
+} = require("../../Core/program_settings/guide_settings/guidanceLevel");
+
+
 let activeDecorations = [];
 const annotationQueue = new Queue();
 let annotationsVisible = false;
@@ -169,9 +174,18 @@ function registerAnnotationCommands(context, outputChannel) {
       );
       if (!annotationQueue.isEmpty()) {
         const nextAnnotation = annotationQueue.dequeue();
-        const message = `Annotation on line ${nextAnnotation.line}: ${nextAnnotation.suggestion}`;
-        vscode.window.showInformationMessage(message); // Display the annotation
-        await speakMessage(message); // Read the annotation aloud
+        const spoken = formatHelpByGuidance({
+          where: `Line ${nextAnnotation.line}`,
+          summary: `Suggestion: ${nextAnnotation.suggestion}`,
+          raw: `Annotation on line ${nextAnnotation.line}: ${nextAnnotation.suggestion}`,
+          ruleHint: "This suggestion is meant to improve readability and maintainability.",
+          suggestions: [] // could add actual fix steps later if you split suggestion vs fix
+        });
+
+        vscode.window.showInformationMessage(
+          `Annotation on line ${nextAnnotation.line}: ${nextAnnotation.suggestion}`
+        );
+        await speakMessage(spoken);
       } else {
         vscode.window.showInformationMessage("No more annotations to read.");
         await speakMessage("No more annotations to read.");
@@ -192,9 +206,15 @@ function registerAnnotationCommands(context, outputChannel) {
         return;
       }
       for (const annotation of annotations) {
-        await speakMessage(
-          `Annotation on line ${annotation.line}: ${annotation.suggestion}`
-        );
+        const spoken = formatHelpByGuidance({
+          where: `Line ${annotation.line}`,
+          summary: `Suggestion: ${annotation.suggestion}`,
+          raw: `Annotation on line ${annotation.line}: ${annotation.suggestion}`,
+          ruleHint: "This suggestion is meant to improve readability and maintainability.",
+          suggestions: []
+        });
+
+        await speakMessage(spoken);
       }
     }
   );

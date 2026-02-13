@@ -411,6 +411,11 @@
         "when": "editorTextFocus && editorLangId == 'python'"
       },
       {
+        "command": "echocode.setGuidanceLevel",
+        "key": "ctrl+alt+shift+z",
+        "when": "editorTextFocus"
+      },
+      {
         "command": "echocode.cycleGuidanceLevel",
         "key": "ctrl+alt+z",
         "when": "editorTextFocus"

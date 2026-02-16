@@ -330,9 +330,11 @@ async function activate(context) {
   context.subscriptions.push(
     vscode.commands.registerCommand("echocode.toggleVoice", async () => {
       if (isRecording()) {
-        await speakMessage("Processing");
-        // Sync UI: Stop
+        // Sync UI: Stop immediately
         if (chatProvider) chatProvider.setRecordingState(false);
+
+        // Announce processing (don't await to avoid blocking stop)
+        speakMessage("Processing");
 
         const result = await vscode.commands.executeCommand("echocode._voiceStop");
 
@@ -349,9 +351,10 @@ async function activate(context) {
           }
         }
       } else {
-        await speakMessage("Listening");
-        // Sync UI: Start
+        // Sync UI: Start immediately
         if (chatProvider) chatProvider.setRecordingState(true);
+
+        await speakMessage("Listening");
         await vscode.commands.executeCommand("echocode._voiceStart");
       }
     })

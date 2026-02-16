@@ -87,22 +87,38 @@ function listAudioDevices(outputChannel) {
       }
       // --- macOS Parsing (AVFoundation) ---
       else if (isMac) {
-        // Mac output looks like: [AVFoundation...] [1] MacBook Pro Microphone
-        // We usually want to grab the index, but for UI we grab the name.
-        // NOTE: On Mac, simple device selection often uses index ":0", ":1".
-        // Here we extract names to show user, but typically default (:0) is safest.
         lines.forEach((line) => {
-          // Look for lines like: [AVFoundation...] [1] Some Mic Name
-          // But exclude "AVFoundation video devices" or "AVFoundation audio devices" headers
-          if (line.includes("AVFoundation video devices"))
-            isAudioSection = false;
-          if (line.includes("AVFoundation audio devices"))
-            isAudioSection = true;
+          // 1. Detect Section Headers
+          // AVFoundation output typically looks like: 
+          // [AVFoundation indev @ 0x...] AVFoundation video devices:
+          // [AVFoundation indev @ 0x...] [0] FaceTime HD Camera
+          // [AVFoundation indev @ 0x...] AVFoundation audio devices:
+          // [AVFoundation indev @ 0x...] [0] MacBook Pro Microphone
 
+          if (line.includes("AVFoundation video devices")) {
+            isAudioSection = false;
+            return; // Skip the header line itself
+          }
+          if (line.includes("AVFoundation audio devices")) {
+            isAudioSection = true;
+            return; // Skip the header line itself
+          }
+
+          // 2. Parse Devices (only if inside audio section)
           if (isAudioSection) {
-            const match = line.match(/\[\d+\]\s+(.+)$/);
+            // Match lines like: [AVFoundation...] [1] Microphone Name
+            const match = line.match(/\[(\d+)\]\s+(.+)$/);
+
+            // Ensuring no log lines are matched
             if (match && !line.includes("AVFoundation")) {
-              deviceMatches.push(match[1].trim());
+              // Handles raw output if ffmpeg output format varies
+              deviceMatches.push(match[2].trim());
+            } else if (line.includes("AVFoundation") && match) {
+              // Strict matching to avoid log lines
+              const strictMatch = line.match(/\[\d+\]\s+([^\[\]]+)$/);
+              if (strictMatch) {
+                deviceMatches.push(strictMatch[1].trim());
+              }
             }
           }
         });

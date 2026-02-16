@@ -1,3 +1,5 @@
+mySecretNumber = 12345
+
 def greet(name):
     print(f"Hello, {name}!")
 

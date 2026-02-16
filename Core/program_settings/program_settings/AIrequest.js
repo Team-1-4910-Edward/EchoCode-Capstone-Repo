@@ -113,7 +113,7 @@ async function classifyVoiceIntent(transcript, commands, opts = {}) {
 
 module.exports.classifyVoiceIntent = classifyVoiceIntent;
 
-async function generateCodeFromVoice(transcript, languageId, indentation = "") {
+async function generateCodeFromVoice(transcript, languageId, indentation = "", contextCode = "") {
   // 1) Selecting Copilot model
   const models = await vscode.lm.selectChatModels({ vendor: 'copilot' });
   if (!models || models.length === 0) {
@@ -123,16 +123,29 @@ async function generateCodeFromVoice(transcript, languageId, indentation = "") {
 
   // 2) Constructing prompt
   // We want PURE code, no markdown fencing if possible.
-  const systemPrompt = `You are an expert coding assistant. 
-    Your task is to convert the user's spoken natural language request into valid ${languageId} code.
-    - Return ONLY the code.
-    - Do not wrap in markdown code blocks.
-    - Do not include explanations or conversational text.
-    - The code will be inserted at indentation level: "${indentation}".
-    - Ensure your output is indented relative to this baseline if it creates a block (like specific to Python).
-    - If the request is asking for a loop, function, or logic, implement it fully.
-    - For Python, use standard indentation (4 spaces) and do NOT use triple quotes for the body unless asked.
-    - If the request is unclear, generate a comment in ${languageId} explaining why.`;
+  let systemPrompt = `You are an expert coding assistant. 
+    Your task is to convert the user's spoken natural language request into valid, high-quality ${languageId} code.
+    
+    STRICT RULES:
+    1. Return ONLY the code. No markdown backticks, no explanations, no conversational text.
+    2. The code will be inserted at indentation level: "${indentation}". Ensure all lines are indented relative to this baseline.
+    3. **Variable Declaration**: ALL variables must be explicitly declared (e.g., using 'let', 'const', or 'var' in JS; proper types in C++/Java/C#). Do NOT use undeclared variables.
+    4. **Error Handling**: The code must be robust and error-free. Handle potential edge cases where appropriate.
+    5. **Standards**: Follow standard coding conventions for ${languageId}. Use meaningful variable names.
+    6. **Security**: Avoid usage of insecure functions or patterns (e.g., eval(), hardcoded credentials).
+    7. **Completeness**: If the user asks for a loop, function, or logic, implement it fully.
+    8. **Python Specifics**: Use standard 4-space indentation. Do NOT use triple quotes for the body unless explicitly asked.
+    
+    If the request is unclear or impossible to implement safely, return a comment in ${languageId} explaining why.`;
+
+  if (contextCode) {
+    systemPrompt += `\n\nCONTEXT (Surrounding Code):
+    The user is editing the following file. The cursor is located roughly where the code ends or in the middle.
+    Use this context to ensure variables, types, and styles match.
+    \`\`\`${languageId}
+    ${contextCode}
+    \`\`\``;
+  }
 
   const messages = [
     vscode.LanguageModelChatMessage.User(systemPrompt),

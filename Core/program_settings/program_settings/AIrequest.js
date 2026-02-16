@@ -113,7 +113,7 @@ async function classifyVoiceIntent(transcript, commands, opts = {}) {
 
 module.exports.classifyVoiceIntent = classifyVoiceIntent;
 
-async function generateCodeFromVoice(transcript, languageId, indentation = "") {
+async function generateCodeFromVoice(transcript, languageId, indentation = "", contextCode = "") {
   // 1) Selecting Copilot model
   const models = await vscode.lm.selectChatModels({ vendor: 'copilot' });
   if (!models || models.length === 0) {
@@ -123,7 +123,7 @@ async function generateCodeFromVoice(transcript, languageId, indentation = "") {
 
   // 2) Constructing prompt
   // We want PURE code, no markdown fencing if possible.
-  const systemPrompt = `You are an expert coding assistant. 
+  let systemPrompt = `You are an expert coding assistant. 
     Your task is to convert the user's spoken natural language request into valid, high-quality ${languageId} code.
     
     STRICT RULES:
@@ -137,6 +137,15 @@ async function generateCodeFromVoice(transcript, languageId, indentation = "") {
     8. **Python Specifics**: Use standard 4-space indentation. Do NOT use triple quotes for the body unless explicitly asked.
     
     If the request is unclear or impossible to implement safely, return a comment in ${languageId} explaining why.`;
+
+  if (contextCode) {
+    systemPrompt += `\n\nCONTEXT (Surrounding Code):
+    The user is editing the following file. The cursor is located roughly where the code ends or in the middle.
+    Use this context to ensure variables, types, and styles match.
+    \`\`\`${languageId}
+    ${contextCode}
+    \`\`\``;
+  }
 
   const messages = [
     vscode.LanguageModelChatMessage.User(systemPrompt),

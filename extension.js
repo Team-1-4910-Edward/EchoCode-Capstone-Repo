@@ -132,10 +132,18 @@ async function tryExecuteVoiceCommand(transcript, outputChannel) {
         const indentationMatch = lineText.match(/^\s*/);
         const currentIndentation = indentationMatch ? indentationMatch[0] : "";
 
+        // --- Context Window Logic ---
+        // Capture 50 lines before and 20 lines after the cursor to give the AI context
+        const startLine = Math.max(0, position.line - 50);
+        const endLine = Math.min(editor.document.lineCount - 1, position.line + 20);
+        const contextRange = new vscode.Range(startLine, 0, endLine, editor.document.lineAt(endLine).text.length);
+        const contextCode = editor.document.getText(contextRange);
+
         const generatedCode = await generateCodeFromVoice(
           transcript,
           friendlyLang, // Pass the friendly name
-          currentIndentation
+          currentIndentation,
+          contextCode // Pass the surrounding code
         );
 
         if (generatedCode) {

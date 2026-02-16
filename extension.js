@@ -8,10 +8,9 @@ const {
   startRecording,
   stopAndTranscribe,
   selectMicrophone, // Import this new function
+  isRecording,
 } = require("./program_features/Voice/whisperService");
 
-// const { autoRouteVoiceIntent } = require("./Core/program_settings/program_settings/voiceIntentRouter");
-// const { classifyVoiceIntent } = require("./Core/program_settings/program_settings/AIrequest");
 const {
   generateCodeFromVoice,
 } = require("./Core/program_settings/program_settings/AIrequest");
@@ -306,10 +305,11 @@ async function activate(context) {
   loadSavedSpeechSpeed();
 
   // Register core commands first (code-agnostic)
+  // Register core commands first (code-agnostic)
   registerSpeechCommands(context, outputChannel);
   registerSummarizerCommands(context, outputChannel);
   registerHotkeyGuideCommand(context);
-  registerChatCommands(context, outputChannel);
+  const chatProvider = registerChatCommands(context, outputChannel);
 
   // start recording (no transcript yet)
   context.subscriptions.push(
@@ -323,6 +323,32 @@ async function activate(context) {
   context.subscriptions.push(
     vscode.commands.registerCommand("echocode.selectMicrophone", async () => {
       await selectMicrophone(context);
+    })
+  );
+
+  // Toggle Voice Command
+  context.subscriptions.push(
+    vscode.commands.registerCommand("echocode.toggleVoice", async () => {
+      if (isRecording()) {
+        await speakMessage("Processing");
+        const result = await vscode.commands.executeCommand("echocode._voiceStop");
+
+        if (result && result.ok && result.text) {
+          // Attempt to execute as a voice command first
+          const voiceResult = await tryExecuteVoiceCommand(result.text, outputChannel);
+
+          if (!voiceResult.handled) {
+            // Fallback: Send to Chat Tutor
+            await vscode.commands.executeCommand("echocode.openChat");
+            if (chatProvider) {
+              await chatProvider.handleUserMessage(result.text);
+            }
+          }
+        }
+      } else {
+        await speakMessage("Listening");
+        await vscode.commands.executeCommand("echocode._voiceStart");
+      }
     })
   );
 

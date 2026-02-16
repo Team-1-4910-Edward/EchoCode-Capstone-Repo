@@ -48,7 +48,7 @@ class EchoCodeChatViewProvider {
         this.outputChannel.appendLine(`Received message from webview: ${message.type}`);
         if (message.type === "userInput") {
           await this.handleUserMessage(message.text);
-        } 
+        }
         else if (message.type === "executeVoiceCommand") {
           const transcript = message.text || "";
           const { tryExecuteVoiceCommand } = require("../../extension");
@@ -66,7 +66,7 @@ class EchoCodeChatViewProvider {
         }
         else if (message.type === "startVoiceInput") {
           await vscode.commands.executeCommand("echocode._voiceStart");
-        } 
+        }
         else if (message.type === "stopVoiceInput") {
           if (this._currentWebview) {
             this._currentWebview.postMessage({ type: "voiceStopping" });

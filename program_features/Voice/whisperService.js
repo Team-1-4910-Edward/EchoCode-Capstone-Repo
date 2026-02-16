@@ -399,4 +399,11 @@ function runLocalWhisper(tmpWav, outputChannel, pythonCommand) {
   });
 }
 
-module.exports = { startRecording, stopAndTranscribe, selectMicrophone };
+/**
+ * Check if recording is in progress
+ */
+function isRecording() {
+  return current && !current.stopped;
+}
+
+module.exports = { startRecording, stopAndTranscribe, selectMicrophone, isRecording };

@@ -35,3 +35,4 @@ print(f"Stored in memory: {calc.memory}")
 
 difference = Calculator.subtract(9, 2)
 print(f"Difference: {difference}")
+

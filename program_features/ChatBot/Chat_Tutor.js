@@ -217,6 +217,15 @@ class EchoCodeChatViewProvider {
     this.startVoiceRecognition();
   }
 
+  setRecordingState(isRecording) {
+    if (this._view && this._currentWebview) {
+      this._currentWebview.postMessage({
+        type: "updateRecordingState",
+        recording: isRecording
+      });
+    }
+  }
+
   // --- Webview HTML/JS/CSS skeleton ---
   _getHtmlForWebview(webview) {
     const styleMainUri = webview.asWebviewUri(

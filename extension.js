@@ -8,13 +8,58 @@ const {
   startRecording,
   stopAndTranscribe,
   selectMicrophone, // Import this new function
+  isRecording,
 } = require("./program_features/Voice/whisperService");
 
-// const { autoRouteVoiceIntent } = require("./Core/program_settings/program_settings/voiceIntentRouter");
-// const { classifyVoiceIntent } = require("./Core/program_settings/program_settings/AIrequest");
 const {
   generateCodeFromVoice,
 } = require("./Core/program_settings/program_settings/AIrequest");
+
+// Helper to map VS Code language IDs to friendly names for LLM
+function getFriendlyLanguageName(languageId) {
+  const map = {
+    "cpp": "C++",
+    "c": "C",
+    "csharp": "C#",
+    "javascript": "JavaScript",
+    "typescript": "TypeScript",
+    "python": "Python",
+    "java": "Java",
+    "html": "HTML",
+    "css": "CSS",
+    "php": "PHP",
+    "ruby": "Ruby",
+    "go": "Go",
+    "rust": "Rust",
+    "swift": "Swift",
+    "kotlin": "Kotlin",
+    "sql": "SQL",
+    "r": "R",
+    "shellscript": "Shell Script",
+    "powershell": "PowerShell",
+    "json": "JSON",
+    "xml": "XML",
+    "markdown": "Markdown",
+    "plaintext": "Pseudocode", // Fallback for plain text
+    "bat": "Batch file",
+    "clojure": "Clojure",
+    "coffeescript": "CoffeeScript",
+    "dockerfile": "Dockerfile",
+    "fsharp": "F#",
+    "groovy": "Groovy",
+    "handlebars": "Handlebars",
+    "ini": "Ini",
+    "lua": "Lua",
+    "makefile": "Makefile",
+    "objective-c": "Objective-C",
+    "perl": "Perl",
+    "r": "R",
+    "scss": "SCSS",
+    "vb": "Visual Basic",
+    "yaml": "YAML"
+  };
+  return map[languageId] || languageId; // Return mapped name or original ID if not found
+}
 
 async function tryExecuteVoiceCommand(transcript, outputChannel) {
   try {
@@ -74,7 +119,11 @@ async function tryExecuteVoiceCommand(transcript, outputChannel) {
 
     if (editor) {
       try {
-        vscode.window.showInformationMessage("EchoCode: Generating code...");
+        const rawLangId = editor.document.languageId;
+        const friendlyLang = getFriendlyLanguageName(rawLangId);
+
+        vscode.window.showInformationMessage(`EchoCode: Generating ${friendlyLang} code...`);
+        outputChannel.appendLine(`[Voice Generation] Detected Language: ${friendlyLang} (ID: ${rawLangId})`);
 
         // --- Indentation Logic ---
         const position = editor.selection.active;
@@ -82,11 +131,18 @@ async function tryExecuteVoiceCommand(transcript, outputChannel) {
         const indentationMatch = lineText.match(/^\s*/);
         const currentIndentation = indentationMatch ? indentationMatch[0] : "";
 
-        const languageId = editor.document.languageId;
+        // --- Context Window Logic ---
+        // Capture 50 lines before and 20 lines after the cursor to give the AI context
+        const startLine = Math.max(0, position.line - 50);
+        const endLine = Math.min(editor.document.lineCount - 1, position.line + 20);
+        const contextRange = new vscode.Range(startLine, 0, endLine, editor.document.lineAt(endLine).text.length);
+        const contextCode = editor.document.getText(contextRange);
+
         const generatedCode = await generateCodeFromVoice(
           transcript,
-          languageId,
-          currentIndentation
+          friendlyLang, // Pass the friendly name
+          currentIndentation,
+          contextCode // Pass the surrounding code
         );
 
         if (generatedCode) {
@@ -119,38 +175,6 @@ async function tryExecuteVoiceCommand(transcript, outputChannel) {
     return { handled: false };
   }
 }
-
-// LLM classification approach
-// async function routeVoiceCommandNLU(transcript, outputChannel) {
-//   try {
-//     const cleaned = transcript.toLowerCase().trim();
-
-//     // Load command list from the SAME JSON file
-//     const commandsPath = path.join(__dirname, "Core/program_settings/voice_commands.json");
-//     const commands = JSON.parse(fs.readFileSync(commandsPath, "utf-8"));
-
-//     outputChannel?.appendLine(`[Voice/ASR] Heard: "${transcript}"`);
-
-//     // Use Copilot to classify using the JSON list
-//     const cmdId = await classifyVoiceIntent(transcript, commands, { temperature: 0.0 });
-
-//     outputChannel?.appendLine(`[Voice/NLU] Classified => ${cmdId}`);
-
-//     // No match
-//     if (!cmdId || cmdId === "none") {
-//       vscode.window.showInformationMessage(
-//         `EchoCode voice: I didn't catch a supported command for "${transcript}".`
-//       );
-//       return;
-//     }
-
-//     // Execute the matched command
-//     await vscode.commands.executeCommand(cmdId);
-
-//   } catch (err) {
-//     outputChannel?.appendLine(`[Voice/NLU Error] ${err.message}`);
-//   }
-// }
 
 // Python (optional adapter)
 const { ensurePylintInstalled } = require("./Language/Python/pylintHandler");
@@ -280,10 +304,11 @@ async function activate(context) {
   loadSavedSpeechSpeed();
 
   // Register core commands first (code-agnostic)
+  // Register core commands first (code-agnostic)
   registerSpeechCommands(context, outputChannel);
   registerSummarizerCommands(context, outputChannel);
   registerHotkeyGuideCommand(context);
-  registerChatCommands(context, outputChannel);
+  const chatProvider = registerChatCommands(context, outputChannel);
 
   // start recording (no transcript yet)
   context.subscriptions.push(
@@ -297,6 +322,40 @@ async function activate(context) {
   context.subscriptions.push(
     vscode.commands.registerCommand("echocode.selectMicrophone", async () => {
       await selectMicrophone(context);
+    })
+  );
+
+  // Toggle Voice Command
+  context.subscriptions.push(
+    vscode.commands.registerCommand("echocode.toggleVoice", async () => {
+      if (isRecording()) {
+        // Sync UI: Stop immediately
+        if (chatProvider) chatProvider.setRecordingState(false);
+
+        // Announce processing (don't await to avoid blocking stop)
+        speakMessage("Processing");
+
+        const result = await vscode.commands.executeCommand("echocode._voiceStop");
+
+        if (result && result.ok && result.text) {
+          // Attempt to execute as a voice command first
+          const voiceResult = await tryExecuteVoiceCommand(result.text, outputChannel);
+
+          if (!voiceResult.handled) {
+            // Fallback: Send to Chat Tutor
+            await vscode.commands.executeCommand("echocode.openChat");
+            if (chatProvider) {
+              await chatProvider.handleUserMessage(result.text);
+            }
+          }
+        }
+      } else {
+        // Sync UI: Start immediately
+        if (chatProvider) chatProvider.setRecordingState(true);
+
+        await speakMessage("Listening");
+        await vscode.commands.executeCommand("echocode._voiceStart");
+      }
     })
   );
 

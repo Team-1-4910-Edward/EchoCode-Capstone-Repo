@@ -203,6 +203,11 @@
         "command": "echocode.selectMicrophone",
         "title": "EchoCode: Select Microphone",
         "category": "EchoCode Voice"
+      },
+      {
+        "command": "echocode.toggleVoice",
+        "title": "EchoCode: Toggle Voice Input",
+        "category": "EchoCode Voice"
       }
     ],
     "configuration": {
@@ -269,6 +274,11 @@
       {
         "command": "echocode.startVoiceInput",
         "key": "ctrl+alt+v"
+      },
+      {
+        "command": "echocode.toggleVoice",
+        "key": "ctrl+alt+space",
+        "when": "editorTextFocus"
       },
       {
         "command": "echocode.openChat",

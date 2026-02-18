@@ -53,7 +53,6 @@ function listAudioDevices(outputChannel) {
           const line = lines[i].trim();
 
           // Regex checking: Look for lines ending in "(audio)"
-          // Example: [dshow @ ...] "Microphone Array" (audio) or just: "Microphone Array" (audio)
           const audioMatch = line.match(/"([^"]+)"\s+\(audio\)$/);
           if (audioMatch) {
             const deviceName = audioMatch[1];
@@ -63,7 +62,7 @@ function listAudioDevices(outputChannel) {
             continue;
           }
 
-          // Legacy section-based fallback (if headers exist)
+          // Legacy section-based fallback
           if (line.includes("DirectShow audio devices")) {
             isAudioSection = true;
             continue;
@@ -209,11 +208,9 @@ async function startRecording(outputChannel, context) {
     // If micName is "default", use ":0".
     let devInput = ":0";
     if (micName !== "default" && micName.startsWith(":")) {
-      devInput = micName; // User manually entered ":1" etc
+      devInput = micName;
     }
-
     outputChannel.appendLine(`[Voice] Using AVFoundation input: "${devInput}"`);
-
     ffmpegArgs = [
       "-f",
       "avfoundation",
@@ -232,7 +229,6 @@ async function startRecording(outputChannel, context) {
     `[ffmpeg] Spawning with args: ${ffmpegArgs.join(" ")}`
   );
 
-  // CRITICAL: Stdio must be 'pipe' for stdin to work (so we can send 'q')
   const rec = spawn(ffmpegPath, ffmpegArgs, {
     stdio: ["pipe", "pipe", "pipe"],
   });
@@ -298,7 +294,6 @@ function stopAndTranscribe(outputChannel, globalState) {
       outputChannel.appendLine("[Voice] Note: Could not send 'q' to ffmpeg.");
     }
 
-    // Process kill fallback
     const killTimeout = setTimeout(() => {
       if (current && current.rec) {
         outputChannel.appendLine("[Voice] Force killing ffmpeg...");
@@ -330,7 +325,7 @@ function stopAndTranscribe(outputChannel, globalState) {
     // Use Python Local Whisper instead of API
     const pythonPath = globalState
       ? globalState.get("echoCodePythonPath")
-      : "python"; // Default if not found
+      : "python";
 
     runLocalWhisper(tmpWav, outputChannel, pythonPath).then(resolve, reject);
   });
@@ -349,9 +344,7 @@ function runLocalWhisper(tmpWav, outputChannel, pythonCommand) {
 
     let transcript = "";
 
-    py.stdout.on("data", (data) => {
-      transcript += data.toString();
-    });
+    py.stdout.on("data", (data) => (transcript += data.toString()));
 
     py.stderr.on("data", (data) => {
       outputChannel.appendLine(`[Whisper Log] ${data.toString()}`);
@@ -363,8 +356,7 @@ function runLocalWhisper(tmpWav, outputChannel, pythonCommand) {
       if (code !== 0) {
         return reject(new Error(`Whisper process exited with code ${code}`));
       }
-      const clean = transcript.trim();
-      resolve(clean);
+      resolve(transcript.trim());
     });
 
     py.on("error", (err) => {

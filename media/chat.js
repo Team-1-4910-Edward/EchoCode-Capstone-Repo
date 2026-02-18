@@ -4,7 +4,7 @@
 
     // Get VS Code API
     const vscode = acquireVsCodeApi();
-    
+
     // Elements
     const messagesContainer = document.getElementById('messages-container');
     const userInput = document.getElementById('user-input');
@@ -19,19 +19,19 @@
     function sendMessage() {
         const text = userInput.value.trim();
         if (!text) return;
-        
+
         // Add user message to UI
         addMessageToUI('user', text);
-        
+
         // Clear input
         userInput.value = '';
-        
+
         // Send to extension
         vscode.postMessage({
             type: 'userInput',
             text: text
         });
-        
+
         // Create placeholder for assistant response
         currentAssistantMessage = addMessageToUI('assistant', '');
     }
@@ -58,28 +58,28 @@
         loadingIndicator.classList.remove('visible');
         userInput.placeholder = 'Ask a question about your code...';
     }
-    
+
     // Add message to UI
     function addMessageToUI(role, text) {
         const messageElement = document.createElement('div');
         messageElement.className = `message ${role}-message`;
-        
+
         const contentElement = document.createElement('div');
         contentElement.className = 'message-content';
         contentElement.textContent = text;
-        
+
         messageElement.appendChild(contentElement);
         messagesContainer.appendChild(messageElement);
-        
+
         // Scroll to bottom
         messagesContainer.scrollTop = messagesContainer.scrollHeight;
-        
+
         return contentElement;
     }
 
     // Event listeners
     sendButton.addEventListener('click', sendMessage);
-    
+
     userInput.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
@@ -103,7 +103,7 @@
     // Handle messages from the extension
     window.addEventListener('message', (event) => {
         const message = event.data;
-        
+
         switch (message.type) {
             case 'response':
                 if (currentAssistantMessage) {
@@ -113,18 +113,18 @@
                     addMessageToUI('assistant', message.text);
                 }
                 break;
-                
+
             case 'responseFragment':
                 if (currentAssistantMessage) {
                     currentAssistantMessage.textContent += message.text;
                     messagesContainer.scrollTop = messagesContainer.scrollHeight;
                 }
                 break;
-                
+
             case 'responseComplete':
                 currentAssistantMessage = null;
                 break;
-                
+
             case 'responseLoading':
                 if (message.started) {
                     loadingIndicator.classList.remove('hidden');
@@ -134,7 +134,7 @@
                     loadingIndicator.classList.remove('visible');
                 }
                 break;
-                
+
             case 'responseError':
                 if (currentAssistantMessage) {
                     currentAssistantMessage.textContent = message.error || 'Error getting response';
@@ -142,7 +142,7 @@
                     currentAssistantMessage = null;
                 }
                 break;
-            
+
             case 'voiceStopping':
                 loadingIndicator.classList.remove('hidden');
                 loadingIndicator.classList.add('visible');
@@ -166,7 +166,7 @@
                 break;
 
 
-            case 'voiceRecognitionError':                
+            case 'voiceRecognitionError':
                 addMessageToUI('system', `Voice recognition error: ${message.error || 'Unknown error'}`);
                 loadingIndicator.classList.add('hidden');
                 loadingIndicator.classList.remove('visible');
@@ -175,8 +175,18 @@
                 listeningIndicator.classList.remove('visible');
                 isRecording = false;
                 break;
+
+            case 'updateRecordingState':
+                if (message.recording) {
+                    setListeningUi();
+                } else {
+                    // if stopping, show processing
+                    resetMicUi();
+                    setProcessingUi();
+                }
+                break;
         }
-        
+
         messagesContainer.scrollTop = messagesContainer.scrollHeight;
     });
 })();

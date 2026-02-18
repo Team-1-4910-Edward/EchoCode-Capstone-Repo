@@ -47,8 +47,8 @@ class EchoCodeChatViewProvider {
       async (message) => {
         this.outputChannel.appendLine(`Received message from webview: ${message.type}`);
         if (message.type === "userInput") {
-          this.handleUserMessage(message.text);
-        } 
+          await this.handleUserMessage(message.text);
+        }
         else if (message.type === "executeVoiceCommand") {
           const { tryExecuteVoiceCommand } = require("../../extension");
           const outputChannel = this.outputChannel;
@@ -69,7 +69,7 @@ class EchoCodeChatViewProvider {
         }
         else if (message.type === "startVoiceInput") {
           await vscode.commands.executeCommand("echocode._voiceStart");
-        } 
+        }
         else if (message.type === "stopVoiceInput") {
           if (this._currentWebview) {
             this._currentWebview.postMessage({ type: "voiceStopping" });
@@ -220,6 +220,15 @@ class EchoCodeChatViewProvider {
       this.outputChannel.appendLine("Voice input command invoked with no active chat view.");
     }
     this.startVoiceRecognition();
+  }
+
+  setRecordingState(isRecording) {
+    if (this._view && this._currentWebview) {
+      this._currentWebview.postMessage({
+        type: "updateRecordingState",
+        recording: isRecording
+      });
+    }
   }
 
   // --- Webview HTML/JS/CSS skeleton ---

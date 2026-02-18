@@ -31,6 +31,7 @@
     "onCommand:echocode.summarizeFunction",
     "onCommand:echocode.summarizeProgram",
     "onCommand:echocode.startVoiceInput",
+    "onCommand:echocode.selectMicrophone",
     "onCommand:echocode.loadAssignmentFile",
     "onCommand:echocode.increaseSpeechSpeed",
     "onCommand:echocode.decreaseSpeechSpeed",
@@ -396,36 +397,20 @@
     ],
     "viewsContainers": {
       "activitybar": [
-        {
-          "id": "echocode",
-          "title": "EchoCode",
-          "icon": "images/icon.png"
-        }
+        { "id": "echocode", "title": "EchoCode", "icon": "images/icon.png" }
       ]
     },
     "views": {
       "echocode": [
-        {
-          "id": "echocode.chatView",
-          "name": "EchoCode Tutor",
-          "type": "webview"
-        }
+        { "id": "echocode.chatView", "name": "EchoCode Tutor", "type": "webview" }
       ]
     },
     "menus": {
       "editor/title": [
-        {
-          "command": "echocode.annotate",
-          "group": "navigation"
-        }
+        { "command": "echocode.annotate", "group": "navigation" }
       ],
       "view/title": [
-        {
-          "command": "echocode.startVoiceInput",
-          "when": "view == echocode.chatView",
-          "group": "navigation",
-          "icon": "$(comment)"
-        }
+        { "command": "echocode.startVoiceInput", "when": "view == echocode.chatView", "group": "navigation", "icon": "$(comment)" }
       ]
     }
   },

@@ -180,9 +180,11 @@ async function activate(context) {
     "Commands registered: echocode.readErrors, echocode.annotate, echocode.speakNextAnnotation, echocode.readAllAnnotations, echocode.summarizeClass, echocode.summarizeFunction, echocode.jumpToNextFunction, echocode.jumpToPreviousFunction, echocode.openChat, echocode.startVoiceInput, echocode.loadAssignmentFile, echocode.rescanUserCode, echocode.readNextSequentialTask, echocode.increaseSpeechSpeed, echocode.decreaseSpeechSpeed, echocode.moveToNextFolder, echocode.moveToPreviousFolder"
   );
   
+  // Guidance level commands - for controlling how verbose/guided the AI responses are across features that use AI (summarizer, big O, annotations, what's this)
   const setGuidanceLevelCommand = vscode.commands.registerCommand(
   "echocode.setGuidanceLevel",
   async () => {
+    // Show a quick pick to select the guidance level
     const pick = await vscode.window.showQuickPick(
       [
         { label: "Guided", value: "guided", detail: "Step-by-step, minimal jargon" },
@@ -204,8 +206,10 @@ async function activate(context) {
   }
 );
 
+// Optional: command to cycle through guidance levels quickly
 const cycleGuidanceLevelCommand = vscode.commands.registerCommand(
   "echocode.cycleGuidanceLevel",
+  // Cycles through guided -> balanced -> concise -> back to guided
   async () => {
     const config = vscode.workspace.getConfiguration("echocode");
     const current = config.get("guidanceLevel", "balanced");

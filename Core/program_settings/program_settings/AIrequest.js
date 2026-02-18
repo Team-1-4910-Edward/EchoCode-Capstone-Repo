@@ -1,114 +1,110 @@
-const vscode = require('vscode'); // VSCode API
+const vscode = require("vscode");
 
-async function analyzeAI(code, instructionPrompt) {
-  var chatRequest;
-  const craftedPrompt = [
-    vscode.LanguageModelChatMessage.User(
-      // Default prompt
-      // 'Give a brief explanation of the flow of execution of the provided python function'
-      instructionPrompt
-    ),
-    vscode.LanguageModelChatMessage.User(code)
-  ];
-  const models = await vscode.lm.selectChatModels({
-    vendor: 'copilot'
-  });
-  if (models.length === 0) {
-    console.log("There are no models available");
+// Helper to get model safely
+async function selectModel() {
+  // 1. Get all copilot models
+  const models = await vscode.lm.selectChatModels({ vendor: "copilot" });
+
+  // 2. Safety check
+  if (!models || models.length === 0) {
+    throw new Error(
+      "No Copilot models available. Please check your GitHub Copilot Chat extension."
+    );
   }
 
-  try {
-    const [model] = await vscode.lm.selectChatModels({ vendor: 'copilot', family: 'gpt-4o' });
-    chatRequest = await model.sendRequest(craftedPrompt, {});
-  } catch (err) {
-    console.log("error with requesting from model");
-    // Making the chat request might fail because
-    // - model does not exist
-    // - user consent not given
-    // - quota limits w ere exceeded
-    if (err instanceof vscode.LanguageModelError) {
-      console.log(err.message, err.code, err.cause);
-      if (err.cause instanceof Error && err.cause.message.includes('off_topic')) {
-        stream.markdown(
-          vscode.l10n.t("I'm sorry, I cannot summarize the provided code.")
-        );
-      }
-    } else {
-      // add other error handling logic
-      throw err;
-    }
+  // 3. Prefer GPT-4, fallback to default
+  let selected = models.find((m) => m.family && m.family.includes("gpt-4"));
+  if (!selected) {
+    selected = models[0];
   }
-
-  var results = '';
-  for await (const fragment of chatRequest.text) {
-    results += fragment;
-  }
-
-  return results;
+  return selected;
 }
 
-module.exports = { analyzeAI };
-
-async function generateCodeFromVoice(transcript, languageId, indentation = "", contextCode = "") {
-  // 1) Selecting Copilot model
-  const models = await vscode.lm.selectChatModels({ vendor: 'copilot' });
-  if (!models || models.length === 0) {
-    throw new Error('No Copilot models available. Please ensure GitHub Copilot Chat is installed and active.');
-  }
-  const model = models[0];
-
-  // 2) Constructing prompt
-  // We want PURE code, no markdown fencing if possible.
-  let systemPrompt = `You are an expert coding assistant. 
-    Your task is to convert the user's spoken natural language request into valid, high-quality ${languageId} code.
-    
-    STRICT RULES:
-    1. Return ONLY the code. No markdown backticks, no explanations, no conversational text.
-    2. The code will be inserted at indentation level: "${indentation}". Ensure all lines are indented relative to this baseline.
-    3. **Variable Declaration**: ALL variables must be explicitly declared (e.g., using 'let', 'const', or 'var' in JS; proper types in C++/Java/C#). Do NOT use undeclared variables.
-    4. **Error Handling**: The code must be robust and error-free. Handle potential edge cases where appropriate.
-    5. **Standards**: Follow standard coding conventions for ${languageId}. Use meaningful variable names.
-    6. **Security**: Avoid usage of insecure functions or patterns (e.g., eval(), hardcoded credentials).
-    7. **Completeness**: If the user asks for a loop, function, or logic, implement it fully.
-    8. **Python Specifics**: Use standard 4-space indentation. Do NOT use triple quotes for the body unless explicitly asked.
-    
-    If the request is unclear or impossible to implement safely, return a comment in ${languageId} explaining why.`;
-
-  if (contextCode) {
-    systemPrompt += `\n\nCONTEXT (Surrounding Code):
-    The user is editing the following file. The cursor is located roughly where the code ends or in the middle.
-    Use this context to ensure variables, types, and styles match.
-    \`\`\`${languageId}
-    ${contextCode}
-    \`\`\``;
-  }
-
-  const messages = [
-    vscode.LanguageModelChatMessage.User(systemPrompt),
-    vscode.LanguageModelChatMessage.User(transcript)
-  ];
-
-  // 3) Send request
-  let chatReq;
+async function analyzeAI(code, instructionPrompt) {
   try {
-    chatReq = await model.sendRequest(messages, { temperature: 0.1 }); // Low temp for precision
+    const model = await selectModel();
+    const combinedPrompt = `${instructionPrompt}\n\nCode to analyze:\n${code}`;
+    const messages = [vscode.LanguageModelChatMessage.User(combinedPrompt)];
+
+    const chatRequest = await model.sendRequest(messages, {});
+
+    let results = "";
+    for await (const fragment of chatRequest.text) {
+      results += fragment;
+    }
+    return results;
   } catch (err) {
-    if (err instanceof vscode.LanguageModelError) {
-      throw new Error(`Copilot LM Error: ${err.message}`);
+    // Handle off-topic refusals cleanly
+    if (err.message && err.message.includes("off_topic")) {
+      return "I cannot analyze this code (Copilot refusal).";
     }
     throw err;
   }
-
-  // 4) Collecting response
-  let code = '';
-  for await (const fragment of chatReq.text) {
-    code += fragment;
-  }
-
-  // 5) Final Cleanup
-  code = code.replace(/^```[a-z]*\n/i, '').replace(/```$/, '').trim();
-
-  return code;
 }
 
-module.exports.generateCodeFromVoice = generateCodeFromVoice;
+async function classifyVoiceIntent(transcript, commands, opts = {}) {
+  try {
+    const temperature = opts.temperature ?? 0.0;
+    const model = await selectModel();
+
+    // System prompt engineered as User message
+    const systemInstruction =
+      'Output only JSON like {"command": "<id>"}. Reply ONLY with strict minified JSON.';
+
+    const combinedPrompt = `SYSTEM:\n${systemInstruction}\n\nUSER DATA:\n${JSON.stringify(
+      { transcript, commands: commands.map((c) => ({ id: c.id })) }
+    )}`;
+
+    const messages = [vscode.LanguageModelChatMessage.User(combinedPrompt)];
+    const chatReq = await model.sendRequest(messages, { temperature });
+
+    let text = "";
+    for await (const frag of chatReq.text) text += frag;
+
+    const match = text.match(/\{[\s\S]*\}/);
+    const candidate = match ? match[0] : text;
+    try {
+      const parsed = JSON.parse(candidate);
+      return parsed.command || "none";
+    } catch {
+      return "none";
+    }
+  } catch (err) {
+    return "none";
+  }
+}
+
+async function generateCodeFromVoice(transcript, languageId, indentation = "") {
+  try {
+    const model = await selectModel();
+
+    const combinedPrompt = `SYSTEM: You are an expert coding assistant. Convert request to valid ${languageId} code. 
+    - Return ONLY the code. 
+    - No markdown blocks. 
+    - No conversational text or explanations.
+    \nUSER REQUEST: ${transcript}`;
+
+    const messages = [vscode.LanguageModelChatMessage.User(combinedPrompt)];
+
+    const chatReq = await model.sendRequest(messages, { temperature: 0.1 });
+
+    let code = "";
+    for await (const fragment of chatReq.text) {
+      code += fragment;
+    }
+
+    // Cleanup any leaked markdown formatting
+    return code
+      .replace(/^```[a-z]*\n/i, "")
+      .replace(/```$/, "")
+      .trim();
+  } catch (err) {
+    throw new Error(`Copilot Error: ${err.message}`);
+  }
+}
+
+module.exports = {
+  analyzeAI,
+  classifyVoiceIntent,
+  generateCodeFromVoice,
+};

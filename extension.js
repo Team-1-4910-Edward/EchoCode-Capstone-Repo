@@ -189,7 +189,6 @@ const {
 // Speech (core)
 const {
   speakMessage,
-  stopSpeaking,
   loadSavedSpeechSpeed,
   registerSpeechCommands,
   increaseSpeechSpeed,

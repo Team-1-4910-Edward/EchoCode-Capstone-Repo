@@ -29,6 +29,23 @@ function getEntireFileWithLineNumbers(textEditor) {
   return code;
 }
 
+function firstSentence(text) {
+  if (!text) return "";
+  const t = String(text).replace(/\s+/g, " ").trim();
+  const m = t.match(/^(.+?[.!?])(\s|$)/);
+  return m ? m[1].trim() : t;
+}
+
+function toStepsFromSuggestion(suggestion) {
+  // Simple heuristic to convert a long suggestion into 1–2 “steps”
+  const s = String(suggestion || "").replace(/\s+/g, " ").trim();
+  if (!s) return [];
+  const parts = s.split(/(?:\.\s+|\n+)/).map(p => p.trim()).filter(Boolean);
+
+  // Pick 1–2 actionable-looking pieces
+  return parts.slice(0, 2).map(p => p.endsWith(".") ? p : `${p}.`);
+}
+
 async function parseChatResponse(chatResponse, textEditor) {
   let accumulatedResponse = "";
   for await (const fragment of chatResponse.text) {
@@ -174,12 +191,15 @@ function registerAnnotationCommands(context, outputChannel) {
       );
       if (!annotationQueue.isEmpty()) {
         const nextAnnotation = annotationQueue.dequeue();
+        const short = firstSentence(nextAnnotation.suggestion);
+        const steps = toStepsFromSuggestion(nextAnnotation.suggestion);
+
         const spoken = formatHelpByGuidance({
           where: `Line ${nextAnnotation.line}`,
-          summary: `Suggestion: ${nextAnnotation.suggestion}`,
-          raw: `Annotation on line ${nextAnnotation.line}: ${nextAnnotation.suggestion}`,
-          ruleHint: "This suggestion is meant to improve readability and maintainability.",
-          suggestions: [] // could add actual fix steps later if you split suggestion vs fix
+          summary: short,                         // no “Suggestion:” label
+          raw: nextAnnotation.suggestion,         // concise reads the raw idea
+          ruleHint: "",                           // don’t repeat generic fluff
+          suggestions: steps                      // guided/balanced can say “Next/Then” if your formatter supports it
         });
 
         vscode.window.showInformationMessage(
@@ -206,12 +226,15 @@ function registerAnnotationCommands(context, outputChannel) {
         return;
       }
       for (const annotation of annotations) {
+        const short = firstSentence(annotation.suggestion);
+        const steps = toStepsFromSuggestion(annotation.suggestion);
+
         const spoken = formatHelpByGuidance({
           where: `Line ${annotation.line}`,
-          summary: `Suggestion: ${annotation.suggestion}`,
-          raw: `Annotation on line ${annotation.line}: ${annotation.suggestion}`,
-          ruleHint: "This suggestion is meant to improve readability and maintainability.",
-          suggestions: []
+          summary: short,
+          raw: annotation.suggestion,
+          ruleHint: "",
+          suggestions: steps
         });
 
         await speakMessage(spoken);

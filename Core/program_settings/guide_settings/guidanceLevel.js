@@ -1,69 +1,97 @@
+// Core/program_settings/guide_settings/guidanceLevel.js
 const vscode = require("vscode");
 
 function getGuidanceLevel() {
-  return vscode.workspace.getConfiguration("echocode").get("guidanceLevel", "balanced");
+  return vscode.workspace
+    .getConfiguration("echocode")
+    .get("guidanceLevel", "balanced");
 }
 
-function normalize(text) {
-  return (text ?? "").toString().replace(/\s+/g, " ").trim();
+function norm(t) {
+  return (t ?? "").toString().replace(/\s+/g, " ").trim();
 }
 
-function firstSentence(text) {
-  const t = normalize(text);
-  if (!t) return "";
-  const m = t.match(/^(.+?[.!?])(\s|$)/);
-  return m ? m[1].trim() : t;
+function firstSentence(t) {
+  const s = norm(t);
+  if (!s) return "";
+  const m = s.match(/^(.+?[.!?])(\s|$)/);
+  return m ? m[1].trim() : s;
 }
 
-function trimForSpeech(text, maxChars) {
-  const t = normalize(text);
-  if (!t) return "";
-  if (t.length <= maxChars) return t;
+function trim(t, max = 220) {
+  const s = norm(t);
+  if (!s) return "";
+  if (s.length <= max) return s;
 
-  const slice = t.slice(0, maxChars);
-  const lastStop = Math.max(slice.lastIndexOf("."), slice.lastIndexOf("!"), slice.lastIndexOf("?"));
-  if (lastStop > Math.floor(maxChars * 0.55)) return slice.slice(0, lastStop + 1).trim();
+  const slice = s.slice(0, max);
+  const stop = Math.max(
+    slice.lastIndexOf("."),
+    slice.lastIndexOf("!"),
+    slice.lastIndexOf("?")
+  );
+  if (stop > 80) return slice.slice(0, stop + 1).trim();
 
   return slice.trimEnd() + "...";
 }
 
-function formatHelpByGuidance({ where, summary, raw, ruleHint, suggestions = [] }) {
+/**
+ * Backwards compatible inputs:
+ * - where
+ * - summary
+ * - raw
+ * - ruleHint
+ * - suggestions (array)
+ *
+ * New structured inputs (recommended):
+ * - detail, why, steps
+ */
+function formatHelpByGuidance(input) {
   const level = getGuidanceLevel();
 
-  const W = where ? `${normalize(where)}.` : "";
-  const S = normalize(summary);
-  const R = normalize(raw);
-  const H = normalize(ruleHint);
-  const best = normalize(suggestions[0]);
+  const where = input.where;
+  const summary = input.summary;
+  const detail = input.detail ?? input.raw;
+  const why = input.why ?? input.ruleHint;
+  const steps = input.steps ?? input.suggestions ?? [];
 
-  // If "summary" is empty, fall back safely
-  const safeSummary = S || firstSentence(R) || "I found an issue here.";
+  const W = where ? `${norm(where)}.` : "";
+  const S = norm(summary) || firstSentence(detail) || "I found something to improve here.";
+  const D = norm(detail);
+  const Y = norm(why);
+
+  const step1 = norm(steps[0]);
+  const step2 = norm(steps[1]);
 
   if (level === "guided") {
-    // Friendly + short + actionable
-    const core = trimForSpeech(safeSummary, 180);
-    const fix = best ? `Try this: ${trimForSpeech(best, 160)}` : "";
-    return [W, core, fix].filter(Boolean).join(" ");
+    // Coaching / checklist feel
+    return [
+      W,
+      trim(S, 180),
+      step1 ? `Next, ${trim(step1, 180)}` : "",
+      step2 ? `Then, ${trim(step2, 180)}` : "",
+    ]
+      .filter(Boolean)
+      .join(" ");
   }
 
   if (level === "balanced") {
-    // Location + short explanation + fix
-    const core = trimForSpeech(safeSummary, 200);
-    const hint = H ? trimForSpeech(H, 180) : "";
-    const fix = best ? `Fix: ${trimForSpeech(best, 170)}` : "";
-    return [W, core, hint, fix].filter(Boolean).join(" ");
+    // Quick tutor feel
+    return [
+      W,
+      trim(S, 200),
+      Y ? trim(Y, 160) : "",
+      step1 ? trim(step1, 200) : "",
+    ]
+      .filter(Boolean)
+      .join(" ");
   }
 
-  // concise: location + high-signal snippet + (optional) fix
-  // If raw is huge, take first sentence; if raw is too short/noisy, use summary.
-  const rawCandidate = R && R.length >= 25 ? R : safeSummary;
-  const core = trimForSpeech(firstSentence(rawCandidate), 220);
-  const fix = best ? `Fix: ${trimForSpeech(best, 170)}` : "";
-
-  // If we trimmed a lot, hint that more detail exists (optional)
-  const trimmedNotice = normalize(rawCandidate).length > 220 ? "More details are in the output panel." : "";
-
-  return [W, core, fix, trimmedNotice].filter(Boolean).join(" ");
+  // Concise: location + ONE sentence only
+  const conciseCore = firstSentence(D) || firstSentence(S);
+  return [W, trim(conciseCore, 220)].filter(Boolean).join(" ");
 }
 
-module.exports = { getGuidanceLevel, formatHelpByGuidance };
+module.exports = {
+  getGuidanceLevel,
+  formatHelpByGuidance,
+};

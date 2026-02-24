@@ -12,6 +12,7 @@ const {
 } = require("../../Core/program_settings/guide_settings/guidanceLevel");
 
 let activeDecorations = [];
+const annotatedLines = new Set();
 const annotationQueue = new Queue();
 let annotationsVisible = false;
 

@@ -1,6 +1,8 @@
 // program_features/Annotations_BigO/annotations.js
 const vscode = require("vscode");
 const Queue = require("./queue_system");
+const fs = require("fs");
+const path = require("path");
 const {
   speakMessage,
 } = require("../../Core/program_settings/speech_settings/speechHandler");
@@ -65,6 +67,69 @@ function getEntireFileWithLineNumbers(textEditor) {
   }
   return code;
 }
+
+// Load annotation settings from JSON
+function loadAnnotationSettings() {
+  const settingsPath = path.join(
+    __dirname,
+    "../../Core/program_settings/JSON_files/Annotation_Settings.json"
+  );
+  try {
+    if (fs.existsSync(settingsPath)) {
+      const data = fs.readFileSync(settingsPath, "utf8");
+      return JSON.parse(data);
+    }
+  } catch (err) {
+    console.error("Error loading Annotation_Settings.json", err);
+  }
+  return null;
+}
+
+// Check code against local JSON rules
+function checkLocalRules(textEditor, outputChannel) {
+  const settings = loadAnnotationSettings();
+  if (!settings) {
+    outputChannel.appendLine("No annotation settings found.");
+    return false;
+  }
+
+  const doc = textEditor.document;
+  const langId = doc.languageId;
+  let foundLocalIssues = false;
+  let rules = [];
+
+  if (langId === "python") rules = settings.python || [];
+  else if (langId === "cpp") rules = settings.cpp || [];
+  else {
+    outputChannel.appendLine(
+      `Language '${langId}' not supported for local checks.`
+    );
+    return false;
+  }
+
+  const lines = doc.getText().split("\n");
+
+  lines.forEach((lineText, lineIndex) => {
+    rules.forEach((rule) => {
+      if (lineText.includes(rule.pattern)) {
+        foundLocalIssues = true;
+        const lineNumber = lineIndex + 1;
+        const message = rule.message;
+
+        // Mark this line as annotated
+        annotatedLines.add(lineNumber);
+
+        applyDecoration(textEditor, lineNumber, message);
+        annotationQueue.enqueue({ line: lineNumber, suggestion: message });
+
+        outputChannel.appendLine(`[Local Rule] Line ${lineNumber}: ${message}`);
+      }
+    });
+  });
+
+  return foundLocalIssues;
+}
+
 
 // Robust streamed JSON object extractor (handles arrays in "steps")
 function extractJsonObjectsFromStream(streamText) {
@@ -144,6 +209,7 @@ function clearDecorations() {
     decoration.editor.setDecorations(decoration.decorationType, []);
   }
   activeDecorations = [];
+  annotatedLines.clear(); // Clear the tracking set
 }
 
 // -------------------------
@@ -210,10 +276,32 @@ function registerAnnotationCommands(context, outputChannel) {
       }
 
       try {
+        // Clear previous annotations tracking
+        annotatedLines.clear();
+
+        // Step 1: Check local JSON rules first
+        outputChannel.appendLine("Step 1: Checking local JSON rules...");
+        const foundLocalIssues = checkLocalRules(textEditor, outputChannel);
+
+        if (foundLocalIssues) {
+          outputChannel.appendLine(
+            `Local rules found ${annotatedLines.size} issue(s). Proceeding to AI check...`
+          );
+        } else {
+          outputChannel.appendLine(
+            "No local issues found. Proceeding to AI check..."
+          );
+        }
+
+        // Step 2: Always query AI (it will skip lines already annotated)
+        // REMOVED the early return - AI check now always runs
+        outputChannel.appendLine(
+          "Step 2: Querying AI for additional suggestions..."
+        );
         const codeWithLineNumbers = getEntireFileWithLineNumbers(textEditor);
 
         const statusBarMessage = vscode.window.setStatusBarMessage(
-          "$(loading~spin) EchoCode is analyzing your file..."
+          "$(loading~spin) EchoCode is analyzing your file with AI..."
         );
 
         const [model] = await vscode.lm.selectChatModels({
@@ -223,17 +311,28 @@ function registerAnnotationCommands(context, outputChannel) {
 
         if (!model) {
           statusBarMessage.dispose();
-          vscode.window.showErrorMessage(
-            "No language model available. Please ensure Copilot is enabled."
-          );
+
+          // If AI fails but we have local annotations, still mark as visible
+          if (foundLocalIssues) {
+            annotationsVisible = true;
+            vscode.window.showInformationMessage(
+              "Local annotations applied. AI unavailable - please ensure Copilot is enabled."
+            );
+          } else {
+            vscode.window.showErrorMessage(
+              "No language model available. Please ensure Copilot is enabled."
+            );
+          }
           outputChannel.appendLine("No language model available");
           return;
         }
+
 
         const messages = [
           new vscode.LanguageModelChatMessage(0, buildAnnotationPrompt()),
           new vscode.LanguageModelChatMessage(0, codeWithLineNumbers),
         ];
+
 
         const chatResponse = await model.sendRequest(
           messages,

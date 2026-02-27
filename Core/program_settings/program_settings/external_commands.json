@@ -1,0 +1,12 @@
+[
+  {
+    "id": "workbench.action.toggleSidebarVisibility",
+    "title": "Toggle Sidebar",
+    "keywords": ["toggle sidebar", "hide sidebar", "show sidebar"]
+  },
+  {
+    "id": "workbench.action.terminal.toggleTerminal",
+    "title": "Toggle Terminal",
+    "keywords": ["toggle terminal", "open terminal", "close terminal"]
+  }
+]

@@ -212,6 +212,21 @@
         "category": "EchoCode Voice"
       },
       {
+        "command": "echocode.voiceCode",
+        "title": "EchoCode: Voice to Code",
+        "category": "EchoCode Voice"
+      },
+      {
+        "command": "echocode.voiceCommand",
+        "title": "EchoCode: Voice to Command",
+        "category": "EchoCode Voice"
+      },
+      {
+        "command": "echocode.voiceChat",
+        "title": "EchoCode: Voice to Chat",
+        "category": "EchoCode Voice"
+      },
+      {
         "command": "echocode.setGuidanceLevel",
         "title": "EchoCode: Set Guidance Level"
       },
@@ -236,7 +251,11 @@
         "echocode.guidanceLevel": {
           "type": "string",
           "default": "balanced",
-          "enum": ["guided", "balanced", "concise"],
+          "enum": [
+            "guided",
+            "balanced",
+            "concise"
+          ],
           "enumDescriptions": [
             "Step-by-step explanations with minimal jargon.",
             "Balanced explanations with brief rules and a couple options.",
@@ -300,6 +319,19 @@
         "command": "echocode.toggleVoice",
         "key": "ctrl+alt+space",
         "when": "editorTextFocus"
+      },
+      {
+        "command": "echocode.voiceCode",
+        "key": "ctrl+alt+shift+c",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "echocode.voiceCommand",
+        "key": "ctrl+alt+shift+v"
+      },
+      {
+        "command": "echocode.voiceChat",
+        "key": "ctrl+alt+shift+t"
       },
       {
         "command": "echocode.openChat",
@@ -438,20 +470,36 @@
     ],
     "viewsContainers": {
       "activitybar": [
-        { "id": "echocode", "title": "EchoCode", "icon": "images/icon.png" }
+        {
+          "id": "echocode",
+          "title": "EchoCode",
+          "icon": "images/icon.png"
+        }
       ]
     },
     "views": {
       "echocode": [
-        { "id": "echocode.chatView", "name": "EchoCode Tutor", "type": "webview" }
+        {
+          "id": "echocode.chatView",
+          "name": "EchoCode Tutor",
+          "type": "webview"
+        }
       ]
     },
     "menus": {
       "editor/title": [
-        { "command": "echocode.annotate", "group": "navigation" }
+        {
+          "command": "echocode.annotate",
+          "group": "navigation"
+        }
       ],
       "view/title": [
-        { "command": "echocode.startVoiceInput", "when": "view == echocode.chatView", "group": "navigation", "icon": "$(comment)" }
+        {
+          "command": "echocode.startVoiceInput",
+          "when": "view == echocode.chatView",
+          "group": "navigation",
+          "icon": "$(comment)"
+        }
       ]
     }
   },

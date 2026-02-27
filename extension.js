@@ -3,6 +3,9 @@ const path = require("path");
 const fs = require("fs");
 require("dotenv").config();
 const DependencyManager = require("./program_features/Voice/dependencyManager"); // Import manager
+const {
+  matchExternalCommand,
+} = require("./Core/program_settings/program_settings/ExternalIntentRouter"); // ADD THIS LINE ONLY
 
 const {
   startRecording,
@@ -18,45 +21,45 @@ const {
 // Helper to map VS Code language IDs to friendly names for LLM
 function getFriendlyLanguageName(languageId) {
   const map = {
-    "cpp": "C++",
-    "c": "C",
-    "csharp": "C#",
-    "javascript": "JavaScript",
-    "typescript": "TypeScript",
-    "python": "Python",
-    "java": "Java",
-    "html": "HTML",
-    "css": "CSS",
-    "php": "PHP",
-    "ruby": "Ruby",
-    "go": "Go",
-    "rust": "Rust",
-    "swift": "Swift",
-    "kotlin": "Kotlin",
-    "sql": "SQL",
-    "r": "R",
-    "shellscript": "Shell Script",
-    "powershell": "PowerShell",
-    "json": "JSON",
-    "xml": "XML",
-    "markdown": "Markdown",
-    "plaintext": "Pseudocode", // Fallback for plain text
-    "bat": "Batch file",
-    "clojure": "Clojure",
-    "coffeescript": "CoffeeScript",
-    "dockerfile": "Dockerfile",
-    "fsharp": "F#",
-    "groovy": "Groovy",
-    "handlebars": "Handlebars",
-    "ini": "Ini",
-    "lua": "Lua",
-    "makefile": "Makefile",
+    cpp: "C++",
+    c: "C",
+    csharp: "C#",
+    javascript: "JavaScript",
+    typescript: "TypeScript",
+    python: "Python",
+    java: "Java",
+    html: "HTML",
+    css: "CSS",
+    php: "PHP",
+    ruby: "Ruby",
+    go: "Go",
+    rust: "Rust",
+    swift: "Swift",
+    kotlin: "Kotlin",
+    sql: "SQL",
+    r: "R",
+    shellscript: "Shell Script",
+    powershell: "PowerShell",
+    json: "JSON",
+    xml: "XML",
+    markdown: "Markdown",
+    plaintext: "Pseudocode", // Fallback for plain text
+    bat: "Batch file",
+    clojure: "Clojure",
+    coffeescript: "CoffeeScript",
+    dockerfile: "Dockerfile",
+    fsharp: "F#",
+    groovy: "Groovy",
+    handlebars: "Handlebars",
+    ini: "Ini",
+    lua: "Lua",
+    makefile: "Makefile",
     "objective-c": "Objective-C",
-    "perl": "Perl",
-    "r": "R",
-    "scss": "SCSS",
-    "vb": "Visual Basic",
-    "yaml": "YAML"
+    perl: "Perl",
+    r: "R",
+    scss: "SCSS",
+    vb: "Visual Basic",
+    yaml: "YAML",
   };
   return map[languageId] || languageId; // Return mapped name or original ID if not found
 }
@@ -86,6 +89,17 @@ async function tryExecuteVoiceCommand(transcript, outputChannel) {
         outputChannel.appendLine(`[Voice Command] Matched: ${cmd.id}`);
         return { handled: true, command: cmd.id };
       }
+    }
+
+    // Priority 2: External/user-defined commands (NEW — two lines)
+    const externalCmd = matchExternalCommand(cleaned);
+    if (externalCmd) {
+      await vscode.commands.executeCommand(externalCmd.id);
+      vscode.window.showInformationMessage(`✅ External: ${externalCmd.title}`);
+      outputChannel.appendLine(
+        `[Voice Command] External Matched: ${externalCmd.id}`
+      );
+      return { handled: true, command: externalCmd.id };
     }
 
     // no match — pass to Copilot for Code Generation
@@ -122,8 +136,12 @@ async function tryExecuteVoiceCommand(transcript, outputChannel) {
         const rawLangId = editor.document.languageId;
         const friendlyLang = getFriendlyLanguageName(rawLangId);
 
-        vscode.window.showInformationMessage(`EchoCode: Generating ${friendlyLang} code...`);
-        outputChannel.appendLine(`[Voice Generation] Detected Language: ${friendlyLang} (ID: ${rawLangId})`);
+        vscode.window.showInformationMessage(
+          `EchoCode: Generating ${friendlyLang} code...`
+        );
+        outputChannel.appendLine(
+          `[Voice Generation] Detected Language: ${friendlyLang} (ID: ${rawLangId})`
+        );
 
         // --- Indentation Logic ---
         const position = editor.selection.active;
@@ -134,8 +152,16 @@ async function tryExecuteVoiceCommand(transcript, outputChannel) {
         // --- Context Window Logic ---
         // Capture 50 lines before and 20 lines after the cursor to give the AI context
         const startLine = Math.max(0, position.line - 50);
-        const endLine = Math.min(editor.document.lineCount - 1, position.line + 20);
-        const contextRange = new vscode.Range(startLine, 0, endLine, editor.document.lineAt(endLine).text.length);
+        const endLine = Math.min(
+          editor.document.lineCount - 1,
+          position.line + 20
+        );
+        const contextRange = new vscode.Range(
+          startLine,
+          0,
+          endLine,
+          editor.document.lineAt(endLine).text.length
+        );
         const contextCode = editor.document.getText(contextRange);
 
         const generatedCode = await generateCodeFromVoice(
@@ -313,8 +339,23 @@ async function activate(context) {
   // start recording (no transcript yet)
   context.subscriptions.push(
     vscode.commands.registerCommand("echocode._voiceStart", async () => {
-      // Pass 'context' so we can access globalState for microphone settings
       startRecording(outputChannel, context);
+    })
+  );
+
+  // ADD THIS — _voiceStop was never registered
+  context.subscriptions.push(
+    vscode.commands.registerCommand("echocode._voiceStop", async () => {
+      try {
+        const text = await stopAndTranscribe(
+          outputChannel,
+          context.globalState
+        );
+        return { ok: true, text };
+      } catch (err) {
+        outputChannel.appendLine(`[Voice Stop Error] ${err.message}`);
+        return { ok: false, text: "", error: err.message };
+      }
     })
   );
 
@@ -329,54 +370,178 @@ async function activate(context) {
   context.subscriptions.push(
     vscode.commands.registerCommand("echocode.toggleVoice", async () => {
       if (isRecording()) {
-        // Sync UI: Stop immediately
         if (chatProvider) chatProvider.setRecordingState(false);
-
-        // Announce processing (don't await to avoid blocking stop)
         speakMessage("Processing");
-
-        const result = await vscode.commands.executeCommand("echocode._voiceStop");
-
-        if (result && result.ok && result.text) {
-          // Attempt to execute as a voice command first
-          const voiceResult = await tryExecuteVoiceCommand(result.text, outputChannel);
-
-          if (!voiceResult.handled) {
-            // Fallback: Send to Chat Tutor
-            await vscode.commands.executeCommand("echocode.openChat");
-            if (chatProvider) {
-              await chatProvider.handleUserMessage(result.text);
+        try {
+          const text = await stopAndTranscribe(
+            outputChannel,
+            context.globalState
+          );
+          if (text && !text.includes("no speech detected")) {
+            const voiceResult = await tryExecuteVoiceCommand(
+              text,
+              outputChannel
+            );
+            if (!voiceResult.handled) {
+              await vscode.commands.executeCommand("echocode.openChat");
+              if (chatProvider) {
+                await chatProvider.handleUserMessage(text);
+              }
             }
           }
+        } catch (err) {
+          outputChannel.appendLine(`[Toggle Voice Error] ${err.message}`);
         }
       } else {
-        // Sync UI: Start immediately
         if (chatProvider) chatProvider.setRecordingState(true);
-
         await speakMessage("Listening");
-        await vscode.commands.executeCommand("echocode._voiceStart");
+        startRecording(outputChannel, context);
       }
     })
   );
 
-  // stop recording and transcribe (returns text)
+  // --- MACRO 1: Voice to CODE only ---
   context.subscriptions.push(
-    vscode.commands.registerCommand("echocode._voiceStop", async () => {
-      try {
-        // Pass context.globalState so we know where the venv python is
-        const text = await stopAndTranscribe(
-          outputChannel,
-          context.globalState
-        );
-        return { ok: true, text };
-      } catch (err) {
-        const msg = err && err.message ? err.message : String(err);
-        vscode.window.showErrorMessage("EchoCode Whisper STT error: " + msg);
-        outputChannel.appendLine("[Whisper] Error: " + msg);
-        return { ok: false, error: msg };
+    vscode.commands.registerCommand("echocode.voiceCode", async () => {
+      if (isRecording()) {
+        speakMessage("Processing");
+        try {
+          const text = await stopAndTranscribe(
+            outputChannel,
+            context.globalState
+          );
+          if (!text || text.includes("no speech detected")) return;
+          const editor = vscode.window.activeTextEditor;
+          if (!editor) {
+            vscode.window.showErrorMessage(
+              "EchoCode: Open a file to generate code."
+            );
+            return;
+          }
+          const friendlyLang = getFriendlyLanguageName(
+            editor.document.languageId
+          );
+          vscode.window.showInformationMessage(
+            `EchoCode: Generating ${friendlyLang} code...`
+          );
+          const position = editor.selection.active;
+          const indentation = (editor.document
+            .lineAt(position.line)
+            .text.match(/^\s*/) || [""])[0];
+          const startLine = Math.max(0, position.line - 50);
+          const endLine = Math.min(
+            editor.document.lineCount - 1,
+            position.line + 20
+          );
+          const contextCode = editor.document.getText(
+            new vscode.Range(
+              startLine,
+              0,
+              endLine,
+              editor.document.lineAt(endLine).text.length
+            )
+          );
+          const generatedCode = await generateCodeFromVoice(
+            text,
+            friendlyLang,
+            indentation,
+            contextCode
+          );
+          if (generatedCode) {
+            await editor.edit((eb) => eb.insert(position, generatedCode));
+            await speakMessage("Code generated.");
+          }
+        } catch (err) {
+          vscode.window.showErrorMessage(
+            `EchoCode Generation Fail: ${err.message}`
+          );
+        }
+      } else {
+        await speakMessage("Coding mode. Listening.");
+        startRecording(outputChannel, context);
       }
     })
   );
+
+  // --- MACRO 2: Voice to COMMAND only ---
+  context.subscriptions.push(
+    vscode.commands.registerCommand("echocode.voiceCommand", async () => {
+      if (isRecording()) {
+        speakMessage("Processing");
+        try {
+          const text = await stopAndTranscribe(
+            outputChannel,
+            context.globalState
+          );
+          if (!text || text.includes("no speech detected")) return;
+          const cleaned = text.toLowerCase().trim();
+
+          // Priority 1: EchoCode internal commands
+          const commandsPath = path.join(
+            __dirname,
+            "Core/program_settings/program_settings/voice_commands.json"
+          );
+          const internalCommands = JSON.parse(
+            fs.readFileSync(commandsPath, "utf-8")
+          );
+          for (const cmd of internalCommands) {
+            if (cmd.keywords.some((k) => cleaned.includes(k))) {
+              await vscode.commands.executeCommand(cmd.id);
+              vscode.window.showInformationMessage(`✅ Executed: ${cmd.title}`);
+              return;
+            }
+          }
+
+          // Priority 2: External/user-defined commands
+          const externalCmd = matchExternalCommand(cleaned);
+          if (externalCmd) {
+            await vscode.commands.executeCommand(externalCmd.id);
+            vscode.window.showInformationMessage(
+              `✅ External: ${externalCmd.title}`
+            );
+            return;
+          }
+
+          vscode.window.showInformationMessage(
+            `No command found for: "${text}"`
+          );
+        } catch (err) {
+          vscode.window.showErrorMessage(
+            `EchoCode Command Fail: ${err.message}`
+          );
+        }
+      } else {
+        await speakMessage("Command mode. Listening.");
+        startRecording(outputChannel, context);
+      }
+    })
+  );
+
+  // --- MACRO 3: Voice to CHAT only ---
+  context.subscriptions.push(
+    vscode.commands.registerCommand("echocode.voiceChat", async () => {
+      if (isRecording()) {
+        speakMessage("Processing");
+        try {
+          const text = await stopAndTranscribe(
+            outputChannel,
+            context.globalState
+          );
+          if (!text || text.includes("no speech detected")) return;
+          await vscode.commands.executeCommand("echocode.openChat");
+          if (chatProvider) {
+            await chatProvider.handleUserMessage(text);
+          }
+        } catch (err) {
+          vscode.window.showErrorMessage(`EchoCode Chat Fail: ${err.message}`);
+        }
+      } else {
+        await speakMessage("Chat mode. Listening.");
+        startRecording(outputChannel, context);
+      }
+    })
+  );
+
   registerBigOCommand(context);
   registerAnnotationCommands(context, outputChannel);
   registerAssignmentTrackerCommands(context);
@@ -430,68 +595,93 @@ async function activate(context) {
   outputChannel.appendLine(
     "Commands registered: echocode.readErrors, echocode.annotate, echocode.speakNextAnnotation, echocode.readAllAnnotations, echocode.summarizeClass, echocode.summarizeFunction, echocode.jumpToNextFunction, echocode.jumpToPreviousFunction, echocode.openChat, echocode.startVoiceInput, echocode.loadAssignmentFile, echocode.rescanUserCode, echocode.readNextSequentialTask, echocode.increaseSpeechSpeed, echocode.decreaseSpeechSpeed, echocode.moveToNextFolder, echocode.moveToPreviousFolder"
   );
-  
+
   // Guidance level commands - for controlling how verbose/guided the AI responses are across features that use AI (summarizer, big O, annotations, what's this)
   const setGuidanceLevelCommand = vscode.commands.registerCommand(
-  "echocode.setGuidanceLevel",
-  async () => {
-    // Show a quick pick to select the guidance level
-    const pick = await vscode.window.showQuickPick(
-      [
-        { label: "Guided", value: "guided", detail: "Step-by-step, minimal jargon" },
-        { label: "Balanced", value: "balanced", detail: "Rule + a couple fix options" },
-        { label: "Concise", value: "concise", detail: "Technical, raw error included" },
-      ],
-      { placeHolder: "Choose EchoCode Guidance Level" }
-    );
+    "echocode.setGuidanceLevel",
+    async () => {
+      // Show a quick pick to select the guidance level
+      const pick = await vscode.window.showQuickPick(
+        [
+          {
+            label: "Guided",
+            value: "guided",
+            detail: "Step-by-step, minimal jargon",
+          },
+          {
+            label: "Balanced",
+            value: "balanced",
+            detail: "Rule + a couple fix options",
+          },
+          {
+            label: "Concise",
+            value: "concise",
+            detail: "Technical, raw error included",
+          },
+        ],
+        { placeHolder: "Choose EchoCode Guidance Level" }
+      );
 
-    if (!pick) return;
+      if (!pick) return;
 
-    await vscode.workspace
-      .getConfiguration("echocode")
-      .update("guidanceLevel", pick.value, vscode.ConfigurationTarget.Global);
+      await vscode.workspace
+        .getConfiguration("echocode")
+        .update("guidanceLevel", pick.value, vscode.ConfigurationTarget.Global);
 
-    vscode.window.showInformationMessage(
-      `EchoCode guidance level set to ${pick.label}.`
-    );
-  }
-);
-
-// Optional: command to cycle through guidance levels quickly
-const cycleGuidanceLevelCommand = vscode.commands.registerCommand(
-  "echocode.cycleGuidanceLevel",
-  // Cycles through guided -> balanced -> concise -> back to guided
-  async () => {
-    const config = vscode.workspace.getConfiguration("echocode");
-    const current = config.get("guidanceLevel", "balanced");
-
-    const order = ["guided", "balanced", "concise"];
-    const idx = order.indexOf(current);
-    const next = order[(idx >= 0 ? idx : 1) + 1 >= order.length ? 0 : (idx >= 0 ? idx : 1) + 1];
-
-    await config.update("guidanceLevel", next, vscode.ConfigurationTarget.Global);
-
-    const label =
-      next === "guided" ? "Guided" :
-      next === "balanced" ? "Balanced" :
-      "Concise";
-
-    vscode.window.showInformationMessage(`EchoCode guidance level: ${label}`);
-
-    // Optional: speak confirmation (uses your existing TTS setup)
-    try {
-      // speakMessage is not imported in extension.js, so require it here
-      const { speakMessage } = require("./Core/program_settings/speech_settings/speechHandler");
-      await speakMessage(`Guidance level set to ${label}.`);
-    } catch (_) {
-      // If TTS unavailable, silently ignore
+      vscode.window.showInformationMessage(
+        `EchoCode guidance level set to ${pick.label}.`
+      );
     }
-  }
-);
+  );
 
-context.subscriptions.push(cycleGuidanceLevelCommand);
+  // Optional: command to cycle through guidance levels quickly
+  const cycleGuidanceLevelCommand = vscode.commands.registerCommand(
+    "echocode.cycleGuidanceLevel",
+    // Cycles through guided -> balanced -> concise -> back to guided
+    async () => {
+      const config = vscode.workspace.getConfiguration("echocode");
+      const current = config.get("guidanceLevel", "balanced");
 
-context.subscriptions.push(setGuidanceLevelCommand);
+      const order = ["guided", "balanced", "concise"];
+      const idx = order.indexOf(current);
+      const next =
+        order[
+          (idx >= 0 ? idx : 1) + 1 >= order.length
+            ? 0
+            : (idx >= 0 ? idx : 1) + 1
+        ];
+
+      await config.update(
+        "guidanceLevel",
+        next,
+        vscode.ConfigurationTarget.Global
+      );
+
+      const label =
+        next === "guided"
+          ? "Guided"
+          : next === "balanced"
+          ? "Balanced"
+          : "Concise";
+
+      vscode.window.showInformationMessage(`EchoCode guidance level: ${label}`);
+
+      // Optional: speak confirmation (uses your existing TTS setup)
+      try {
+        // speakMessage is not imported in extension.js, so require it here
+        const {
+          speakMessage,
+        } = require("./Core/program_settings/speech_settings/speechHandler");
+        await speakMessage(`Guidance level set to ${label}.`);
+      } catch (_) {
+        // If TTS unavailable, silently ignore
+      }
+    }
+  );
+
+  context.subscriptions.push(cycleGuidanceLevelCommand);
+
+  context.subscriptions.push(setGuidanceLevelCommand);
 
   // Initialize folder list when the extension starts
   initializeFolderList();

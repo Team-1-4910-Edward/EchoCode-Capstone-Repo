@@ -47,6 +47,10 @@
   "contributes": {
     "commands": [
       {
+        "command": "echocode.toggleMode",
+        "title": "EchoCode: Toggle Student/Dev Mode"
+    },
+      {
         "command": "echocode.readHotkeyGuide",
         "title": "EchoCode: Read Hotkey Guide"
       },
@@ -225,6 +229,11 @@
       }
     },
     "keybindings": [
+      {
+        "command": "echocode.toggleMode",
+        "key": "ctrl+alt+9",
+        "when": "true"
+      },
       {
         "key": "f1",
         "command": "echocode.readHotkeyGuide",

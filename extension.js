@@ -1,7 +1,7 @@
 const vscode = require("vscode");
 
 //student/dev mode system
-const { refreshModeContext, onModeChange } = require("./Core/program_settings/mode");
+const { refreshModeContext, onModeChange, getMode } = require("./Core/program_settings/mode");
 const { guard } = require("./Core/program_settings/guard");
 
 
@@ -129,6 +129,29 @@ async function activate(context) {
       outputChannel.appendLine(`[EchoCode] Mode changed: ${mode}`);
     })
   );
+
+  // Toggle Student/Dev mode command
+const toggleModeCommand = vscode.commands.registerCommand(
+  "echocode.toggleMode",
+  async () => {
+    const currentMode = getMode();
+    const newMode = currentMode === "student" ? "dev" : "student";
+
+    await vscode.workspace
+      .getConfiguration("echocode")
+      .update("mode", newMode, vscode.ConfigurationTarget.Global);
+
+    await refreshModeContext();
+
+    vscode.window.showInformationMessage(
+      `EchoCode switched to ${newMode.toUpperCase()} mode`
+    );
+
+    outputChannel.appendLine(`[EchoCode] Mode toggled to: ${newMode}`);
+  }
+);
+
+context.subscriptions.push(toggleModeCommand);
 
   // Ensure Copilot (stable, chat, or nightly) is available for AI features
   await ensureCopilotActivated(outputChannel);

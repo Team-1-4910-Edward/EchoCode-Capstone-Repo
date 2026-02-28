@@ -1,6 +1,7 @@
 const vscode = require("vscode");
 
 //student/dev mode system
+const { announceMode } = require("./Core/program_settings/modeAudio");
 const { refreshModeContext, onModeChange, getMode } = require("./Core/program_settings/mode");
 const { guard } = require("./Core/program_settings/guard");
 
@@ -120,14 +121,16 @@ async function activate(context) {
   outputChannel = vscode.window.createOutputChannel("EchoCode");
   outputChannel.appendLine("[EchoCode] Activated");
 
-    // Initialize student/dev mode context
-  await refreshModeContext();
-
+  // Initialize student/dev mode context
+const initialMode = await refreshModeContext();
+announceMode(initialMode, outputChannel);
+  
   context.subscriptions.push(
     onModeChange(async () => {
-      const mode = await refreshModeContext();
-      outputChannel.appendLine(`[EchoCode] Mode changed: ${mode}`);
-    })
+  const mode = await refreshModeContext();
+  outputChannel.appendLine(`[EchoCode] Mode changed: ${mode}`);
+  announceMode(mode, outputChannel);
+})
   );
 
   // Toggle Student/Dev mode command

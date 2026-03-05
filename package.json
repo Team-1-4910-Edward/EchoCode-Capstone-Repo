@@ -49,6 +49,10 @@
   "contributes": {
     "commands": [
       {
+        "command": "echocode.toggleMode",
+        "title": "EchoCode: Toggle Student/Dev Mode"
+      },
+      {
         "command": "echocode.readHotkeyGuide",
         "title": "EchoCode: Read Hotkey Guide"
       },
@@ -223,6 +227,15 @@
     "configuration": {
       "title": "EchoCode",
       "properties": {
+        "echocode.mode": {
+          "type": "string",
+          "enum": [
+            "student",
+            "dev"
+          ],
+          "default": "student",
+          "description": "Student mode locks restricted features. Dev mode enables everything."
+        },
         "echocode.voice": {
           "type": "string",
           "default": "",
@@ -236,7 +249,11 @@
         "echocode.guidanceLevel": {
           "type": "string",
           "default": "balanced",
-          "enum": ["guided", "balanced", "concise"],
+          "enum": [
+            "guided",
+            "balanced",
+            "concise"
+          ],
           "enumDescriptions": [
             "Step-by-step explanations with minimal jargon.",
             "Balanced explanations with brief rules and a couple options.",
@@ -248,6 +265,11 @@
     },
     "keybindings": [
       {
+        "command": "echocode.toggleMode",
+        "key": "ctrl+alt+9",
+        "when": "true"
+      },
+      {
         "key": "f1",
         "command": "echocode.readHotkeyGuide",
         "when": "editorTextFocus"
@@ -255,17 +277,17 @@
       {
         "command": "echocode.speakNextAnnotation",
         "key": "ctrl+alt+s",
-        "when": "editorTextFocus"
+        "when": "editorTextFocus && echocode:isDev"
       },
       {
         "command": "echocode.annotate",
         "key": "ctrl+alt+a",
-        "when": "editorTextFocus"
+        "when": "editorTextFocus && echocode:isDev"
       },
       {
         "command": "echocode.readAllAnnotations",
         "key": "ctrl+alt+q",
-        "when": "editorTextFocus"
+        "when": "editorTextFocus && echocode:isDev"
       },
       {
         "command": "echocode.jumpToNextFunction",
@@ -280,21 +302,27 @@
       {
         "command": "echocode.summarizeClass",
         "key": "ctrl+alt+e c",
-        "when": "editorTextFocus"
+        "when": "editorTextFocus && echocode:isDev"
       },
       {
         "command": "echocode.summarizeFunction",
         "key": "ctrl+alt+e f",
-        "when": "editorTextFocus"
+        "when": "editorTextFocus && echocode:isDev"
       },
       {
         "command": "echocode.summarizeProgram",
         "key": "ctrl+alt+e p",
-        "when": "editorTextFocus"
+        "when": "editorTextFocus && echocode:isDev"
       },
       {
         "command": "echocode.startVoiceInput",
-        "key": "ctrl+alt+v"
+        "key": "ctrl+alt+v",
+        "when": "echocode:isDev"
+      },
+      {
+        "command": "echocode.toggleVoice",
+        "key": "ctrl+alt+space",
+        "when": "editorTextFocus"
       },
       {
         "command": "echocode.toggleVoice",
@@ -304,12 +332,12 @@
       {
         "command": "echocode.openChat",
         "key": "ctrl+alt+c",
-        "when": "editorTextFocus"
+        "when": "editorTextFocus && echocode:isDev"
       },
       {
         "command": "code-tutor.analyzeBigO",
         "key": "ctrl+alt+n",
-        "when": "editorTextFocus"
+        "when": "editorTextFocus && echocode:isDev"
       },
       {
         "command": "echocode.whereAmI",
@@ -319,11 +347,12 @@
       {
         "command": "code-tutor.iterateBigOQueue",
         "key": "ctrl+alt+b",
-        "when": "editorTextFocus"
+        "when": "editorTextFocus && echocode:isDev"
       },
       {
         "command": "code-tutor.readEntireBigOQueue",
-        "key": "ctrl+alt+h"
+        "key": "ctrl+alt+h",
+        "when": "echocode:isDev"
       },
       {
         "key": "ctrl+alt+o",
@@ -398,7 +427,7 @@
       {
         "command": "echocode.describeCurrentLine",
         "key": "ctrl+alt+k",
-        "when": "editorTextFocus"
+        "when": "editorTextFocus && echocode:isDev"
       },
       {
         "command": "echocode.toggleCharacterReadOut",
@@ -408,22 +437,22 @@
       {
         "key": "ctrl+alt+i",
         "command": "echocode.copyFileNameForImport",
-        "when": "editorTextFocus"
+        "when": "editorTextFocus && echocode:isDev"
       },
       {
         "key": "ctrl+shift+i",
         "command": "echocode.pasteImportAtCursor",
-        "when": "editorTextFocus"
+        "when": "editorTextFocus && echocode:isDev"
       },
       {
         "key": "ctrl+alt+g",
         "command": "echocode.compileAndParseCpp",
-        "when": "editorTextFocus && editorLangId == 'cpp'"
+        "when": "editorTextFocus && editorLangId == 'cpp' && echocode:isDev"
       },
       {
         "key": "ctrl+alt+g",
         "command": "echocode.checkPythonErrors",
-        "when": "editorTextFocus && editorLangId == 'python'"
+        "when": "editorTextFocus && editorLangId == 'python' && echocode:isDev"
       },
       {
         "command": "echocode.setGuidanceLevel",
@@ -438,20 +467,37 @@
     ],
     "viewsContainers": {
       "activitybar": [
-        { "id": "echocode", "title": "EchoCode", "icon": "images/icon.png" }
+        {
+          "id": "echocode",
+          "title": "EchoCode",
+          "icon": "images/icon.png"
+        }
       ]
     },
     "views": {
       "echocode": [
-        { "id": "echocode.chatView", "name": "EchoCode Tutor", "type": "webview" }
+        {
+          "id": "echocode.chatView",
+          "name": "EchoCode Tutor",
+          "type": "webview"
+        }
       ]
     },
     "menus": {
       "editor/title": [
-        { "command": "echocode.annotate", "group": "navigation" }
+        {
+          "command": "echocode.annotate",
+          "when": "echocode:isDev",
+          "group": "navigation"
+        }
       ],
       "view/title": [
-        { "command": "echocode.startVoiceInput", "when": "view == echocode.chatView", "group": "navigation", "icon": "$(comment)" }
+        {
+          "command": "echocode.startVoiceInput",
+          "when": "view == echocode.chatView && echocode:isDev",
+          "group": "navigation",
+          "icon": "$(comment)"
+        }
       ]
     }
   },

@@ -2,11 +2,10 @@
   "name": "echo-code",
   "displayName": "Echo Code",
   "description": "AI-assisted speech, chat, and summaries for any language; Python lint-on-save + C++ support.",
-  "version": "1.7.0",
-  "type": "module",
+  "version": "2.1.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/tjcrozier/CSCE-3444.001-Group-1.git"
+    "url": "https://github.com/Team-1-4910-Edward/EchoCode-Capstone-Repo.git"
   },
   "icon": "images/icon.png",
   "publisher": "EchoCode",
@@ -32,18 +31,20 @@
     "onCommand:echocode.summarizeFunction",
     "onCommand:echocode.summarizeProgram",
     "onCommand:echocode.startVoiceInput",
+    "onCommand:echocode.selectMicrophone",
     "onCommand:echocode.loadAssignmentFile",
     "onCommand:echocode.increaseSpeechSpeed",
     "onCommand:echocode.decreaseSpeechSpeed",
     "onCommand:echocode.rescanUserCode",
     "onCommand:echocode.readNextSequentialTask",
-    "onCommand:echocode.whereAmI"
+    "onCommand:echocode.whereAmI",
+    "onCommand:echocode.compileAndParseCpp",
+    "onCommand:echocode.setGuidanceLevel",
+    "onCommand:echocode.cycleGuidanceLevel"
   ],
   "main": "./extension.js",
   "extensionDependencies": [
-    "ms-python.python",
-    "ms-vscode.cpptools",
-    "github.copilot"
+    "ms-python.python"
   ],
   "contributes": {
     "commands": [
@@ -191,6 +192,32 @@
       {
         "command": "code-tutor.readEntireBigOQueue",
         "title": "Read All Big O Recommendations"
+      },
+      {
+        "command": "echocode.compileAndParseCpp",
+        "title": "EchoCode: Compile and Parse C++ File"
+      },
+      {
+        "command": "echocode.checkPythonErrors",
+        "title": "EchoCode: Check Python Errors"
+      },
+      {
+        "command": "echocode.selectMicrophone",
+        "title": "EchoCode: Select Microphone",
+        "category": "EchoCode Voice"
+      },
+      {
+        "command": "echocode.toggleVoice",
+        "title": "EchoCode: Toggle Voice Input",
+        "category": "EchoCode Voice"
+      },
+      {
+        "command": "echocode.setGuidanceLevel",
+        "title": "EchoCode: Set Guidance Level"
+      },
+      {
+        "command": "echocode.cycleGuidanceLevel",
+        "title": "EchoCode: Cycle Guidance Level"
       }
     ],
     "configuration": {
@@ -198,13 +225,24 @@
       "properties": {
         "echocode.voice": {
           "type": "string",
-          "default": "Microsoft Zira Desktop",
-          "description": "Voice name for text-to-speech (e.g., 'Microsoft Zira Desktop', 'Alex', etc.). Leave blank for system default."
+          "default": "",
+          "description": "Voice name for text-to-speech. Leave blank for system default."
         },
         "echocode.rate": {
           "type": "number",
           "default": 1,
           "description": "Speech rate for text-to-speech (0.5 = slow, 1.0 = normal, 1.5 = fast)."
+        },
+        "echocode.guidanceLevel": {
+          "type": "string",
+          "default": "balanced",
+          "enum": ["guided", "balanced", "concise"],
+          "enumDescriptions": [
+            "Step-by-step explanations with minimal jargon.",
+            "Balanced explanations with brief rules and a couple options.",
+            "Concise, technical output with the raw error included."
+          ],
+          "description": "Controls how much detail EchoCode provides when explaining errors."
         }
       }
     },
@@ -257,6 +295,11 @@
       {
         "command": "echocode.startVoiceInput",
         "key": "ctrl+alt+v"
+      },
+      {
+        "command": "echocode.toggleVoice",
+        "key": "ctrl+alt+space",
+        "when": "editorTextFocus"
       },
       {
         "command": "echocode.openChat",
@@ -371,40 +414,44 @@
         "key": "ctrl+shift+i",
         "command": "echocode.pasteImportAtCursor",
         "when": "editorTextFocus"
+      },
+      {
+        "key": "ctrl+alt+g",
+        "command": "echocode.compileAndParseCpp",
+        "when": "editorTextFocus && editorLangId == 'cpp'"
+      },
+      {
+        "key": "ctrl+alt+g",
+        "command": "echocode.checkPythonErrors",
+        "when": "editorTextFocus && editorLangId == 'python'"
+      },
+      {
+        "command": "echocode.setGuidanceLevel",
+        "key": "ctrl+alt+shift+z",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "echocode.cycleGuidanceLevel",
+        "key": "ctrl+alt+z",
+        "when": "editorTextFocus"
       }
     ],
     "viewsContainers": {
       "activitybar": [
-        {
-          "id": "echocode",
-          "title": "EchoCode",
-          "icon": "images/icon.png"
-        }
+        { "id": "echocode", "title": "EchoCode", "icon": "images/icon.png" }
       ]
     },
     "views": {
       "echocode": [
-        {
-          "id": "echocode.chatView",
-          "name": "EchoCode Tutor",
-          "type": "webview"
-        }
+        { "id": "echocode.chatView", "name": "EchoCode Tutor", "type": "webview" }
       ]
     },
     "menus": {
       "editor/title": [
-        {
-          "command": "echocode.annotate",
-          "group": "navigation"
-        }
+        { "command": "echocode.annotate", "group": "navigation" }
       ],
       "view/title": [
-        {
-          "command": "echocode.startVoiceInput",
-          "when": "view == echocode.chatView",
-          "group": "navigation",
-          "icon": "$(comment)"
-        }
+        { "command": "echocode.startVoiceInput", "when": "view == echocode.chatView", "group": "navigation", "icon": "$(comment)" }
       ]
     }
   },
@@ -438,10 +485,15 @@
   "dependencies": {
     "@vscode/codicons": "^0.0.33",
     "axios": "^1.8.3",
-    "dotenv": "^16.4.7",
+    "dotenv": "^16.6.1",
+    "ffmpeg-static": "^5.2.0",
+    "fluent-ffmpeg": "^2.1.3",
     "mammoth": "^1.9.0",
+    "mic": "^2.1.2",
+    "openai": "^5.20.0",
     "pdf-parse": "^1.1.1",
     "say": "^0.16.0",
-    "sound-play": "^1.1.0"
+    "sound-play": "^1.1.0",
+    "uuid": "^13.0.0"
   }
 }

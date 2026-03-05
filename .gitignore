@@ -33,3 +33,10 @@ coverage/
 # Logs and temporary files
 *.log
 *.tmp
+# Ignore environment variable files
+.env
+
+# Ignore venv folders for Python virtual environments
+echocode-venv/
+
+TestFile1.cpp

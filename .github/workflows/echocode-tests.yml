@@ -13,7 +13,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: npm
 
-      - run: npm ci
-      - run: xvfb-run -a npm test
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run automated tests
+        run: xvfb-run -a npm test

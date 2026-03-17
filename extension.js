@@ -2,15 +2,18 @@ const vscode = require("vscode");
 const path = require("path");
 const fs = require("fs");
 require("dotenv").config();
-const DependencyManager = require("./program_features/Voice/dependencyManager"); // Import manager
+const DependencyManager = require("./program_features/Voice/dependencyManager");
+
+// Ensure this is the ONLY time ExternalIntentRouter is required in the whole file
 const {
   matchExternalCommand,
-} = require("./Core/program_settings/program_settings/ExternalIntentRouter"); // ADD THIS LINE ONLY
+  buildExternalCommandRegistry,
+} = require("./Core/program_settings/program_settings/ExternalIntentRouter");
 
 const {
   startRecording,
   stopAndTranscribe,
-  selectMicrophone, // Import this new function
+  selectMicrophone,
   isRecording,
 } = require("./program_features/Voice/whisperService");
 
@@ -286,6 +289,11 @@ const {
 
 let outputChannel;
 
+// Voice mode cycle: 0 = Chat, 1 = Code, 2 = Command
+const VOICE_MODES = ["chat", "code", "command"];
+const VOICE_MODE_LABELS = ["Chat Tutor", "Code Generation", "Command"];
+let currentVoiceMode = 0;
+
 const copilotExtensionIds = [
   "GitHub.copilot",
   "GitHub.copilot-nightly",
@@ -336,6 +344,13 @@ async function activate(context) {
   registerHotkeyGuideCommand(context);
   const chatProvider = registerChatCommands(context, outputChannel);
 
+  // Build external command registry on activation (non-blocking)
+  buildExternalCommandRegistry().catch((err) =>
+    outputChannel.appendLine(
+      `[ExternalIntentRouter] Registry build failed: ${err.message}`
+    )
+  );
+
   // start recording (no transcript yet)
   context.subscriptions.push(
     vscode.commands.registerCommand("echocode._voiceStart", async () => {
@@ -363,40 +378,6 @@ async function activate(context) {
   context.subscriptions.push(
     vscode.commands.registerCommand("echocode.selectMicrophone", async () => {
       await selectMicrophone(context);
-    })
-  );
-
-  // Toggle Voice Command
-  context.subscriptions.push(
-    vscode.commands.registerCommand("echocode.toggleVoice", async () => {
-      if (isRecording()) {
-        if (chatProvider) chatProvider.setRecordingState(false);
-        speakMessage("Processing");
-        try {
-          const text = await stopAndTranscribe(
-            outputChannel,
-            context.globalState
-          );
-          if (text && !text.includes("no speech detected")) {
-            const voiceResult = await tryExecuteVoiceCommand(
-              text,
-              outputChannel
-            );
-            if (!voiceResult.handled) {
-              await vscode.commands.executeCommand("echocode.openChat");
-              if (chatProvider) {
-                await chatProvider.handleUserMessage(text);
-              }
-            }
-          }
-        } catch (err) {
-          outputChannel.appendLine(`[Toggle Voice Error] ${err.message}`);
-        }
-      } else {
-        if (chatProvider) chatProvider.setRecordingState(true);
-        await speakMessage("Listening");
-        startRecording(outputChannel, context);
-      }
     })
   );
 
@@ -537,6 +518,125 @@ async function activate(context) {
         }
       } else {
         await speakMessage("Chat mode. Listening.");
+        startRecording(outputChannel, context);
+      }
+    })
+  );
+
+  // --- CYCLE VOICE MODE (Ctrl+Alt+') ---
+  context.subscriptions.push(
+    vscode.commands.registerCommand("echocode.cycleVoiceMode", async () => {
+      // Cycle to next mode
+      currentVoiceMode = (currentVoiceMode + 1) % VOICE_MODES.length;
+      const label = VOICE_MODE_LABELS[currentVoiceMode];
+
+      vscode.window.showInformationMessage(`EchoCode Voice Mode: ${label}`);
+      await speakMessage(`Voice mode set to ${label}.`);
+    })
+  );
+
+  // --- SMART TOGGLE: Uses current mode to decide behavior ---
+  // This replaces the need to remember 3 separate hotkeys.
+  // Ctrl+Alt+Space now respects the current mode.
+  context.subscriptions.push(
+    vscode.commands.registerCommand("echocode.toggleVoice", async () => {
+      if (isRecording()) {
+        if (chatProvider) chatProvider.setRecordingState(false);
+        speakMessage("Processing");
+        try {
+          const text = await stopAndTranscribe(
+            outputChannel,
+            context.globalState
+          );
+          if (!text || text.includes("no speech detected")) return;
+
+          const mode = VOICE_MODES[currentVoiceMode];
+
+          if (mode === "chat") {
+            // Mode 0: Send to chat tutor
+            await vscode.commands.executeCommand("echocode.openChat");
+            if (chatProvider) await chatProvider.handleUserMessage(text);
+          } else if (mode === "code") {
+            // Mode 1: Generate code into editor
+            const editor = vscode.window.activeTextEditor;
+            if (!editor) {
+              vscode.window.showErrorMessage(
+                "EchoCode: Open a file to generate code."
+              );
+              return;
+            }
+            const friendlyLang = getFriendlyLanguageName(
+              editor.document.languageId
+            );
+            vscode.window.showInformationMessage(
+              `EchoCode: Generating ${friendlyLang} code...`
+            );
+            const position = editor.selection.active;
+            const indentation = (editor.document
+              .lineAt(position.line)
+              .text.match(/^\s*/) || [""])[0];
+            const startLine = Math.max(0, position.line - 50);
+            const endLine = Math.min(
+              editor.document.lineCount - 1,
+              position.line + 20
+            );
+            const contextCode = editor.document.getText(
+              new vscode.Range(
+                startLine,
+                0,
+                endLine,
+                editor.document.lineAt(endLine).text.length
+              )
+            );
+            const generatedCode = await generateCodeFromVoice(
+              text,
+              friendlyLang,
+              indentation,
+              contextCode
+            );
+            if (generatedCode) {
+              await editor.edit((eb) => eb.insert(position, generatedCode));
+              await speakMessage("Code generated.");
+            }
+          } else if (mode === "command") {
+            // Mode 2: Run internal then external commands
+            const cleaned = text.toLowerCase().trim();
+            const commandsPath = path.join(
+              __dirname,
+              "Core/program_settings/program_settings/voice_commands.json"
+            );
+            const internalCommands = JSON.parse(
+              fs.readFileSync(commandsPath, "utf-8")
+            );
+            for (const cmd of internalCommands) {
+              if (cmd.keywords.some((k) => cleaned.includes(k))) {
+                await vscode.commands.executeCommand(cmd.id);
+                vscode.window.showInformationMessage(
+                  `✅ Executed: ${cmd.title}`
+                );
+                return;
+              }
+            }
+            const externalCmd = matchExternalCommand(cleaned);
+            if (externalCmd) {
+              await vscode.commands.executeCommand(externalCmd.id);
+              vscode.window.showInformationMessage(
+                `✅ External: ${externalCmd.title}`
+              );
+              return;
+            }
+            vscode.window.showInformationMessage(
+              `No command found for: "${text}"`
+            );
+          }
+        } catch (err) {
+          outputChannel.appendLine(`[Toggle Voice Error] ${err.message}`);
+        }
+      } else {
+        if (chatProvider) chatProvider.setRecordingState(true);
+        await speakMessage(
+          `${VOICE_MODE_LABELS[currentVoiceMode]} mode. Listening.`
+        );
         startRecording(outputChannel, context);
       }
     })

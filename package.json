@@ -227,6 +227,11 @@
         "category": "EchoCode Voice"
       },
       {
+        "command": "echocode.cycleVoiceMode",
+        "title": "EchoCode: Cycle Voice Mode",
+        "category": "EchoCode Voice"
+      },
+      {
         "command": "echocode.setGuidanceLevel",
         "title": "EchoCode: Set Guidance Level"
       },
@@ -332,6 +337,10 @@
       {
         "command": "echocode.voiceChat",
         "key": "ctrl+alt+shift+t"
+      },
+      {
+        "command": "echocode.cycleVoiceMode",
+        "key": "ctrl+alt+'"
       },
       {
         "command": "echocode.openChat",

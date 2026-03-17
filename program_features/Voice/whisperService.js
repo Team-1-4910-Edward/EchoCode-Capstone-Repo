@@ -331,6 +331,10 @@ function stopAndTranscribe(outputChannel, globalState) {
   });
 }
 
+function isRecording() {
+  return current !== null && !current.stopped;
+}
+
 function runLocalWhisper(tmpWav, outputChannel, pythonCommand) {
   return new Promise((resolve, reject) => {
     outputChannel.appendLine(

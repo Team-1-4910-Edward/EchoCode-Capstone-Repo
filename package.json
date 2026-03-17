@@ -216,6 +216,26 @@
         "category": "EchoCode Voice"
       },
       {
+        "command": "echocode.voiceCode",
+        "title": "EchoCode: Voice to Code",
+        "category": "EchoCode Voice"
+      },
+      {
+        "command": "echocode.voiceCommand",
+        "title": "EchoCode: Voice to Command",
+        "category": "EchoCode Voice"
+      },
+      {
+        "command": "echocode.voiceChat",
+        "title": "EchoCode: Voice to Chat",
+        "category": "EchoCode Voice"
+      },
+      {
+        "command": "echocode.cycleVoiceMode",
+        "title": "EchoCode: Cycle Voice Mode",
+        "category": "EchoCode Voice"
+      },
+      {
         "command": "echocode.setGuidanceLevel",
         "title": "EchoCode: Set Guidance Level"
       },
@@ -328,6 +348,23 @@
         "command": "echocode.toggleVoice",
         "key": "ctrl+alt+space",
         "when": "editorTextFocus"
+      },
+      {
+        "command": "echocode.voiceCode",
+        "key": "ctrl+alt+shift+c",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "echocode.voiceCommand",
+        "key": "ctrl+alt+shift+v"
+      },
+      {
+        "command": "echocode.voiceChat",
+        "key": "ctrl+alt+shift+t"
+      },
+      {
+        "command": "echocode.cycleVoiceMode",
+        "key": "ctrl+alt+'"
       },
       {
         "command": "echocode.openChat",

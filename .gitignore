@@ -33,3 +33,4 @@ Thumbs.db
 echocode-venv/
 
 TestFile1.cpp
+Core/program_settings/program_settings/external_commands.json

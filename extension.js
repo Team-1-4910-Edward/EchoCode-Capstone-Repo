@@ -205,6 +205,12 @@ async function tryExecuteVoiceCommand(transcript, outputChannel) {
   }
 }
 
+//student/dev mode system
+const { announceMode } = require("./Core/program_settings/modeAudio");
+const { refreshModeContext, onModeChange, getMode } = require("./Core/program_settings/mode");
+const { guard } = require("./Core/program_settings/guard");
+
+
 // Python (optional adapter)
 const { ensurePylintInstalled } = require("./Language/Python/pylintHandler");
 const {
@@ -323,6 +329,43 @@ async function ensureCopilotActivated(channel) {
 async function activate(context) {
   outputChannel = vscode.window.createOutputChannel("EchoCode");
   outputChannel.appendLine("[EchoCode] Activated");
+
+  // Initialize student/dev mode context
+const initialMode = await refreshModeContext();
+announceMode(initialMode, outputChannel);
+  
+  context.subscriptions.push(
+    onModeChange(async () => {
+  const mode = await refreshModeContext();
+  outputChannel.appendLine(`[EchoCode] Mode changed: ${mode}`);
+  announceMode(mode, outputChannel);
+})
+  );
+
+  // Toggle Student/Dev mode command
+const toggleModeCommand = vscode.commands.registerCommand(
+  "echocode.toggleMode",
+  async () => {
+    const currentMode = getMode();
+    const newMode = currentMode === "student" ? "dev" : "student";
+
+    await vscode.workspace
+      .getConfiguration("echocode")
+      .update("mode", newMode, vscode.ConfigurationTarget.Global);
+
+    await refreshModeContext();
+
+    vscode.window.showInformationMessage(
+      `EchoCode switched to ${newMode.toUpperCase()} mode`
+    );
+
+    outputChannel.appendLine(`[EchoCode] Mode toggled to: ${newMode}`);
+  }
+);
+
+context.subscriptions.push(toggleModeCommand);
+// Ensure Copilot (stable, chat, or nightly) is available for AI features
+await ensureCopilotActivated(outputChannel);
 
   // --- DEPENDENCY CHECK START ---
   // This runs once on startup and ensures the venv exists
@@ -662,35 +705,36 @@ async function activate(context) {
 
   // Register C++ compilation command
   const compileCppCommand = vscode.commands.registerCommand(
-    "echocode.compileAndParseCpp",
-    () => {
-      const editor = vscode.window.activeTextEditor;
-      if (editor && editor.document.languageId === "cpp") {
-        compileCurrentCppFile(editor.document.uri.fsPath);
-      } else {
-        vscode.window.showInformationMessage(
-          "This command is only available for C++ files."
-        );
-      }
+  "echocode.compileAndParseCpp",
+  guard("echocode.compileAndParseCpp", () => {
+    const editor = vscode.window.activeTextEditor;
+    if (editor && editor.document.languageId === "cpp") {
+      compileCurrentCppFile(editor.document.uri.fsPath);
+    } else {
+      vscode.window.showInformationMessage(
+        "This command is only available for C++ files."
+      );
     }
-  );
-  context.subscriptions.push(compileCppCommand);
+  })
+);
+context.subscriptions.push(compileCppCommand);
 
   // Register Python error checking command
   const checkPythonCommand = vscode.commands.registerCommand(
-    "echocode.checkPythonErrors",
-    () => {
-      const editor = vscode.window.activeTextEditor;
-      if (editor && editor.document.languageId === "python") {
-        checkCurrentPythonFile(editor.document.uri.fsPath);
-      } else {
-        vscode.window.showInformationMessage(
-          "This command is only available for Python files."
-        );
-      }
+  "echocode.checkPythonErrors",
+  guard("echocode.checkPythonErrors", () => {
+    const editor = vscode.window.activeTextEditor;
+    if (editor && editor.document.languageId === "python") {
+      checkCurrentPythonFile(editor.document.uri.fsPath);
+    } else {
+      vscode.window.showInformationMessage(
+        "This command is only available for Python files."
+      );
     }
-  );
-  context.subscriptions.push(checkPythonCommand);
+  })
+);
+context.subscriptions.push(checkPythonCommand);
+
 
   outputChannel.appendLine(
     "Commands registered: echocode.readErrors, echocode.annotate, echocode.speakNextAnnotation, echocode.readAllAnnotations, echocode.summarizeClass, echocode.summarizeFunction, echocode.jumpToNextFunction, echocode.jumpToPreviousFunction, echocode.openChat, echocode.startVoiceInput, echocode.loadAssignmentFile, echocode.rescanUserCode, echocode.readNextSequentialTask, echocode.increaseSpeechSpeed, echocode.decreaseSpeechSpeed, echocode.moveToNextFolder, echocode.moveToPreviousFolder"

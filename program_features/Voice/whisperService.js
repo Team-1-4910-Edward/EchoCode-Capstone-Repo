@@ -300,7 +300,7 @@ function stopAndTranscribe(outputChannel, globalState) {
         try {
           process.kill(rec.pid, "SIGINT");
           setTimeout(() => rec.kill(), 200);
-        } catch (e) {}
+        } catch (e) { }
       }
     }, 1500);
 
@@ -355,7 +355,7 @@ function runLocalWhisper(tmpWav, outputChannel, pythonCommand) {
     });
 
     py.on("close", (code) => {
-      fs.unlink(tmpWav, () => {});
+      fs.unlink(tmpWav, () => { });
 
       if (code !== 0) {
         return reject(new Error(`Whisper process exited with code ${code}`));
@@ -389,6 +389,10 @@ async function recordAndTranscribe(apiKey, outputChannel, opts = {}) {
 
   // 3. Stop
   return await stopAndTranscribe(outputChannel, null);
+}
+
+function isRecording() {
+  return current !== null && !current.stopped;
 }
 
 module.exports = {

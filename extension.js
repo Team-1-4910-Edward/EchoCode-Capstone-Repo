@@ -578,109 +578,36 @@ await ensureCopilotActivated(outputChannel);
     })
   );
 
-  // --- SMART TOGGLE: Uses current mode to decide behavior ---
-  // This replaces the need to remember 3 separate hotkeys.
-  // Ctrl+Alt+Space now respects the current mode.
+  // Toggle Voice Command (Smart Router)
   context.subscriptions.push(
     vscode.commands.registerCommand("echocode.toggleVoice", async () => {
       if (isRecording()) {
+        // Sync UI: Stop immediately
         if (chatProvider) chatProvider.setRecordingState(false);
+
+        // Announce processing (don't await to avoid blocking stop)
         speakMessage("Processing");
-        try {
-          const text = await stopAndTranscribe(
-            outputChannel,
-            context.globalState
-          );
-          if (!text || text.includes("no speech detected")) return;
 
-          const mode = VOICE_MODES[currentVoiceMode];
+        const result = await vscode.commands.executeCommand("echocode._voiceStop");
 
-          if (mode === "chat") {
-            // Mode 0: Send to chat tutor
+        if (result && result.ok && result.text) {
+          // Attempt to execute as a voice command first
+          const voiceResult = await tryExecuteVoiceCommand(result.text, outputChannel);
+
+          if (!voiceResult.handled) {
+            // Fallback: Send to Chat Tutor
             await vscode.commands.executeCommand("echocode.openChat");
-            if (chatProvider) await chatProvider.handleUserMessage(text);
-          } else if (mode === "code") {
-            // Mode 1: Generate code into editor
-            const editor = vscode.window.activeTextEditor;
-            if (!editor) {
-              vscode.window.showErrorMessage(
-                "EchoCode: Open a file to generate code."
-              );
-              return;
+            if (chatProvider) {
+              await chatProvider.handleUserMessage(result.text);
             }
-            const friendlyLang = getFriendlyLanguageName(
-              editor.document.languageId
-            );
-            vscode.window.showInformationMessage(
-              `EchoCode: Generating ${friendlyLang} code...`
-            );
-            const position = editor.selection.active;
-            const indentation = (editor.document
-              .lineAt(position.line)
-              .text.match(/^\s*/) || [""])[0];
-            const startLine = Math.max(0, position.line - 50);
-            const endLine = Math.min(
-              editor.document.lineCount - 1,
-              position.line + 20
-            );
-            const contextCode = editor.document.getText(
-              new vscode.Range(
-                startLine,
-                0,
-                endLine,
-                editor.document.lineAt(endLine).text.length
-              )
-            );
-            const generatedCode = await generateCodeFromVoice(
-              text,
-              friendlyLang,
-              indentation,
-              contextCode
-            );
-            if (generatedCode) {
-              await editor.edit((eb) => eb.insert(position, generatedCode));
-              await speakMessage("Code generated.");
-            }
-          } else if (mode === "command") {
-            // Mode 2: Run internal then external commands
-            const cleaned = text.toLowerCase().trim();
-            const commandsPath = path.join(
-              __dirname,
-              "Core/program_settings/program_settings/voice_commands.json"
-            );
-            const internalCommands = JSON.parse(
-              fs.readFileSync(commandsPath, "utf-8")
-            );
-            for (const cmd of internalCommands) {
-              if (cmd.keywords.some((k) => cleaned.includes(k))) {
-                await vscode.commands.executeCommand(cmd.id);
-                vscode.window.showInformationMessage(
-                  `✅ Executed: ${cmd.title}`
-                );
-                return;
-              }
-            }
-            const externalCmd = matchExternalCommand(cleaned);
-            if (externalCmd) {
-              await vscode.commands.executeCommand(externalCmd.id);
-              vscode.window.showInformationMessage(
-                `✅ External: ${externalCmd.title}`
-              );
-              return;
-            }
-            vscode.window.showInformationMessage(
-              `No command found for: "${text}"`
-            );
           }
-        } catch (err) {
-          outputChannel.appendLine(`[Toggle Voice Error] ${err.message}`);
         }
       } else {
+        // Sync UI: Start immediately
         if (chatProvider) chatProvider.setRecordingState(true);
-        await speakMessage(
-          `${VOICE_MODE_LABELS[currentVoiceMode]} mode. Listening.`
-        );
-        startRecording(outputChannel, context);
+
+        await speakMessage("Listening");
+        await vscode.commands.executeCommand("echocode._voiceStart");
       }
     })
   );

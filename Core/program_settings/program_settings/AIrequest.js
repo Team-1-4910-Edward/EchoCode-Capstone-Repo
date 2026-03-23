@@ -74,17 +74,37 @@ async function classifyVoiceIntent(transcript, commands, opts = {}) {
   }
 }
 
-async function generateCodeFromVoice(transcript, languageId, indentation = "") {
+async function generateCodeFromVoice(transcript, languageId, indentation = "", contextCode = "") {
   try {
     const model = await selectModel();
 
-    const combinedPrompt = `SYSTEM: You are an expert coding assistant. Convert request to valid ${languageId} code. 
-    - Return ONLY the code. 
-    - No markdown blocks. 
-    - No conversational text or explanations.
-    \nUSER REQUEST: ${transcript}`;
+    let systemPrompt = `You are an expert coding assistant. 
+    Your task is to convert the user's spoken natural language request into valid ${languageId} code.
+    
+    STRICT RULES:
+    1. Return ONLY the code. No markdown backticks, no explanations, no conversational text.
+    2. **Indentation**: The code MUST be inserted at indentation level: "${indentation}". Ensure all generated lines are strictly indented relative to this baseline.
+    3. **Literal Interpretation (CRITICAL)**: Implement EXACTLY what the user states and nothing more and nothing less. DO NOT speculate or add extra features. For example, if the user asks to create a calculator class, create ONLY the class prototype/skeleton—do NOT automatically add add/subtract methods unless specifically asked.
+    4. **Errors & Edge Cases**: Write functional code, but DO NOT over-engineer or add exhaustive error-handling unless explicitly requested. Keep the code as concise as possible.
+    5. **Variable Declaration**: Explicitly declare variables (e.g., 'let'/'const' in JS; proper types in C++/Java).
+    6. **Standards**: Follow standard coding conventions for ${languageId}. Use meaningful variable names.
+    7. **Python Specifics**: Use standard 4-space indentation. Do NOT use triple quotes for the body unless asked.
+    
+    If the request is unclear, just do your best to write the exact minimal code requested.`;
 
-    const messages = [vscode.LanguageModelChatMessage.User(combinedPrompt)];
+    if (contextCode) {
+      systemPrompt += `\n\nCONTEXT (Surrounding Code):
+    The user is editing the following file. The cursor is located roughly where the code ends or in the middle.
+    Use this context to ensure variables, types, and styles match.
+    \`\`\`${languageId}
+    ${contextCode}
+    \`\`\``;
+    }
+
+    const messages = [
+      vscode.LanguageModelChatMessage.User(systemPrompt),
+      vscode.LanguageModelChatMessage.User(transcript)
+    ];
 
     const chatReq = await model.sendRequest(messages, { temperature: 0.1 });
 
@@ -99,6 +119,9 @@ async function generateCodeFromVoice(transcript, languageId, indentation = "") {
       .replace(/```$/, "")
       .trim();
   } catch (err) {
+    if (err.name === 'LanguageModelError' || err instanceof vscode.LanguageModelError) {
+      throw new Error(`Copilot LM Error: ${err.message}`);
+    }
     throw new Error(`Copilot Error: ${err.message}`);
   }
 }

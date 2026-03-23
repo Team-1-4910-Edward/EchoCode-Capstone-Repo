@@ -17604,10 +17604,10 @@
     ]
   },
   {
-    "id": "changeEditorIndentation4",
-    "title": "changeEditorIndentation4",
+    "id": "changeEditorIndentation2",
+    "title": "changeEditorIndentation2",
     "keywords": [
-      "change editor indentation4",
+      "change editor indentation2",
       "change editor"
     ]
   },
@@ -17988,14 +17988,6 @@
     "keywords": [
       "workbench explorer file view reset view location",
       "workbench explorer"
-    ]
-  },
-  {
-    "id": "editor.action.inlineSuggest.renameSymbol",
-    "title": "editor.action.inlineSuggest.renameSymbol",
-    "keywords": [
-      "inline suggest rename symbol",
-      "inline suggest"
     ]
   },
   {
@@ -19042,6 +19034,14 @@
     "keywords": [
       "open remote settings file",
       "open remote"
+    ]
+  },
+  {
+    "id": "editor.action.inlineSuggest.renameSymbol",
+    "title": "editor.action.inlineSuggest.renameSymbol",
+    "keywords": [
+      "inline suggest rename symbol",
+      "inline suggest"
     ]
   },
   {
@@ -20824,18 +20824,18 @@
     ]
   },
   {
-    "id": "workbench.action.output.show.textModelChanges",
-    "title": "workbench.action.output.show.textModelChanges",
-    "keywords": [
-      "output show text model changes",
-      "output show"
-    ]
-  },
-  {
     "id": "workbench.action.output.show.terminal",
     "title": "workbench.action.output.show.terminal",
     "keywords": [
       "output show terminal",
+      "output show"
+    ]
+  },
+  {
+    "id": "workbench.action.output.show.textModelChanges",
+    "title": "workbench.action.output.show.textModelChanges",
+    "keywords": [
+      "output show text model changes",
       "output show"
     ]
   },
@@ -22372,18 +22372,18 @@
     ]
   },
   {
-    "id": "workbench.action.output.show.GitHub.copilot-chat.GitHub Copilot Chat.log",
-    "title": "workbench.action.output.show.GitHub.copilot-chat.GitHub Copilot Chat.log",
-    "keywords": [
-      "output show git hub copilot chat git hub copilot chat log",
-      "output show"
-    ]
-  },
-  {
     "id": "workbench.action.output.show.ms-python.vscode-python-envs.Python Environments.log",
     "title": "workbench.action.output.show.ms-python.vscode-python-envs.Python Environments.log",
     "keywords": [
       "output show ms python vscode python envs python environments log",
+      "output show"
+    ]
+  },
+  {
+    "id": "workbench.action.output.show.GitHub.copilot-chat.GitHub Copilot Chat.log",
+    "title": "workbench.action.output.show.GitHub.copilot-chat.GitHub Copilot Chat.log",
+    "keywords": [
+      "output show git hub copilot chat git hub copilot chat log",
       "output show"
     ]
   },
@@ -25119,93 +25119,6 @@
     ]
   },
   {
-    "id": "debugpy.viewOutput",
-    "title": "debugpy.viewOutput",
-    "keywords": [
-      "debugpy view output",
-      "debugpy view"
-    ]
-  },
-  {
-    "id": "python.getDebugpyPackagePath",
-    "title": "python.getDebugpyPackagePath",
-    "keywords": [
-      "python get debugpy package path",
-      "python get"
-    ]
-  },
-  {
-    "id": "debugpy.reportIssue",
-    "title": "debugpy.reportIssue",
-    "keywords": [
-      "debugpy report issue",
-      "debugpy report"
-    ]
-  },
-  {
-    "id": "debugpy.debugInTerminal",
-    "title": "debugpy.debugInTerminal",
-    "keywords": [
-      "debugpy debug in terminal",
-      "debugpy debug"
-    ]
-  },
-  {
-    "id": "debugpy.debugUsingLaunchConfig",
-    "title": "debugpy.debugUsingLaunchConfig",
-    "keywords": [
-      "debugpy debug using launch config",
-      "debugpy debug"
-    ]
-  },
-  {
-    "id": "debugpy.clearCacheAndReload",
-    "title": "debugpy.clearCacheAndReload",
-    "keywords": [
-      "debugpy clear cache and reload",
-      "debugpy clear"
-    ]
-  },
-  {
-    "id": "debugpy.pickLocalProcess",
-    "title": "debugpy.pickLocalProcess",
-    "keywords": [
-      "debugpy pick local process",
-      "debugpy pick"
-    ]
-  },
-  {
-    "id": "debugpy.pickArgs",
-    "title": "debugpy.pickArgs",
-    "keywords": [
-      "debugpy pick args",
-      "debugpy pick"
-    ]
-  },
-  {
-    "id": "debugpy.SelectAndInsertDebugConfiguration",
-    "title": "debugpy.SelectAndInsertDebugConfiguration",
-    "keywords": [
-      "debugpy select and insert debug configuration",
-      "debugpy select"
-    ]
-  },
-  {
-    "id": "pylint.showLogs",
-    "title": "pylint.showLogs",
-    "keywords": [
-      "pylint show logs",
-      "pylint show"
-    ]
-  },
-  {
-    "id": "pylint.restart",
-    "title": "pylint.restart",
-    "keywords": [
-      "pylint restart"
-    ]
-  },
-  {
     "id": "github.publish",
     "title": "github.publish",
     "keywords": [
@@ -25290,6 +25203,93 @@
     "keywords": [
       "github check open pull request",
       "github check"
+    ]
+  },
+  {
+    "id": "debugpy.viewOutput",
+    "title": "debugpy.viewOutput",
+    "keywords": [
+      "debugpy view output",
+      "debugpy view"
+    ]
+  },
+  {
+    "id": "python.getDebugpyPackagePath",
+    "title": "python.getDebugpyPackagePath",
+    "keywords": [
+      "python get debugpy package path",
+      "python get"
+    ]
+  },
+  {
+    "id": "debugpy.reportIssue",
+    "title": "debugpy.reportIssue",
+    "keywords": [
+      "debugpy report issue",
+      "debugpy report"
+    ]
+  },
+  {
+    "id": "debugpy.debugInTerminal",
+    "title": "debugpy.debugInTerminal",
+    "keywords": [
+      "debugpy debug in terminal",
+      "debugpy debug"
+    ]
+  },
+  {
+    "id": "debugpy.debugUsingLaunchConfig",
+    "title": "debugpy.debugUsingLaunchConfig",
+    "keywords": [
+      "debugpy debug using launch config",
+      "debugpy debug"
+    ]
+  },
+  {
+    "id": "debugpy.clearCacheAndReload",
+    "title": "debugpy.clearCacheAndReload",
+    "keywords": [
+      "debugpy clear cache and reload",
+      "debugpy clear"
+    ]
+  },
+  {
+    "id": "debugpy.pickLocalProcess",
+    "title": "debugpy.pickLocalProcess",
+    "keywords": [
+      "debugpy pick local process",
+      "debugpy pick"
+    ]
+  },
+  {
+    "id": "debugpy.pickArgs",
+    "title": "debugpy.pickArgs",
+    "keywords": [
+      "debugpy pick args",
+      "debugpy pick"
+    ]
+  },
+  {
+    "id": "debugpy.SelectAndInsertDebugConfiguration",
+    "title": "debugpy.SelectAndInsertDebugConfiguration",
+    "keywords": [
+      "debugpy select and insert debug configuration",
+      "debugpy select"
+    ]
+  },
+  {
+    "id": "pylint.showLogs",
+    "title": "pylint.showLogs",
+    "keywords": [
+      "pylint show logs",
+      "pylint show"
+    ]
+  },
+  {
+    "id": "pylint.restart",
+    "title": "pylint.restart",
+    "keywords": [
+      "pylint restart"
     ]
   },
   {
@@ -25389,30 +25389,6 @@
     ]
   },
   {
-    "id": "workbench.action.output.show.extension-output-EchoCode.echo-code-#1-EchoCode",
-    "title": "workbench.action.output.show.extension-output-EchoCode.echo-code-#1-EchoCode",
-    "keywords": [
-      "output show extension output echo code echo code #1 echo code",
-      "output show"
-    ]
-  },
-  {
-    "id": "workbench.action.output.show.ms-python.debugpy.Python Debugger.log",
-    "title": "workbench.action.output.show.ms-python.debugpy.Python Debugger.log",
-    "keywords": [
-      "output show ms python debugpy python debugger log",
-      "output show"
-    ]
-  },
-  {
-    "id": "workbench.action.output.show.ms-python.pylint.Pylint.log",
-    "title": "workbench.action.output.show.ms-python.pylint.Pylint.log",
-    "keywords": [
-      "output show ms python pylint pylint log",
-      "output show"
-    ]
-  },
-  {
     "id": "python.getRecommendedEnvironment",
     "title": "python.getRecommendedEnvironment",
     "keywords": [
@@ -25425,6 +25401,30 @@
     "title": "workbench.action.output.show.vscode.github.GitHub.log",
     "keywords": [
       "output show vscode github git hub log",
+      "output show"
+    ]
+  },
+  {
+    "id": "workbench.action.output.show.extension-output-EchoCode.echo-code-#1-EchoCode",
+    "title": "workbench.action.output.show.extension-output-EchoCode.echo-code-#1-EchoCode",
+    "keywords": [
+      "output show extension output echo code echo code #1 echo code",
+      "output show"
+    ]
+  },
+  {
+    "id": "workbench.action.output.show.ms-python.pylint.Pylint.log",
+    "title": "workbench.action.output.show.ms-python.pylint.Pylint.log",
+    "keywords": [
+      "output show ms python pylint pylint log",
+      "output show"
+    ]
+  },
+  {
+    "id": "workbench.action.output.show.ms-python.debugpy.Python Debugger.log",
+    "title": "workbench.action.output.show.ms-python.debugpy.Python Debugger.log",
+    "keywords": [
+      "output show ms python debugpy python debugger log",
       "output show"
     ]
   },

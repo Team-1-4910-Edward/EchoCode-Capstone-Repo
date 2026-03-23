@@ -3,10 +3,12 @@ import { strict as assert } from "assert";
 import { suite, test, suiteSetup } from "mocha";
 
 // Import the mock vscode shim
+// @ts-ignore
 import * as VS from "./helpers/vscodeMock.js";
 const vscode: any = VS;
 
 // Import the compiled extension (from out/)
+// @ts-ignore
 import * as ext from "../out/extension.js";
 
 suite("EchoCode – Activation & Command Registration", () => {

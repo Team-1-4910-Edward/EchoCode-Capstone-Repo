@@ -142,6 +142,14 @@
         "title": "Move to Next Folder"
       },
       {
+        "command": "echocode.switchToStudentMode",
+        "title": "EchoCode: Switch to Student Mode"
+      },
+      {
+      "command": "echocode.switchToDevMode",
+        "title": "EchoCode: Switch to Developer Mode"
+      },
+      {
         "command": "echocode.moveToPreviousFolder",
         "title": "Move to Previous Folder"
       },

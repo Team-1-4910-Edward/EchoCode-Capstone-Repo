@@ -3268,6 +3268,46 @@
     ]
   },
   {
+    "id": "workbench.scm.action.graph.addHistoryItemToChat",
+    "title": "workbench.scm.action.graph.addHistoryItemToChat",
+    "keywords": [
+      "workbench scm action graph add history item to chat",
+      "workbench scm"
+    ]
+  },
+  {
+    "id": "workbench.scm.action.graph.summarizeHistoryItem",
+    "title": "workbench.scm.action.graph.summarizeHistoryItem",
+    "keywords": [
+      "workbench scm action graph summarize history item",
+      "workbench scm"
+    ]
+  },
+  {
+    "id": "workbench.scm.action.graph.addHistoryItemChangeToChat",
+    "title": "workbench.scm.action.graph.addHistoryItemChangeToChat",
+    "keywords": [
+      "workbench scm action graph add history item change to chat",
+      "workbench scm"
+    ]
+  },
+  {
+    "id": "workbench.action.chat.toggleDefaultVisibility",
+    "title": "workbench.action.chat.toggleDefaultVisibility",
+    "keywords": [
+      "chat toggle default visibility",
+      "chat toggle"
+    ]
+  },
+  {
+    "id": "workbench.action.chat.editToolApproval",
+    "title": "workbench.action.chat.editToolApproval",
+    "keywords": [
+      "chat edit tool approval",
+      "chat edit"
+    ]
+  },
+  {
     "id": "workbench.action.inspectContextKeys",
     "title": "workbench.action.inspectContextKeys",
     "keywords": [
@@ -7035,43 +7075,139 @@
     ]
   },
   {
-    "id": "workbench.scm.action.graph.addHistoryItemToChat",
-    "title": "workbench.scm.action.graph.addHistoryItemToChat",
+    "id": "chatEditing.openFileInDiff",
+    "title": "chatEditing.openFileInDiff",
     "keywords": [
-      "workbench scm action graph add history item to chat",
-      "workbench scm"
+      "chat editing open file in diff",
+      "chat editing"
     ]
   },
   {
-    "id": "workbench.scm.action.graph.summarizeHistoryItem",
-    "title": "workbench.scm.action.graph.summarizeHistoryItem",
+    "id": "chatEditing.acceptFile",
+    "title": "chatEditing.acceptFile",
     "keywords": [
-      "workbench scm action graph summarize history item",
-      "workbench scm"
+      "chat editing accept file",
+      "chat editing"
     ]
   },
   {
-    "id": "workbench.scm.action.graph.addHistoryItemChangeToChat",
-    "title": "workbench.scm.action.graph.addHistoryItemChangeToChat",
+    "id": "chatEditing.discardFile",
+    "title": "chatEditing.discardFile",
     "keywords": [
-      "workbench scm action graph add history item change to chat",
-      "workbench scm"
+      "chat editing discard file",
+      "chat editing"
     ]
   },
   {
-    "id": "workbench.action.chat.toggleDefaultVisibility",
-    "title": "workbench.action.chat.toggleDefaultVisibility",
+    "id": "chatEditing.acceptAllFiles",
+    "title": "chatEditing.acceptAllFiles",
     "keywords": [
-      "chat toggle default visibility",
-      "chat toggle"
+      "chat editing accept all files",
+      "chat editing"
     ]
   },
   {
-    "id": "workbench.action.chat.editToolApproval",
-    "title": "workbench.action.chat.editToolApproval",
+    "id": "chatEditing.discardAllFiles",
+    "title": "chatEditing.discardAllFiles",
     "keywords": [
-      "chat edit tool approval",
+      "chat editing discard all files",
+      "chat editing"
+    ]
+  },
+  {
+    "id": "chatEditing.toggleExplanationWidget",
+    "title": "chatEditing.toggleExplanationWidget",
+    "keywords": [
+      "chat editing toggle explanation widget",
+      "chat editing"
+    ]
+  },
+  {
+    "id": "chatEditing.viewChanges",
+    "title": "chatEditing.viewChanges",
+    "keywords": [
+      "chat editing view changes",
+      "chat editing"
+    ]
+  },
+  {
+    "id": "chatEditing.viewAllSessionChanges",
+    "title": "chatEditing.viewAllSessionChanges",
+    "keywords": [
+      "chat editing view all session changes",
+      "chat editing"
+    ]
+  },
+  {
+    "id": "workbench.action.chat.undoEdits",
+    "title": "workbench.action.chat.undoEdits",
+    "keywords": [
+      "chat undo edits",
+      "chat undo"
+    ]
+  },
+  {
+    "id": "workbench.action.chat.restoreCheckpoint",
+    "title": "workbench.action.chat.restoreCheckpoint",
+    "keywords": [
+      "chat restore checkpoint",
+      "chat restore"
+    ]
+  },
+  {
+    "id": "workbench.action.chat.startOver",
+    "title": "workbench.action.chat.startOver",
+    "keywords": [
+      "chat start over",
+      "chat start"
+    ]
+  },
+  {
+    "id": "workbench.action.chat.restoreLastCheckpoint",
+    "title": "workbench.action.chat.restoreLastCheckpoint",
+    "keywords": [
+      "chat restore last checkpoint",
+      "chat restore"
+    ]
+  },
+  {
+    "id": "workbench.action.chat.editRequests",
+    "title": "workbench.action.chat.editRequests",
+    "keywords": [
+      "chat edit requests",
       "chat edit"
+    ]
+  },
+  {
+    "id": "chat.openFileUpdatedBySnapshot",
+    "title": "chat.openFileUpdatedBySnapshot",
+    "keywords": [
+      "chat open file updated by snapshot",
+      "chat open"
+    ]
+  },
+  {
+    "id": "chat.openFileSnapshot",
+    "title": "chat.openFileSnapshot",
+    "keywords": [
+      "chat open file snapshot",
+      "chat open"
+    ]
+  },
+  {
+    "id": "workbench.action.edits.addFilesFromReferences",
+    "title": "workbench.action.edits.addFilesFromReferences",
+    "keywords": [
+      "edits add files from references",
+      "edits add"
+    ]
+  },
+  {
+    "id": "chatEditing.viewPreviousEdits",
+    "title": "chatEditing.viewPreviousEdits",
+    "keywords": [
+      "chat editing view previous edits",
+      "chat editing"
     ]
   },
   {
@@ -7586,13 +7722,6 @@
     ]
   },
   {
-    "id": "editor.action.inspectTMScopes",
-    "title": "editor.action.inspectTMScopes",
-    "keywords": [
-      "inspect tmscopes"
-    ]
-  },
-  {
     "id": "workbench.action.chat.addToChatAction",
     "title": "workbench.action.chat.addToChatAction",
     "keywords": [
@@ -7609,131 +7738,10 @@
     ]
   },
   {
-    "id": "chatEditing.openFileInDiff",
-    "title": "chatEditing.openFileInDiff",
+    "id": "editor.action.inspectTMScopes",
+    "title": "editor.action.inspectTMScopes",
     "keywords": [
-      "chat editing open file in diff",
-      "chat editing"
-    ]
-  },
-  {
-    "id": "chatEditing.acceptFile",
-    "title": "chatEditing.acceptFile",
-    "keywords": [
-      "chat editing accept file",
-      "chat editing"
-    ]
-  },
-  {
-    "id": "chatEditing.discardFile",
-    "title": "chatEditing.discardFile",
-    "keywords": [
-      "chat editing discard file",
-      "chat editing"
-    ]
-  },
-  {
-    "id": "chatEditing.acceptAllFiles",
-    "title": "chatEditing.acceptAllFiles",
-    "keywords": [
-      "chat editing accept all files",
-      "chat editing"
-    ]
-  },
-  {
-    "id": "chatEditing.discardAllFiles",
-    "title": "chatEditing.discardAllFiles",
-    "keywords": [
-      "chat editing discard all files",
-      "chat editing"
-    ]
-  },
-  {
-    "id": "chatEditing.toggleExplanationWidget",
-    "title": "chatEditing.toggleExplanationWidget",
-    "keywords": [
-      "chat editing toggle explanation widget",
-      "chat editing"
-    ]
-  },
-  {
-    "id": "chatEditing.viewChanges",
-    "title": "chatEditing.viewChanges",
-    "keywords": [
-      "chat editing view changes",
-      "chat editing"
-    ]
-  },
-  {
-    "id": "chatEditing.viewAllSessionChanges",
-    "title": "chatEditing.viewAllSessionChanges",
-    "keywords": [
-      "chat editing view all session changes",
-      "chat editing"
-    ]
-  },
-  {
-    "id": "workbench.action.chat.undoEdits",
-    "title": "workbench.action.chat.undoEdits",
-    "keywords": [
-      "chat undo edits",
-      "chat undo"
-    ]
-  },
-  {
-    "id": "workbench.action.chat.restoreCheckpoint",
-    "title": "workbench.action.chat.restoreCheckpoint",
-    "keywords": [
-      "chat restore checkpoint",
-      "chat restore"
-    ]
-  },
-  {
-    "id": "workbench.action.chat.restoreLastCheckpoint",
-    "title": "workbench.action.chat.restoreLastCheckpoint",
-    "keywords": [
-      "chat restore last checkpoint",
-      "chat restore"
-    ]
-  },
-  {
-    "id": "workbench.action.chat.editRequests",
-    "title": "workbench.action.chat.editRequests",
-    "keywords": [
-      "chat edit requests",
-      "chat edit"
-    ]
-  },
-  {
-    "id": "chat.openFileUpdatedBySnapshot",
-    "title": "chat.openFileUpdatedBySnapshot",
-    "keywords": [
-      "chat open file updated by snapshot",
-      "chat open"
-    ]
-  },
-  {
-    "id": "chat.openFileSnapshot",
-    "title": "chat.openFileSnapshot",
-    "keywords": [
-      "chat open file snapshot",
-      "chat open"
-    ]
-  },
-  {
-    "id": "workbench.action.edits.addFilesFromReferences",
-    "title": "workbench.action.edits.addFilesFromReferences",
-    "keywords": [
-      "edits add files from references",
-      "edits add"
-    ]
-  },
-  {
-    "id": "chatEditing.viewPreviousEdits",
-    "title": "chatEditing.viewPreviousEdits",
-    "keywords": [
-      "chat editing view previous edits",
-      "chat editing"
+      "inspect tmscopes"
     ]
   },
   {
@@ -8437,94 +8445,6 @@
     "keywords": [
       "notebook comment selected cells",
       "notebook comment"
-    ]
-  },
-  {
-    "id": "search.action.clearHistory",
-    "title": "search.action.clearHistory",
-    "keywords": [
-      "search action clear history",
-      "search action"
-    ]
-  },
-  {
-    "id": "search.action.cancel",
-    "title": "search.action.cancel",
-    "keywords": [
-      "search action cancel",
-      "search action"
-    ]
-  },
-  {
-    "id": "search.action.refreshSearchResults",
-    "title": "search.action.refreshSearchResults",
-    "keywords": [
-      "search action refresh search results",
-      "search action"
-    ]
-  },
-  {
-    "id": "search.action.collapseSearchResults",
-    "title": "search.action.collapseSearchResults",
-    "keywords": [
-      "search action collapse search results",
-      "search action"
-    ]
-  },
-  {
-    "id": "search.action.expandSearchResults",
-    "title": "search.action.expandSearchResults",
-    "keywords": [
-      "search action expand search results",
-      "search action"
-    ]
-  },
-  {
-    "id": "search.action.clearSearchResults",
-    "title": "search.action.clearSearchResults",
-    "keywords": [
-      "search action clear search results",
-      "search action"
-    ]
-  },
-  {
-    "id": "search.action.viewAsTree",
-    "title": "search.action.viewAsTree",
-    "keywords": [
-      "search action view as tree",
-      "search action"
-    ]
-  },
-  {
-    "id": "search.action.viewAsList",
-    "title": "search.action.viewAsList",
-    "keywords": [
-      "search action view as list",
-      "search action"
-    ]
-  },
-  {
-    "id": "search.action.searchWithAI",
-    "title": "search.action.searchWithAI",
-    "keywords": [
-      "search action search with ai",
-      "search action"
-    ]
-  },
-  {
-    "id": "workbench.action.chat.assignSelectedAgent",
-    "title": "workbench.action.chat.assignSelectedAgent",
-    "keywords": [
-      "chat assign selected agent",
-      "chat assign"
-    ]
-  },
-  {
-    "id": "workbench.action.chat.startParameterizedPrompt",
-    "title": "workbench.action.chat.startParameterizedPrompt",
-    "keywords": [
-      "chat start parameterized prompt",
-      "chat start"
     ]
   },
   {
@@ -9245,6 +9165,76 @@
     ]
   },
   {
+    "id": "editor.action.extensioneditor.showfind",
+    "title": "editor.action.extensioneditor.showfind",
+    "keywords": [
+      "extensioneditor showfind"
+    ]
+  },
+  {
+    "id": "editor.action.extensioneditor.findNext",
+    "title": "editor.action.extensioneditor.findNext",
+    "keywords": [
+      "extensioneditor find next",
+      "extensioneditor find"
+    ]
+  },
+  {
+    "id": "editor.action.extensioneditor.findPrevious",
+    "title": "editor.action.extensioneditor.findPrevious",
+    "keywords": [
+      "extensioneditor find previous",
+      "extensioneditor find"
+    ]
+  },
+  {
+    "id": "extension.open",
+    "title": "extension.open",
+    "keywords": [
+      "open"
+    ]
+  },
+  {
+    "id": "workbench.extensions.installExtension",
+    "title": "workbench.extensions.installExtension",
+    "keywords": [
+      "workbench extensions install extension",
+      "workbench extensions"
+    ]
+  },
+  {
+    "id": "workbench.extensions.uninstallExtension",
+    "title": "workbench.extensions.uninstallExtension",
+    "keywords": [
+      "workbench extensions uninstall extension",
+      "workbench extensions"
+    ]
+  },
+  {
+    "id": "workbench.extensions.search",
+    "title": "workbench.extensions.search",
+    "keywords": [
+      "workbench extensions search",
+      "workbench extensions"
+    ]
+  },
+  {
+    "id": "workbench.action.showRuntimeExtensions",
+    "title": "workbench.action.showRuntimeExtensions",
+    "keywords": [
+      "show runtime extensions",
+      "show runtime"
+    ]
+  },
+  {
+    "id": "workbench.extensions.actions.gallery.signIn",
+    "title": "workbench.extensions.actions.gallery.signIn",
+    "keywords": [
+      "workbench extensions actions gallery sign in",
+      "workbench extensions"
+    ]
+  },
+  {
     "id": "toggle.window.commandCenter",
     "title": "toggle.window.commandCenter",
     "keywords": [
@@ -9381,14 +9371,6 @@
     ]
   },
   {
-    "id": "toggle.chat.agentsControl.enabled",
-    "title": "toggle.chat.agentsControl.enabled",
-    "keywords": [
-      "toggle chat agents control enabled",
-      "toggle chat"
-    ]
-  },
-  {
     "id": "toggle.chat.unifiedAgentsBar.enabled",
     "title": "toggle.chat.unifiedAgentsBar.enabled",
     "keywords": [
@@ -9452,6 +9434,14 @@
     ]
   },
   {
+    "id": "agentSessionSection.collapseAll",
+    "title": "agentSessionSection.collapseAll",
+    "keywords": [
+      "agent session section collapse all",
+      "agent session"
+    ]
+  },
+  {
     "id": "agentSession.archive",
     "title": "agentSession.archive",
     "keywords": [
@@ -9464,6 +9454,22 @@
     "title": "agentSession.unarchive",
     "keywords": [
       "agent session unarchive",
+      "agent session"
+    ]
+  },
+  {
+    "id": "agentSession.pin",
+    "title": "agentSession.pin",
+    "keywords": [
+      "agent session pin",
+      "agent session"
+    ]
+  },
+  {
+    "id": "agentSession.unpin",
+    "title": "agentSession.unpin",
+    "keywords": [
+      "agent session unpin",
       "agent session"
     ]
   },
@@ -9628,6 +9634,46 @@
     ]
   },
   {
+    "id": "aiCustomizationManagement.copyPath",
+    "title": "aiCustomizationManagement.copyPath",
+    "keywords": [
+      "ai customization management copy path",
+      "ai customization"
+    ]
+  },
+  {
+    "id": "aiCustomizationManagement.uninstallPlugin",
+    "title": "aiCustomizationManagement.uninstallPlugin",
+    "keywords": [
+      "ai customization management uninstall plugin",
+      "ai customization"
+    ]
+  },
+  {
+    "id": "aiCustomizationManagement.showPlugin",
+    "title": "aiCustomizationManagement.showPlugin",
+    "keywords": [
+      "ai customization management show plugin",
+      "ai customization"
+    ]
+  },
+  {
+    "id": "aiCustomizationManagement.disableItem",
+    "title": "aiCustomizationManagement.disableItem",
+    "keywords": [
+      "ai customization management disable item",
+      "ai customization"
+    ]
+  },
+  {
+    "id": "aiCustomizationManagement.enableItem",
+    "title": "aiCustomizationManagement.enableItem",
+    "keywords": [
+      "ai customization management enable item",
+      "ai customization"
+    ]
+  },
+  {
     "id": "workbench.action.chat.resetGrowthSession",
     "title": "workbench.action.chat.resetGrowthSession",
     "keywords": [
@@ -9636,73 +9682,91 @@
     ]
   },
   {
-    "id": "editor.action.extensioneditor.showfind",
-    "title": "editor.action.extensioneditor.showfind",
+    "id": "search.action.clearHistory",
+    "title": "search.action.clearHistory",
     "keywords": [
-      "extensioneditor showfind"
+      "search action clear history",
+      "search action"
     ]
   },
   {
-    "id": "editor.action.extensioneditor.findNext",
-    "title": "editor.action.extensioneditor.findNext",
+    "id": "search.action.cancel",
+    "title": "search.action.cancel",
     "keywords": [
-      "extensioneditor find next",
-      "extensioneditor find"
+      "search action cancel",
+      "search action"
     ]
   },
   {
-    "id": "editor.action.extensioneditor.findPrevious",
-    "title": "editor.action.extensioneditor.findPrevious",
+    "id": "search.action.refreshSearchResults",
+    "title": "search.action.refreshSearchResults",
     "keywords": [
-      "extensioneditor find previous",
-      "extensioneditor find"
+      "search action refresh search results",
+      "search action"
     ]
   },
   {
-    "id": "extension.open",
-    "title": "extension.open",
+    "id": "search.action.collapseSearchResults",
+    "title": "search.action.collapseSearchResults",
     "keywords": [
-      "open"
+      "search action collapse search results",
+      "search action"
     ]
   },
   {
-    "id": "workbench.extensions.installExtension",
-    "title": "workbench.extensions.installExtension",
+    "id": "search.action.expandSearchResults",
+    "title": "search.action.expandSearchResults",
     "keywords": [
-      "workbench extensions install extension",
-      "workbench extensions"
+      "search action expand search results",
+      "search action"
     ]
   },
   {
-    "id": "workbench.extensions.uninstallExtension",
-    "title": "workbench.extensions.uninstallExtension",
+    "id": "search.action.clearSearchResults",
+    "title": "search.action.clearSearchResults",
     "keywords": [
-      "workbench extensions uninstall extension",
-      "workbench extensions"
+      "search action clear search results",
+      "search action"
     ]
   },
   {
-    "id": "workbench.extensions.search",
-    "title": "workbench.extensions.search",
+    "id": "search.action.viewAsTree",
+    "title": "search.action.viewAsTree",
     "keywords": [
-      "workbench extensions search",
-      "workbench extensions"
+      "search action view as tree",
+      "search action"
     ]
   },
   {
-    "id": "workbench.action.showRuntimeExtensions",
-    "title": "workbench.action.showRuntimeExtensions",
+    "id": "search.action.viewAsList",
+    "title": "search.action.viewAsList",
     "keywords": [
-      "show runtime extensions",
-      "show runtime"
+      "search action view as list",
+      "search action"
     ]
   },
   {
-    "id": "workbench.extensions.actions.gallery.signIn",
-    "title": "workbench.extensions.actions.gallery.signIn",
+    "id": "search.action.searchWithAI",
+    "title": "search.action.searchWithAI",
     "keywords": [
-      "workbench extensions actions gallery sign in",
-      "workbench extensions"
+      "search action search with ai",
+      "search action"
+    ]
+  },
+  {
+    "id": "workbench.action.chat.assignSelectedAgent",
+    "title": "workbench.action.chat.assignSelectedAgent",
+    "keywords": [
+      "chat assign selected agent",
+      "chat assign"
+    ]
+  },
+  {
+    "id": "workbench.action.chat.startParameterizedPrompt",
+    "title": "workbench.action.chat.startParameterizedPrompt",
+    "keywords": [
+      "chat start parameterized prompt",
+      "chat start"
     ]
   },
   {
@@ -9972,6 +10036,14 @@
     ]
   },
   {
+    "id": "workbench.action.chat.insertTroubleshootCommand",
+    "title": "workbench.action.chat.insertTroubleshootCommand",
+    "keywords": [
+      "chat insert troubleshoot command",
+      "chat insert"
+    ]
+  },
+  {
     "id": "workbench.action.chat.openFeatureSettings",
     "title": "workbench.action.chat.openFeatureSettings",
     "keywords": [
@@ -10012,6 +10084,14 @@
     ]
   },
   {
+    "id": "workbench.action.chat.copyFinalResponse",
+    "title": "workbench.action.chat.copyFinalResponse",
+    "keywords": [
+      "chat copy final response",
+      "chat copy"
+    ]
+  },
+  {
     "id": "workbench.action.chat.copyKatexMathSource",
     "title": "workbench.action.chat.copyKatexMathSource",
     "keywords": [
@@ -10033,6 +10113,22 @@
     "keywords": [
       "chat open agent debug panel for session",
       "chat open"
+    ]
+  },
+  {
+    "id": "workbench.action.chat.exportAgentDebugLog",
+    "title": "workbench.action.chat.exportAgentDebugLog",
+    "keywords": [
+      "chat export agent debug log",
+      "chat export"
+    ]
+  },
+  {
+    "id": "workbench.action.chat.importAgentDebugLog",
+    "title": "workbench.action.chat.importAgentDebugLog",
+    "keywords": [
+      "chat import agent debug log",
+      "chat import"
     ]
   },
   {
@@ -10325,6 +10421,22 @@
     "keywords": [
       "workbench edit chat cancel",
       "workbench edit"
+    ]
+  },
+  {
+    "id": "workbench.action.chat.getHandoffs",
+    "title": "workbench.action.chat.getHandoffs",
+    "keywords": [
+      "chat get handoffs",
+      "chat get"
+    ]
+  },
+  {
+    "id": "workbench.action.chat.executeHandoff",
+    "title": "workbench.action.chat.executeHandoff",
+    "keywords": [
+      "chat execute handoff",
+      "chat execute"
     ]
   },
   {
@@ -10724,6 +10836,14 @@
     ]
   },
   {
+    "id": "workbench.action.chat.createPlugin",
+    "title": "workbench.action.chat.createPlugin",
+    "keywords": [
+      "chat create plugin",
+      "chat create"
+    ]
+  },
+  {
     "id": "workbench.action.chat.logInputHistory",
     "title": "workbench.action.chat.logInputHistory",
     "keywords": [
@@ -10924,6 +11044,22 @@
     ]
   },
   {
+    "id": "workbench.action.chat.installPluginFromSource",
+    "title": "workbench.action.chat.installPluginFromSource",
+    "keywords": [
+      "chat install plugin from source",
+      "chat install"
+    ]
+  },
+  {
+    "id": "workbench.action.chat.managePluginMarketplaces",
+    "title": "workbench.action.chat.managePluginMarketplaces",
+    "keywords": [
+      "chat manage plugin marketplaces",
+      "chat manage"
+    ]
+  },
+  {
     "id": "chat.configureToolSets",
     "title": "chat.configureToolSets",
     "keywords": [
@@ -10984,6 +11120,22 @@
     "title": "inlineChat2.cancel",
     "keywords": [
       "inline chat2 cancel",
+      "inline chat2"
+    ]
+  },
+  {
+    "id": "inlineChat2.continueInChat",
+    "title": "inlineChat2.continueInChat",
+    "keywords": [
+      "inline chat2 continue in chat",
+      "inline chat2"
+    ]
+  },
+  {
+    "id": "inlineChat2.rephrase",
+    "title": "inlineChat2.rephrase",
+    "keywords": [
+      "inline chat2 rephrase",
       "inline chat2"
     ]
   },
@@ -11241,6 +11393,22 @@
     "keywords": [
       "workbench mcp skip autostart",
       "workbench mcp"
+    ]
+  },
+  {
+    "id": "workbench.action.chat.openImageInCarousel",
+    "title": "workbench.action.chat.openImageInCarousel",
+    "keywords": [
+      "chat open image in carousel",
+      "chat open"
+    ]
+  },
+  {
+    "id": "workbench.action.openImagesInCarousel",
+    "title": "workbench.action.openImagesInCarousel",
+    "keywords": [
+      "open images in carousel",
+      "open images"
     ]
   },
   {
@@ -15325,6 +15493,14 @@
     ]
   },
   {
+    "id": "workbench.action.tryNewDefaultThemes",
+    "title": "workbench.action.tryNewDefaultThemes",
+    "keywords": [
+      "try new default themes",
+      "try new"
+    ]
+  },
+  {
     "id": "workbench.action.previewColorTheme",
     "title": "workbench.action.previewColorTheme",
     "keywords": [
@@ -15354,6 +15530,14 @@
     "keywords": [
       "browse color themes in marketplace",
       "browse color"
+    ]
+  },
+  {
+    "id": "workbench.actions.updateIndicator",
+    "title": "workbench.actions.updateIndicator",
+    "keywords": [
+      "workbench actions update indicator",
+      "workbench actions"
     ]
   },
   {
@@ -16240,21 +16424,6 @@
     ]
   },
   {
-    "id": "workbench.action.browser.open",
-    "title": "workbench.action.browser.open",
-    "keywords": [
-      "browser open"
-    ]
-  },
-  {
-    "id": "workbench.action.browser.newTab",
-    "title": "workbench.action.browser.newTab",
-    "keywords": [
-      "browser new tab",
-      "browser new"
-    ]
-  },
-  {
     "id": "workbench.action.browser.goBack",
     "title": "workbench.action.browser.goBack",
     "keywords": [
@@ -16294,34 +16463,18 @@
     ]
   },
   {
-    "id": "workbench.action.browser.addElementToChat",
-    "title": "workbench.action.browser.addElementToChat",
-    "keywords": [
-      "browser add element to chat",
-      "browser add"
-    ]
-  },
-  {
-    "id": "workbench.action.browser.addConsoleLogsToChat",
-    "title": "workbench.action.browser.addConsoleLogsToChat",
-    "keywords": [
-      "browser add console logs to chat",
-      "browser add"
-    ]
-  },
-  {
-    "id": "workbench.action.browser.toggleDevTools",
-    "title": "workbench.action.browser.toggleDevTools",
-    "keywords": [
-      "browser toggle dev tools",
-      "browser toggle"
-    ]
-  },
-  {
     "id": "workbench.action.browser.openExternal",
     "title": "workbench.action.browser.openExternal",
     "keywords": [
       "browser open external",
+      "browser open"
+    ]
+  },
+  {
+    "id": "workbench.action.browser.openSettings",
+    "title": "workbench.action.browser.openSettings",
+    "keywords": [
+      "browser open settings",
       "browser open"
     ]
   },
@@ -16350,11 +16503,59 @@
     ]
   },
   {
-    "id": "workbench.action.browser.openSettings",
-    "title": "workbench.action.browser.openSettings",
+    "id": "workbench.action.browser.toggleDevTools",
+    "title": "workbench.action.browser.toggleDevTools",
     "keywords": [
-      "browser open settings",
-      "browser open"
+      "browser toggle dev tools",
+      "browser toggle"
+    ]
+  },
+  {
+    "id": "workbench.action.browser.addElementToChat",
+    "title": "workbench.action.browser.addElementToChat",
+    "keywords": [
+      "browser add element to chat",
+      "browser add"
+    ]
+  },
+  {
+    "id": "workbench.action.browser.addConsoleLogsToChat",
+    "title": "workbench.action.browser.addConsoleLogsToChat",
+    "keywords": [
+      "browser add console logs to chat",
+      "browser add"
+    ]
+  },
+  {
+    "id": "workbench.action.browser.addFocusedElementToChat",
+    "title": "workbench.action.browser.addFocusedElementToChat",
+    "keywords": [
+      "browser add focused element to chat",
+      "browser add"
+    ]
+  },
+  {
+    "id": "workbench.action.browser.zoomIn",
+    "title": "workbench.action.browser.zoomIn",
+    "keywords": [
+      "browser zoom in",
+      "browser zoom"
+    ]
+  },
+  {
+    "id": "workbench.action.browser.zoomOut",
+    "title": "workbench.action.browser.zoomOut",
+    "keywords": [
+      "browser zoom out",
+      "browser zoom"
+    ]
+  },
+  {
+    "id": "workbench.action.browser.resetZoom",
+    "title": "workbench.action.browser.resetZoom",
+    "keywords": [
+      "browser reset zoom",
+      "browser reset"
     ]
   },
   {
@@ -16387,6 +16588,53 @@
     "keywords": [
       "browser find previous",
       "browser find"
+    ]
+  },
+  {
+    "id": "workbench.action.browser.quickOpen",
+    "title": "workbench.action.browser.quickOpen",
+    "keywords": [
+      "browser quick open",
+      "browser quick"
+    ]
+  },
+  {
+    "id": "workbench.action.browser.open",
+    "title": "workbench.action.browser.open",
+    "keywords": [
+      "browser open"
+    ]
+  },
+  {
+    "id": "workbench.action.browser.newTab",
+    "title": "workbench.action.browser.newTab",
+    "keywords": [
+      "browser new tab",
+      "browser new"
+    ]
+  },
+  {
+    "id": "workbench.action.browser.closeAll",
+    "title": "workbench.action.browser.closeAll",
+    "keywords": [
+      "browser close all",
+      "browser close"
+    ]
+  },
+  {
+    "id": "workbench.action.browser.closeAllInGroup",
+    "title": "workbench.action.browser.closeAllInGroup",
+    "keywords": [
+      "browser close all in group",
+      "browser close"
+    ]
+  },
+  {
+    "id": "toggle.workbench.browser.showInTitleBar",
+    "title": "toggle.workbench.browser.showInTitleBar",
+    "keywords": [
+      "toggle workbench browser show in title bar",
+      "toggle workbench"
     ]
   },
   {
@@ -16518,11 +16766,11 @@
     ]
   },
   {
-    "id": "workbench.panel.chat.resetViewContainerLocation",
-    "title": "workbench.panel.chat.resetViewContainerLocation",
+    "id": "workbench.action.chat.openNewChatSessionInPlace.agent-host-copilot",
+    "title": "workbench.action.chat.openNewChatSessionInPlace.agent-host-copilot",
     "keywords": [
-      "workbench panel chat reset view container location",
-      "workbench panel"
+      "chat open new chat session in place agent host copilot",
+      "chat open"
     ]
   },
   {
@@ -16582,6 +16830,14 @@
     ]
   },
   {
+    "id": "workbench.panel.chat.resetViewContainerLocation",
+    "title": "workbench.panel.chat.resetViewContainerLocation",
+    "keywords": [
+      "workbench panel chat reset view container location",
+      "workbench panel"
+    ]
+  },
+  {
     "id": "workbench.panel.testResults.resetViewContainerLocation",
     "title": "workbench.panel.testResults.resetViewContainerLocation",
     "keywords": [
@@ -16635,30 +16891,6 @@
     "keywords": [
       "toggle activity bar visibility",
       "toggle activity"
-    ]
-  },
-  {
-    "id": "workbench.panel.chat",
-    "title": "workbench.panel.chat",
-    "keywords": [
-      "workbench panel chat",
-      "workbench panel"
-    ]
-  },
-  {
-    "id": "workbench.panel.chat.view.copilot.focus",
-    "title": "workbench.panel.chat.view.copilot.focus",
-    "keywords": [
-      "workbench panel chat view copilot focus",
-      "workbench panel"
-    ]
-  },
-  {
-    "id": "workbench.panel.chat.view.copilot.resetViewLocation",
-    "title": "workbench.panel.chat.view.copilot.resetViewLocation",
-    "keywords": [
-      "workbench panel chat view copilot reset view location",
-      "workbench panel"
     ]
   },
   {
@@ -17031,6 +17263,30 @@
     "keywords": [
       "workbench view remote",
       "workbench view"
+    ]
+  },
+  {
+    "id": "workbench.panel.chat",
+    "title": "workbench.panel.chat",
+    "keywords": [
+      "workbench panel chat",
+      "workbench panel"
+    ]
+  },
+  {
+    "id": "workbench.panel.chat.view.copilot.focus",
+    "title": "workbench.panel.chat.view.copilot.focus",
+    "keywords": [
+      "workbench panel chat view copilot focus",
+      "workbench panel"
+    ]
+  },
+  {
+    "id": "workbench.panel.chat.view.copilot.resetViewLocation",
+    "title": "workbench.panel.chat.view.copilot.resetViewLocation",
+    "keywords": [
+      "workbench panel chat view copilot reset view location",
+      "workbench panel"
     ]
   },
   {
@@ -17604,10 +17860,10 @@
     ]
   },
   {
-    "id": "changeEditorIndentation2",
-    "title": "changeEditorIndentation2",
+    "id": "changeEditorIndentation10",
+    "title": "changeEditorIndentation10",
     "keywords": [
-      "change editor indentation2",
+      "change editor indentation10",
       "change editor"
     ]
   },
@@ -17649,6 +17905,14 @@
     "keywords": [
       "chat trigger setup from accounts",
       "chat trigger"
+    ]
+  },
+  {
+    "id": "workbench.action.chat.signInIndicator",
+    "title": "workbench.action.chat.signInIndicator",
+    "keywords": [
+      "chat sign in indicator",
+      "chat sign"
     ]
   },
   {
@@ -17704,6 +17968,14 @@
     "title": "chat.internal.review",
     "keywords": [
       "chat internal review",
+      "chat internal"
+    ]
+  },
+  {
+    "id": "chat.internal.codeReview.run",
+    "title": "chat.internal.codeReview.run",
+    "keywords": [
+      "chat internal code review run",
       "chat internal"
     ]
   },
@@ -17991,6 +18263,118 @@
     ]
   },
   {
+    "id": "editor.action.inlineSuggest.renameSymbol",
+    "title": "editor.action.inlineSuggest.renameSymbol",
+    "keywords": [
+      "inline suggest rename symbol",
+      "inline suggest"
+    ]
+  },
+  {
+    "id": "workbench.action.chat.openSessionWithPrompt.claude-code",
+    "title": "workbench.action.chat.openSessionWithPrompt.claude-code",
+    "keywords": [
+      "chat open session with prompt claude code",
+      "chat open"
+    ]
+  },
+  {
+    "id": "workbench.action.chat.openNewSessionEditor.claude-code",
+    "title": "workbench.action.chat.openNewSessionEditor.claude-code",
+    "keywords": [
+      "chat open new session editor claude code",
+      "chat open"
+    ]
+  },
+  {
+    "id": "workbench.action.chat.openNewSessionSidebar.claude-code",
+    "title": "workbench.action.chat.openNewSessionSidebar.claude-code",
+    "keywords": [
+      "chat open new session sidebar claude code",
+      "chat open"
+    ]
+  },
+  {
+    "id": "workbench.action.chat.openSessionWithPrompt.copilotcli",
+    "title": "workbench.action.chat.openSessionWithPrompt.copilotcli",
+    "keywords": [
+      "chat open session with prompt copilotcli",
+      "chat open"
+    ]
+  },
+  {
+    "id": "workbench.action.chat.openNewSessionEditor.copilotcli",
+    "title": "workbench.action.chat.openNewSessionEditor.copilotcli",
+    "keywords": [
+      "chat open new session editor copilotcli",
+      "chat open"
+    ]
+  },
+  {
+    "id": "workbench.action.chat.openNewSessionSidebar.copilotcli",
+    "title": "workbench.action.chat.openNewSessionSidebar.copilotcli",
+    "keywords": [
+      "chat open new session sidebar copilotcli",
+      "chat open"
+    ]
+  },
+  {
+    "id": "workbench.action.chat.openSessionWithPrompt.copilot-cloud-agent",
+    "title": "workbench.action.chat.openSessionWithPrompt.copilot-cloud-agent",
+    "keywords": [
+      "chat open session with prompt copilot cloud agent",
+      "chat open"
+    ]
+  },
+  {
+    "id": "workbench.action.chat.openNewSessionEditor.copilot-cloud-agent",
+    "title": "workbench.action.chat.openNewSessionEditor.copilot-cloud-agent",
+    "keywords": [
+      "chat open new session editor copilot cloud agent",
+      "chat open"
+    ]
+  },
+  {
+    "id": "workbench.action.chat.openNewSessionSidebar.copilot-cloud-agent",
+    "title": "workbench.action.chat.openNewSessionSidebar.copilot-cloud-agent",
+    "keywords": [
+      "chat open new session sidebar copilot cloud agent",
+      "chat open"
+    ]
+  },
+  {
+    "id": "workbench.action.chat.openNewChatSessionInPlace.local",
+    "title": "workbench.action.chat.openNewChatSessionInPlace.local",
+    "keywords": [
+      "chat open new chat session in place local",
+      "chat open"
+    ]
+  },
+  {
+    "id": "workbench.action.chat.openNewChatSessionInPlace.claude-code",
+    "title": "workbench.action.chat.openNewChatSessionInPlace.claude-code",
+    "keywords": [
+      "chat open new chat session in place claude code",
+      "chat open"
+    ]
+  },
+  {
+    "id": "workbench.action.chat.openNewChatSessionInPlace.copilotcli",
+    "title": "workbench.action.chat.openNewChatSessionInPlace.copilotcli",
+    "keywords": [
+      "chat open new chat session in place copilotcli",
+      "chat open"
+    ]
+  },
+  {
+    "id": "workbench.action.chat.openNewChatSessionInPlace.copilot-cloud-agent",
+    "title": "workbench.action.chat.openNewChatSessionInPlace.copilot-cloud-agent",
+    "keywords": [
+      "chat open new chat session in place copilot cloud agent",
+      "chat open"
+    ]
+  },
+  {
     "id": "workbench.view.extension.references-view.resetViewContainerLocation",
     "title": "workbench.view.extension.references-view.resetViewContainerLocation",
     "keywords": [
@@ -18003,102 +18387,6 @@
     "title": "workbench.view.extension.references-view",
     "keywords": [
       "workbench view extension references view",
-      "workbench view"
-    ]
-  },
-  {
-    "id": "workbench.view.extension.flutter.resetViewContainerLocation",
-    "title": "workbench.view.extension.flutter.resetViewContainerLocation",
-    "keywords": [
-      "workbench view extension flutter reset view container location",
-      "workbench view"
-    ]
-  },
-  {
-    "id": "workbench.view.extension.flutter",
-    "title": "workbench.view.extension.flutter",
-    "keywords": [
-      "workbench view extension flutter",
-      "workbench view"
-    ]
-  },
-  {
-    "id": "workbench.view.extension.flutterPropertyEditorContainer.resetViewContainerLocation",
-    "title": "workbench.view.extension.flutterPropertyEditorContainer.resetViewContainerLocation",
-    "keywords": [
-      "workbench view extension flutter property editor container reset view container location",
-      "workbench view"
-    ]
-  },
-  {
-    "id": "workbench.view.extension.flutterPropertyEditorContainer",
-    "title": "workbench.view.extension.flutterPropertyEditorContainer",
-    "keywords": [
-      "workbench view extension flutter property editor container",
-      "workbench view"
-    ]
-  },
-  {
-    "id": "workbench.view.extension.sidebarDevToolsContainer.resetViewContainerLocation",
-    "title": "workbench.view.extension.sidebarDevToolsContainer.resetViewContainerLocation",
-    "keywords": [
-      "workbench view extension sidebar dev tools container reset view container location",
-      "workbench view"
-    ]
-  },
-  {
-    "id": "workbench.view.extension.sidebarDevToolsContainer",
-    "title": "workbench.view.extension.sidebarDevToolsContainer",
-    "keywords": [
-      "workbench view extension sidebar dev tools container",
-      "workbench view"
-    ]
-  },
-  {
-    "id": "workbench.view.extension.sidebarDevToolsInspectorContainer.resetViewContainerLocation",
-    "title": "workbench.view.extension.sidebarDevToolsInspectorContainer.resetViewContainerLocation",
-    "keywords": [
-      "workbench view extension sidebar dev tools inspector container reset view container location",
-      "workbench view"
-    ]
-  },
-  {
-    "id": "workbench.view.extension.sidebarDevToolsInspectorContainer",
-    "title": "workbench.view.extension.sidebarDevToolsInspectorContainer",
-    "keywords": [
-      "workbench view extension sidebar dev tools inspector container",
-      "workbench view"
-    ]
-  },
-  {
-    "id": "workbench.view.extension.sidebarDevToolsDeepLinksContainer.resetViewContainerLocation",
-    "title": "workbench.view.extension.sidebarDevToolsDeepLinksContainer.resetViewContainerLocation",
-    "keywords": [
-      "workbench view extension sidebar dev tools deep links container reset view container location",
-      "workbench view"
-    ]
-  },
-  {
-    "id": "workbench.view.extension.sidebarDevToolsDeepLinksContainer",
-    "title": "workbench.view.extension.sidebarDevToolsDeepLinksContainer",
-    "keywords": [
-      "workbench view extension sidebar dev tools deep links container",
-      "workbench view"
-    ]
-  },
-  {
-    "id": "workbench.view.extension.sidebarWidgetPreviewContainer.resetViewContainerLocation",
-    "title": "workbench.view.extension.sidebarWidgetPreviewContainer.resetViewContainerLocation",
-    "keywords": [
-      "workbench view extension sidebar widget preview container reset view container location",
-      "workbench view"
-    ]
-  },
-  {
-    "id": "workbench.view.extension.sidebarWidgetPreviewContainer",
-    "title": "workbench.view.extension.sidebarWidgetPreviewContainer",
-    "keywords": [
-      "workbench view extension sidebar widget preview container",
       "workbench view"
     ]
   },
@@ -18135,6 +18423,70 @@
     ]
   },
   {
+    "id": "workbench.view.extension.containersView.resetViewContainerLocation",
+    "title": "workbench.view.extension.containersView.resetViewContainerLocation",
+    "keywords": [
+      "workbench view extension containers view reset view container location",
+      "workbench view"
+    ]
+  },
+  {
+    "id": "workbench.view.extension.containersView",
+    "title": "workbench.view.extension.containersView",
+    "keywords": [
+      "workbench view extension containers view",
+      "workbench view"
+    ]
+  },
+  {
+    "id": "workbench.view.extension.dataworkspace.resetViewContainerLocation",
+    "title": "workbench.view.extension.dataworkspace.resetViewContainerLocation",
+    "keywords": [
+      "workbench view extension dataworkspace reset view container location",
+      "workbench view"
+    ]
+  },
+  {
+    "id": "workbench.view.extension.dataworkspace",
+    "title": "workbench.view.extension.dataworkspace",
+    "keywords": [
+      "workbench view extension dataworkspace",
+      "workbench view"
+    ]
+  },
+  {
+    "id": "workbench.view.extension.objectExplorer.resetViewContainerLocation",
+    "title": "workbench.view.extension.objectExplorer.resetViewContainerLocation",
+    "keywords": [
+      "workbench view extension object explorer reset view container location",
+      "workbench view"
+    ]
+  },
+  {
+    "id": "workbench.view.extension.objectExplorer",
+    "title": "workbench.view.extension.objectExplorer",
+    "keywords": [
+      "workbench view extension object explorer",
+      "workbench view"
+    ]
+  },
+  {
+    "id": "workbench.view.extension.queryResult.resetViewContainerLocation",
+    "title": "workbench.view.extension.queryResult.resetViewContainerLocation",
+    "keywords": [
+      "workbench view extension query result reset view container location",
+      "workbench view"
+    ]
+  },
+  {
+    "id": "workbench.view.extension.queryResult",
+    "title": "workbench.view.extension.queryResult",
+    "keywords": [
+      "workbench view extension query result",
+      "workbench view"
+    ]
+  },
+  {
     "id": "workbench.view.extension.python.resetViewContainerLocation",
     "title": "workbench.view.extension.python.resetViewContainerLocation",
     "keywords": [
@@ -18147,6 +18499,70 @@
     "title": "workbench.view.extension.python",
     "keywords": [
       "workbench view extension python",
+      "workbench view"
+    ]
+  },
+  {
+    "id": "workbench.view.extension.cmake-view.resetViewContainerLocation",
+    "title": "workbench.view.extension.cmake-view.resetViewContainerLocation",
+    "keywords": [
+      "workbench view extension cmake view reset view container location",
+      "workbench view"
+    ]
+  },
+  {
+    "id": "workbench.view.extension.cmake-view",
+    "title": "workbench.view.extension.cmake-view",
+    "keywords": [
+      "workbench view extension cmake view",
+      "workbench view"
+    ]
+  },
+  {
+    "id": "workbench.view.extension.azureJavaMigrationExplorer.resetViewContainerLocation",
+    "title": "workbench.view.extension.azureJavaMigrationExplorer.resetViewContainerLocation",
+    "keywords": [
+      "workbench view extension azure java migration explorer reset view container location",
+      "workbench view"
+    ]
+  },
+  {
+    "id": "workbench.view.extension.azureJavaMigrationExplorer",
+    "title": "workbench.view.extension.azureJavaMigrationExplorer",
+    "keywords": [
+      "workbench view extension azure java migration explorer",
+      "workbench view"
+    ]
+  },
+  {
+    "id": "workbench.view.extension.gradleContainerView.resetViewContainerLocation",
+    "title": "workbench.view.extension.gradleContainerView.resetViewContainerLocation",
+    "keywords": [
+      "workbench view extension gradle container view reset view container location",
+      "workbench view"
+    ]
+  },
+  {
+    "id": "workbench.view.extension.gradleContainerView",
+    "title": "workbench.view.extension.gradleContainerView",
+    "keywords": [
+      "workbench view extension gradle container view",
+      "workbench view"
+    ]
+  },
+  {
+    "id": "workbench.view.extension.javaupgrade.resetViewContainerLocation",
+    "title": "workbench.view.extension.javaupgrade.resetViewContainerLocation",
+    "keywords": [
+      "workbench view extension javaupgrade reset view container location",
+      "workbench view"
+    ]
+  },
+  {
+    "id": "workbench.view.extension.javaupgrade",
+    "title": "workbench.view.extension.javaupgrade",
+    "keywords": [
+      "workbench view extension javaupgrade",
       "workbench view"
     ]
   },
@@ -18285,294 +18701,6 @@
     ]
   },
   {
-    "id": "dartDependencyTree.open",
-    "title": "dartDependencyTree.open",
-    "keywords": [
-      "dart dependency tree open",
-      "dart dependency"
-    ]
-  },
-  {
-    "id": "dartDependencyTree.focus",
-    "title": "dartDependencyTree.focus",
-    "keywords": [
-      "dart dependency tree focus",
-      "dart dependency"
-    ]
-  },
-  {
-    "id": "dartDependencyTree.resetViewLocation",
-    "title": "dartDependencyTree.resetViewLocation",
-    "keywords": [
-      "dart dependency tree reset view location",
-      "dart dependency"
-    ]
-  },
-  {
-    "id": "dartFlutterSidebar.open",
-    "title": "dartFlutterSidebar.open",
-    "keywords": [
-      "dart flutter sidebar open",
-      "dart flutter"
-    ]
-  },
-  {
-    "id": "dartFlutterSidebar.focus",
-    "title": "dartFlutterSidebar.focus",
-    "keywords": [
-      "dart flutter sidebar focus",
-      "dart flutter"
-    ]
-  },
-  {
-    "id": "dartFlutterSidebar.resetViewLocation",
-    "title": "dartFlutterSidebar.resetViewLocation",
-    "keywords": [
-      "dart flutter sidebar reset view location",
-      "dart flutter"
-    ]
-  },
-  {
-    "id": "dartFlutterOutline.open",
-    "title": "dartFlutterOutline.open",
-    "keywords": [
-      "dart flutter outline open",
-      "dart flutter"
-    ]
-  },
-  {
-    "id": "dartFlutterOutline.focus",
-    "title": "dartFlutterOutline.focus",
-    "keywords": [
-      "dart flutter outline focus",
-      "dart flutter"
-    ]
-  },
-  {
-    "id": "dartFlutterOutline.resetViewLocation",
-    "title": "dartFlutterOutline.resetViewLocation",
-    "keywords": [
-      "dart flutter outline reset view location",
-      "dart flutter"
-    ]
-  },
-  {
-    "id": "flutterPropertyEditor.open",
-    "title": "flutterPropertyEditor.open",
-    "keywords": [
-      "flutter property editor open",
-      "flutter property"
-    ]
-  },
-  {
-    "id": "flutterPropertyEditor.focus",
-    "title": "flutterPropertyEditor.focus",
-    "keywords": [
-      "flutter property editor focus",
-      "flutter property"
-    ]
-  },
-  {
-    "id": "flutterPropertyEditor.resetViewLocation",
-    "title": "flutterPropertyEditor.resetViewLocation",
-    "keywords": [
-      "flutter property editor reset view location",
-      "flutter property"
-    ]
-  },
-  {
-    "id": "sidebarDevToolsCpuProfiler.open",
-    "title": "sidebarDevToolsCpuProfiler.open",
-    "keywords": [
-      "sidebar dev tools cpu profiler open",
-      "sidebar dev"
-    ]
-  },
-  {
-    "id": "sidebarDevToolsCpuProfiler.focus",
-    "title": "sidebarDevToolsCpuProfiler.focus",
-    "keywords": [
-      "sidebar dev tools cpu profiler focus",
-      "sidebar dev"
-    ]
-  },
-  {
-    "id": "sidebarDevToolsCpuProfiler.resetViewLocation",
-    "title": "sidebarDevToolsCpuProfiler.resetViewLocation",
-    "keywords": [
-      "sidebar dev tools cpu profiler reset view location",
-      "sidebar dev"
-    ]
-  },
-  {
-    "id": "sidebarDevToolsMemory.open",
-    "title": "sidebarDevToolsMemory.open",
-    "keywords": [
-      "sidebar dev tools memory open",
-      "sidebar dev"
-    ]
-  },
-  {
-    "id": "sidebarDevToolsMemory.focus",
-    "title": "sidebarDevToolsMemory.focus",
-    "keywords": [
-      "sidebar dev tools memory focus",
-      "sidebar dev"
-    ]
-  },
-  {
-    "id": "sidebarDevToolsMemory.resetViewLocation",
-    "title": "sidebarDevToolsMemory.resetViewLocation",
-    "keywords": [
-      "sidebar dev tools memory reset view location",
-      "sidebar dev"
-    ]
-  },
-  {
-    "id": "sidebarDevToolsPerformance.open",
-    "title": "sidebarDevToolsPerformance.open",
-    "keywords": [
-      "sidebar dev tools performance open",
-      "sidebar dev"
-    ]
-  },
-  {
-    "id": "sidebarDevToolsPerformance.focus",
-    "title": "sidebarDevToolsPerformance.focus",
-    "keywords": [
-      "sidebar dev tools performance focus",
-      "sidebar dev"
-    ]
-  },
-  {
-    "id": "sidebarDevToolsPerformance.resetViewLocation",
-    "title": "sidebarDevToolsPerformance.resetViewLocation",
-    "keywords": [
-      "sidebar dev tools performance reset view location",
-      "sidebar dev"
-    ]
-  },
-  {
-    "id": "sidebarDevToolsNetwork.open",
-    "title": "sidebarDevToolsNetwork.open",
-    "keywords": [
-      "sidebar dev tools network open",
-      "sidebar dev"
-    ]
-  },
-  {
-    "id": "sidebarDevToolsNetwork.focus",
-    "title": "sidebarDevToolsNetwork.focus",
-    "keywords": [
-      "sidebar dev tools network focus",
-      "sidebar dev"
-    ]
-  },
-  {
-    "id": "sidebarDevToolsNetwork.resetViewLocation",
-    "title": "sidebarDevToolsNetwork.resetViewLocation",
-    "keywords": [
-      "sidebar dev tools network reset view location",
-      "sidebar dev"
-    ]
-  },
-  {
-    "id": "sidebarDevToolsLogging.open",
-    "title": "sidebarDevToolsLogging.open",
-    "keywords": [
-      "sidebar dev tools logging open",
-      "sidebar dev"
-    ]
-  },
-  {
-    "id": "sidebarDevToolsLogging.focus",
-    "title": "sidebarDevToolsLogging.focus",
-    "keywords": [
-      "sidebar dev tools logging focus",
-      "sidebar dev"
-    ]
-  },
-  {
-    "id": "sidebarDevToolsLogging.resetViewLocation",
-    "title": "sidebarDevToolsLogging.resetViewLocation",
-    "keywords": [
-      "sidebar dev tools logging reset view location",
-      "sidebar dev"
-    ]
-  },
-  {
-    "id": "sidebarDevToolsInspector.open",
-    "title": "sidebarDevToolsInspector.open",
-    "keywords": [
-      "sidebar dev tools inspector open",
-      "sidebar dev"
-    ]
-  },
-  {
-    "id": "sidebarDevToolsInspector.focus",
-    "title": "sidebarDevToolsInspector.focus",
-    "keywords": [
-      "sidebar dev tools inspector focus",
-      "sidebar dev"
-    ]
-  },
-  {
-    "id": "sidebarDevToolsInspector.resetViewLocation",
-    "title": "sidebarDevToolsInspector.resetViewLocation",
-    "keywords": [
-      "sidebar dev tools inspector reset view location",
-      "sidebar dev"
-    ]
-  },
-  {
-    "id": "sidebarDevToolsDeepLinks.open",
-    "title": "sidebarDevToolsDeepLinks.open",
-    "keywords": [
-      "sidebar dev tools deep links open",
-      "sidebar dev"
-    ]
-  },
-  {
-    "id": "sidebarDevToolsDeepLinks.focus",
-    "title": "sidebarDevToolsDeepLinks.focus",
-    "keywords": [
-      "sidebar dev tools deep links focus",
-      "sidebar dev"
-    ]
-  },
-  {
-    "id": "sidebarDevToolsDeepLinks.resetViewLocation",
-    "title": "sidebarDevToolsDeepLinks.resetViewLocation",
-    "keywords": [
-      "sidebar dev tools deep links reset view location",
-      "sidebar dev"
-    ]
-  },
-  {
-    "id": "sidebarWidgetPreview.open",
-    "title": "sidebarWidgetPreview.open",
-    "keywords": [
-      "sidebar widget preview open",
-      "sidebar widget"
-    ]
-  },
-  {
-    "id": "sidebarWidgetPreview.focus",
-    "title": "sidebarWidgetPreview.focus",
-    "keywords": [
-      "sidebar widget preview focus",
-      "sidebar widget"
-    ]
-  },
-  {
-    "id": "sidebarWidgetPreview.resetViewLocation",
-    "title": "sidebarWidgetPreview.resetViewLocation",
-    "keywords": [
-      "sidebar widget preview reset view location",
-      "sidebar widget"
-    ]
-  },
-  {
     "id": "copilot-chat.open",
     "title": "copilot-chat.open",
     "keywords": [
@@ -18621,6 +18749,270 @@
     ]
   },
   {
+    "id": "vscode-containers.views.containers.open",
+    "title": "vscode-containers.views.containers.open",
+    "keywords": [
+      "vscode containers views containers open",
+      "vscode containers"
+    ]
+  },
+  {
+    "id": "vscode-containers.views.containers.focus",
+    "title": "vscode-containers.views.containers.focus",
+    "keywords": [
+      "vscode containers views containers focus",
+      "vscode containers"
+    ]
+  },
+  {
+    "id": "vscode-containers.views.containers.resetViewLocation",
+    "title": "vscode-containers.views.containers.resetViewLocation",
+    "keywords": [
+      "vscode containers views containers reset view location",
+      "vscode containers"
+    ]
+  },
+  {
+    "id": "vscode-containers.views.images.open",
+    "title": "vscode-containers.views.images.open",
+    "keywords": [
+      "vscode containers views images open",
+      "vscode containers"
+    ]
+  },
+  {
+    "id": "vscode-containers.views.images.focus",
+    "title": "vscode-containers.views.images.focus",
+    "keywords": [
+      "vscode containers views images focus",
+      "vscode containers"
+    ]
+  },
+  {
+    "id": "vscode-containers.views.images.resetViewLocation",
+    "title": "vscode-containers.views.images.resetViewLocation",
+    "keywords": [
+      "vscode containers views images reset view location",
+      "vscode containers"
+    ]
+  },
+  {
+    "id": "vscode-containers.views.registries.open",
+    "title": "vscode-containers.views.registries.open",
+    "keywords": [
+      "vscode containers views registries open",
+      "vscode containers"
+    ]
+  },
+  {
+    "id": "vscode-containers.views.registries.focus",
+    "title": "vscode-containers.views.registries.focus",
+    "keywords": [
+      "vscode containers views registries focus",
+      "vscode containers"
+    ]
+  },
+  {
+    "id": "vscode-containers.views.registries.resetViewLocation",
+    "title": "vscode-containers.views.registries.resetViewLocation",
+    "keywords": [
+      "vscode containers views registries reset view location",
+      "vscode containers"
+    ]
+  },
+  {
+    "id": "vscode-containers.views.networks.open",
+    "title": "vscode-containers.views.networks.open",
+    "keywords": [
+      "vscode containers views networks open",
+      "vscode containers"
+    ]
+  },
+  {
+    "id": "vscode-containers.views.networks.focus",
+    "title": "vscode-containers.views.networks.focus",
+    "keywords": [
+      "vscode containers views networks focus",
+      "vscode containers"
+    ]
+  },
+  {
+    "id": "vscode-containers.views.networks.resetViewLocation",
+    "title": "vscode-containers.views.networks.resetViewLocation",
+    "keywords": [
+      "vscode containers views networks reset view location",
+      "vscode containers"
+    ]
+  },
+  {
+    "id": "vscode-containers.views.volumes.open",
+    "title": "vscode-containers.views.volumes.open",
+    "keywords": [
+      "vscode containers views volumes open",
+      "vscode containers"
+    ]
+  },
+  {
+    "id": "vscode-containers.views.volumes.focus",
+    "title": "vscode-containers.views.volumes.focus",
+    "keywords": [
+      "vscode containers views volumes focus",
+      "vscode containers"
+    ]
+  },
+  {
+    "id": "vscode-containers.views.volumes.resetViewLocation",
+    "title": "vscode-containers.views.volumes.resetViewLocation",
+    "keywords": [
+      "vscode containers views volumes reset view location",
+      "vscode containers"
+    ]
+  },
+  {
+    "id": "vscode-containers.views.dockerContexts.open",
+    "title": "vscode-containers.views.dockerContexts.open",
+    "keywords": [
+      "vscode containers views docker contexts open",
+      "vscode containers"
+    ]
+  },
+  {
+    "id": "vscode-containers.views.dockerContexts.focus",
+    "title": "vscode-containers.views.dockerContexts.focus",
+    "keywords": [
+      "vscode containers views docker contexts focus",
+      "vscode containers"
+    ]
+  },
+  {
+    "id": "vscode-containers.views.dockerContexts.resetViewLocation",
+    "title": "vscode-containers.views.dockerContexts.resetViewLocation",
+    "keywords": [
+      "vscode containers views docker contexts reset view location",
+      "vscode containers"
+    ]
+  },
+  {
+    "id": "vscode-containers.views.help.open",
+    "title": "vscode-containers.views.help.open",
+    "keywords": [
+      "vscode containers views help open",
+      "vscode containers"
+    ]
+  },
+  {
+    "id": "vscode-containers.views.help.focus",
+    "title": "vscode-containers.views.help.focus",
+    "keywords": [
+      "vscode containers views help focus",
+      "vscode containers"
+    ]
+  },
+  {
+    "id": "vscode-containers.views.help.resetViewLocation",
+    "title": "vscode-containers.views.help.resetViewLocation",
+    "keywords": [
+      "vscode containers views help reset view location",
+      "vscode containers"
+    ]
+  },
+  {
+    "id": "dataworkspace.views.main.open",
+    "title": "dataworkspace.views.main.open",
+    "keywords": [
+      "dataworkspace views main open",
+      "dataworkspace views"
+    ]
+  },
+  {
+    "id": "dataworkspace.views.main.focus",
+    "title": "dataworkspace.views.main.focus",
+    "keywords": [
+      "dataworkspace views main focus",
+      "dataworkspace views"
+    ]
+  },
+  {
+    "id": "dataworkspace.views.main.resetViewLocation",
+    "title": "dataworkspace.views.main.resetViewLocation",
+    "keywords": [
+      "dataworkspace views main reset view location",
+      "dataworkspace views"
+    ]
+  },
+  {
+    "id": "queryResult.open",
+    "title": "queryResult.open",
+    "keywords": [
+      "query result open",
+      "query result"
+    ]
+  },
+  {
+    "id": "queryResult.focus",
+    "title": "queryResult.focus",
+    "keywords": [
+      "query result focus",
+      "query result"
+    ]
+  },
+  {
+    "id": "queryResult.resetViewLocation",
+    "title": "queryResult.resetViewLocation",
+    "keywords": [
+      "query result reset view location",
+      "query result"
+    ]
+  },
+  {
+    "id": "objectExplorer.open",
+    "title": "objectExplorer.open",
+    "keywords": [
+      "object explorer open",
+      "object explorer"
+    ]
+  },
+  {
+    "id": "objectExplorer.focus",
+    "title": "objectExplorer.focus",
+    "keywords": [
+      "object explorer focus",
+      "object explorer"
+    ]
+  },
+  {
+    "id": "objectExplorer.resetViewLocation",
+    "title": "objectExplorer.resetViewLocation",
+    "keywords": [
+      "object explorer reset view location",
+      "object explorer"
+    ]
+  },
+  {
+    "id": "queryHistory.open",
+    "title": "queryHistory.open",
+    "keywords": [
+      "query history open",
+      "query history"
+    ]
+  },
+  {
+    "id": "queryHistory.focus",
+    "title": "queryHistory.focus",
+    "keywords": [
+      "query history focus",
+      "query history"
+    ]
+  },
+  {
+    "id": "queryHistory.resetViewLocation",
+    "title": "queryHistory.resetViewLocation",
+    "keywords": [
+      "query history reset view location",
+      "query history"
+    ]
+  },
+  {
     "id": "python-projects.open",
     "title": "python-projects.open",
     "keywords": [
@@ -18666,6 +19058,102 @@
     "keywords": [
       "env managers reset view location",
       "env managers"
+    ]
+  },
+  {
+    "id": "cmake.projectStatus.open",
+    "title": "cmake.projectStatus.open",
+    "keywords": [
+      "cmake project status open",
+      "cmake project"
+    ]
+  },
+  {
+    "id": "cmake.projectStatus.focus",
+    "title": "cmake.projectStatus.focus",
+    "keywords": [
+      "cmake project status focus",
+      "cmake project"
+    ]
+  },
+  {
+    "id": "cmake.projectStatus.resetViewLocation",
+    "title": "cmake.projectStatus.resetViewLocation",
+    "keywords": [
+      "cmake project status reset view location",
+      "cmake project"
+    ]
+  },
+  {
+    "id": "cmake.outline.open",
+    "title": "cmake.outline.open",
+    "keywords": [
+      "cmake outline open",
+      "cmake outline"
+    ]
+  },
+  {
+    "id": "cmake.outline.focus",
+    "title": "cmake.outline.focus",
+    "keywords": [
+      "cmake outline focus",
+      "cmake outline"
+    ]
+  },
+  {
+    "id": "cmake.outline.resetViewLocation",
+    "title": "cmake.outline.resetViewLocation",
+    "keywords": [
+      "cmake outline reset view location",
+      "cmake outline"
+    ]
+  },
+  {
+    "id": "cmake.pinnedCommands.open",
+    "title": "cmake.pinnedCommands.open",
+    "keywords": [
+      "cmake pinned commands open",
+      "cmake pinned"
+    ]
+  },
+  {
+    "id": "cmake.pinnedCommands.focus",
+    "title": "cmake.pinnedCommands.focus",
+    "keywords": [
+      "cmake pinned commands focus",
+      "cmake pinned"
+    ]
+  },
+  {
+    "id": "cmake.pinnedCommands.resetViewLocation",
+    "title": "cmake.pinnedCommands.resetViewLocation",
+    "keywords": [
+      "cmake pinned commands reset view location",
+      "cmake pinned"
+    ]
+  },
+  {
+    "id": "cmake.bookmarks.open",
+    "title": "cmake.bookmarks.open",
+    "keywords": [
+      "cmake bookmarks open",
+      "cmake bookmarks"
+    ]
+  },
+  {
+    "id": "cmake.bookmarks.focus",
+    "title": "cmake.bookmarks.focus",
+    "keywords": [
+      "cmake bookmarks focus",
+      "cmake bookmarks"
+    ]
+  },
+  {
+    "id": "cmake.bookmarks.resetViewLocation",
+    "title": "cmake.bookmarks.resetViewLocation",
+    "keywords": [
+      "cmake bookmarks reset view location",
+      "cmake bookmarks"
     ]
   },
   {
@@ -18741,123 +19229,291 @@
     ]
   },
   {
-    "id": "workbench.action.chat.openSessionWithPrompt.claude-code",
-    "title": "workbench.action.chat.openSessionWithPrompt.claude-code",
+    "id": "lldb.loadedModules.open",
+    "title": "lldb.loadedModules.open",
     "keywords": [
-      "chat open session with prompt claude code",
-      "chat open"
+      "lldb loaded modules open",
+      "lldb loaded"
     ]
   },
   {
-    "id": "workbench.action.chat.openNewSessionEditor.claude-code",
-    "title": "workbench.action.chat.openNewSessionEditor.claude-code",
+    "id": "lldb.loadedModules.focus",
+    "title": "lldb.loadedModules.focus",
     "keywords": [
-      "chat open new session editor claude code",
-      "chat open"
+      "lldb loaded modules focus",
+      "lldb loaded"
     ]
   },
   {
-    "id": "workbench.action.chat.openNewSessionSidebar.claude-code",
-    "title": "workbench.action.chat.openNewSessionSidebar.claude-code",
+    "id": "lldb.loadedModules.resetViewLocation",
+    "title": "lldb.loadedModules.resetViewLocation",
     "keywords": [
-      "chat open new session sidebar claude code",
-      "chat open"
+      "lldb loaded modules reset view location",
+      "lldb loaded"
     ]
   },
   {
-    "id": "workbench.action.chat.openSessionWithPrompt.copilotcli",
-    "title": "workbench.action.chat.openSessionWithPrompt.copilotcli",
+    "id": "lldb.excludedCallers.open",
+    "title": "lldb.excludedCallers.open",
     "keywords": [
-      "chat open session with prompt copilotcli",
-      "chat open"
+      "lldb excluded callers open",
+      "lldb excluded"
     ]
   },
   {
-    "id": "workbench.action.chat.openNewSessionEditor.copilotcli",
-    "title": "workbench.action.chat.openNewSessionEditor.copilotcli",
+    "id": "lldb.excludedCallers.focus",
+    "title": "lldb.excludedCallers.focus",
     "keywords": [
-      "chat open new session editor copilotcli",
-      "chat open"
+      "lldb excluded callers focus",
+      "lldb excluded"
     ]
   },
   {
-    "id": "workbench.action.chat.openNewSessionSidebar.copilotcli",
-    "title": "workbench.action.chat.openNewSessionSidebar.copilotcli",
+    "id": "lldb.excludedCallers.resetViewLocation",
+    "title": "lldb.excludedCallers.resetViewLocation",
     "keywords": [
-      "chat open new session sidebar copilotcli",
-      "chat open"
+      "lldb excluded callers reset view location",
+      "lldb excluded"
     ]
   },
   {
-    "id": "workbench.action.chat.openSessionWithPrompt.copilot-cloud-agent",
-    "title": "workbench.action.chat.openSessionWithPrompt.copilot-cloud-agent",
+    "id": "migrate.java.quickStartWelcomeView.open",
+    "title": "migrate.java.quickStartWelcomeView.open",
     "keywords": [
-      "chat open session with prompt copilot cloud agent",
-      "chat open"
+      "migrate java quick start welcome view open",
+      "migrate java"
     ]
   },
   {
-    "id": "workbench.action.chat.openNewSessionEditor.copilot-cloud-agent",
-    "title": "workbench.action.chat.openNewSessionEditor.copilot-cloud-agent",
+    "id": "migrate.java.quickStartWelcomeView.focus",
+    "title": "migrate.java.quickStartWelcomeView.focus",
     "keywords": [
-      "chat open new session editor copilot cloud agent",
-      "chat open"
+      "migrate java quick start welcome view focus",
+      "migrate java"
     ]
   },
   {
-    "id": "workbench.action.chat.openNewSessionSidebar.copilot-cloud-agent",
-    "title": "workbench.action.chat.openNewSessionSidebar.copilot-cloud-agent",
+    "id": "migrate.java.quickStartWelcomeView.resetViewLocation",
+    "title": "migrate.java.quickStartWelcomeView.resetViewLocation",
     "keywords": [
-      "chat open new session sidebar copilot cloud agent",
-      "chat open"
+      "migrate java quick start welcome view reset view location",
+      "migrate java"
     ]
   },
   {
-    "id": "workbench.action.chat.openNewChatSessionInPlace.local",
-    "title": "workbench.action.chat.openNewChatSessionInPlace.local",
+    "id": "migrate.java.formulaTreeView.open",
+    "title": "migrate.java.formulaTreeView.open",
     "keywords": [
-      "chat open new chat session in place local",
-      "chat open"
+      "migrate java formula tree view open",
+      "migrate java"
     ]
   },
   {
-    "id": "workbench.action.chat.openNewChatSessionInPlace.copilotcli",
-    "title": "workbench.action.chat.openNewChatSessionInPlace.copilotcli",
+    "id": "migrate.java.formulaTreeView.focus",
+    "title": "migrate.java.formulaTreeView.focus",
     "keywords": [
-      "chat open new chat session in place copilotcli",
-      "chat open"
+      "migrate java formula tree view focus",
+      "migrate java"
     ]
   },
   {
-    "id": "workbench.action.chat.openNewChatSessionInPlace.copilot-cloud-agent",
-    "title": "workbench.action.chat.openNewChatSessionInPlace.copilot-cloud-agent",
+    "id": "migrate.java.formulaTreeView.resetViewLocation",
+    "title": "migrate.java.formulaTreeView.resetViewLocation",
     "keywords": [
-      "chat open new chat session in place copilot cloud agent",
-      "chat open"
+      "migrate java formula tree view reset view location",
+      "migrate java"
     ]
   },
   {
-    "id": "workbench.action.chat.openNewChatSessionInPlace.claude-code",
-    "title": "workbench.action.chat.openNewChatSessionInPlace.claude-code",
+    "id": "migrate.java.helpFeedbackView.open",
+    "title": "migrate.java.helpFeedbackView.open",
     "keywords": [
-      "chat open new chat session in place claude code",
-      "chat open"
+      "migrate java help feedback view open",
+      "migrate java"
     ]
   },
   {
-    "id": "workbench.panel.chat.view.copilot.toggleVisibility",
-    "title": "workbench.panel.chat.view.copilot.toggleVisibility",
+    "id": "migrate.java.helpFeedbackView.focus",
+    "title": "migrate.java.helpFeedbackView.focus",
     "keywords": [
-      "workbench panel chat view copilot toggle visibility",
-      "workbench panel"
+      "migrate java help feedback view focus",
+      "migrate java"
     ]
   },
   {
-    "id": "workbench.panel.chat.view.copilot.removeView",
-    "title": "workbench.panel.chat.view.copilot.removeView",
+    "id": "migrate.java.helpFeedbackView.resetViewLocation",
+    "title": "migrate.java.helpFeedbackView.resetViewLocation",
     "keywords": [
-      "workbench panel chat view copilot remove view",
-      "workbench panel"
+      "migrate java help feedback view reset view location",
+      "migrate java"
+    ]
+  },
+  {
+    "id": "gradleTasksView.open",
+    "title": "gradleTasksView.open",
+    "keywords": [
+      "gradle tasks view open",
+      "gradle tasks"
+    ]
+  },
+  {
+    "id": "gradleTasksView.focus",
+    "title": "gradleTasksView.focus",
+    "keywords": [
+      "gradle tasks view focus",
+      "gradle tasks"
+    ]
+  },
+  {
+    "id": "gradleTasksView.resetViewLocation",
+    "title": "gradleTasksView.resetViewLocation",
+    "keywords": [
+      "gradle tasks view reset view location",
+      "gradle tasks"
+    ]
+  },
+  {
+    "id": "gradleDefaultProjectsView.open",
+    "title": "gradleDefaultProjectsView.open",
+    "keywords": [
+      "gradle default projects view open",
+      "gradle default"
+    ]
+  },
+  {
+    "id": "gradleDefaultProjectsView.focus",
+    "title": "gradleDefaultProjectsView.focus",
+    "keywords": [
+      "gradle default projects view focus",
+      "gradle default"
+    ]
+  },
+  {
+    "id": "gradleDefaultProjectsView.resetViewLocation",
+    "title": "gradleDefaultProjectsView.resetViewLocation",
+    "keywords": [
+      "gradle default projects view reset view location",
+      "gradle default"
+    ]
+  },
+  {
+    "id": "recentTasksView.open",
+    "title": "recentTasksView.open",
+    "keywords": [
+      "recent tasks view open",
+      "recent tasks"
+    ]
+  },
+  {
+    "id": "recentTasksView.focus",
+    "title": "recentTasksView.focus",
+    "keywords": [
+      "recent tasks view focus",
+      "recent tasks"
+    ]
+  },
+  {
+    "id": "recentTasksView.resetViewLocation",
+    "title": "recentTasksView.resetViewLocation",
+    "keywords": [
+      "recent tasks view reset view location",
+      "recent tasks"
+    ]
+  },
+  {
+    "id": "gradleDaemonsView.open",
+    "title": "gradleDaemonsView.open",
+    "keywords": [
+      "gradle daemons view open",
+      "gradle daemons"
+    ]
+  },
+  {
+    "id": "gradleDaemonsView.focus",
+    "title": "gradleDaemonsView.focus",
+    "keywords": [
+      "gradle daemons view focus",
+      "gradle daemons"
+    ]
+  },
+  {
+    "id": "gradleDaemonsView.resetViewLocation",
+    "title": "gradleDaemonsView.resetViewLocation",
+    "keywords": [
+      "gradle daemons view reset view location",
+      "gradle daemons"
+    ]
+  },
+  {
+    "id": "javaProjectExplorer.open",
+    "title": "javaProjectExplorer.open",
+    "keywords": [
+      "java project explorer open",
+      "java project"
+    ]
+  },
+  {
+    "id": "javaProjectExplorer.focus",
+    "title": "javaProjectExplorer.focus",
+    "keywords": [
+      "java project explorer focus",
+      "java project"
+    ]
+  },
+  {
+    "id": "javaProjectExplorer.resetViewLocation",
+    "title": "javaProjectExplorer.resetViewLocation",
+    "keywords": [
+      "java project explorer reset view location",
+      "java project"
+    ]
+  },
+  {
+    "id": "javaupgradeEntry.open",
+    "title": "javaupgradeEntry.open",
+    "keywords": [
+      "javaupgrade entry open",
+      "javaupgrade entry"
+    ]
+  },
+  {
+    "id": "javaupgradeEntry.focus",
+    "title": "javaupgradeEntry.focus",
+    "keywords": [
+      "javaupgrade entry focus",
+      "javaupgrade entry"
+    ]
+  },
+  {
+    "id": "javaupgradeEntry.resetViewLocation",
+    "title": "javaupgradeEntry.resetViewLocation",
+    "keywords": [
+      "javaupgrade entry reset view location",
+      "javaupgrade entry"
+    ]
+  },
+  {
+    "id": "mavenProjects.open",
+    "title": "mavenProjects.open",
+    "keywords": [
+      "maven projects open",
+      "maven projects"
+    ]
+  },
+  {
+    "id": "mavenProjects.focus",
+    "title": "mavenProjects.focus",
+    "keywords": [
+      "maven projects focus",
+      "maven projects"
+    ]
+  },
+  {
+    "id": "mavenProjects.resetViewLocation",
+    "title": "mavenProjects.resetViewLocation",
+    "keywords": [
+      "maven projects reset view location",
+      "maven projects"
     ]
   },
   {
@@ -18973,6 +19629,22 @@
     ]
   },
   {
+    "id": "workbench.panel.chat.view.copilot.toggleVisibility",
+    "title": "workbench.panel.chat.view.copilot.toggleVisibility",
+    "keywords": [
+      "workbench panel chat view copilot toggle visibility",
+      "workbench panel"
+    ]
+  },
+  {
+    "id": "workbench.panel.chat.view.copilot.removeView",
+    "title": "workbench.panel.chat.view.copilot.removeView",
+    "keywords": [
+      "workbench panel chat view copilot remove view",
+      "workbench panel"
+    ]
+  },
+  {
     "id": "workbench.panel.markers.view.toggleVisibility",
     "title": "workbench.panel.markers.view.toggleVisibility",
     "keywords": [
@@ -19021,6 +19693,230 @@
     ]
   },
   {
+    "id": "vscode-containers.views.containers.toggleVisibility",
+    "title": "vscode-containers.views.containers.toggleVisibility",
+    "keywords": [
+      "vscode containers views containers toggle visibility",
+      "vscode containers"
+    ]
+  },
+  {
+    "id": "vscode-containers.views.containers.removeView",
+    "title": "vscode-containers.views.containers.removeView",
+    "keywords": [
+      "vscode containers views containers remove view",
+      "vscode containers"
+    ]
+  },
+  {
+    "id": "vscode-containers.views.images.toggleVisibility",
+    "title": "vscode-containers.views.images.toggleVisibility",
+    "keywords": [
+      "vscode containers views images toggle visibility",
+      "vscode containers"
+    ]
+  },
+  {
+    "id": "vscode-containers.views.images.removeView",
+    "title": "vscode-containers.views.images.removeView",
+    "keywords": [
+      "vscode containers views images remove view",
+      "vscode containers"
+    ]
+  },
+  {
+    "id": "vscode-containers.views.registries.toggleVisibility",
+    "title": "vscode-containers.views.registries.toggleVisibility",
+    "keywords": [
+      "vscode containers views registries toggle visibility",
+      "vscode containers"
+    ]
+  },
+  {
+    "id": "vscode-containers.views.registries.removeView",
+    "title": "vscode-containers.views.registries.removeView",
+    "keywords": [
+      "vscode containers views registries remove view",
+      "vscode containers"
+    ]
+  },
+  {
+    "id": "vscode-containers.views.networks.toggleVisibility",
+    "title": "vscode-containers.views.networks.toggleVisibility",
+    "keywords": [
+      "vscode containers views networks toggle visibility",
+      "vscode containers"
+    ]
+  },
+  {
+    "id": "vscode-containers.views.networks.removeView",
+    "title": "vscode-containers.views.networks.removeView",
+    "keywords": [
+      "vscode containers views networks remove view",
+      "vscode containers"
+    ]
+  },
+  {
+    "id": "vscode-containers.views.volumes.toggleVisibility",
+    "title": "vscode-containers.views.volumes.toggleVisibility",
+    "keywords": [
+      "vscode containers views volumes toggle visibility",
+      "vscode containers"
+    ]
+  },
+  {
+    "id": "vscode-containers.views.volumes.removeView",
+    "title": "vscode-containers.views.volumes.removeView",
+    "keywords": [
+      "vscode containers views volumes remove view",
+      "vscode containers"
+    ]
+  },
+  {
+    "id": "vscode-containers.views.dockerContexts.toggleVisibility",
+    "title": "vscode-containers.views.dockerContexts.toggleVisibility",
+    "keywords": [
+      "vscode containers views docker contexts toggle visibility",
+      "vscode containers"
+    ]
+  },
+  {
+    "id": "vscode-containers.views.dockerContexts.removeView",
+    "title": "vscode-containers.views.dockerContexts.removeView",
+    "keywords": [
+      "vscode containers views docker contexts remove view",
+      "vscode containers"
+    ]
+  },
+  {
+    "id": "vscode-containers.views.help.toggleVisibility",
+    "title": "vscode-containers.views.help.toggleVisibility",
+    "keywords": [
+      "vscode containers views help toggle visibility",
+      "vscode containers"
+    ]
+  },
+  {
+    "id": "vscode-containers.views.help.removeView",
+    "title": "vscode-containers.views.help.removeView",
+    "keywords": [
+      "vscode containers views help remove view",
+      "vscode containers"
+    ]
+  },
+  {
+    "id": "dataworkspace.views.main.toggleVisibility",
+    "title": "dataworkspace.views.main.toggleVisibility",
+    "keywords": [
+      "dataworkspace views main toggle visibility",
+      "dataworkspace views"
+    ]
+  },
+  {
+    "id": "dataworkspace.views.main.removeView",
+    "title": "dataworkspace.views.main.removeView",
+    "keywords": [
+      "dataworkspace views main remove view",
+      "dataworkspace views"
+    ]
+  },
+  {
+    "id": "objectExplorer.toggleVisibility",
+    "title": "objectExplorer.toggleVisibility",
+    "keywords": [
+      "object explorer toggle visibility",
+      "object explorer"
+    ]
+  },
+  {
+    "id": "objectExplorer.removeView",
+    "title": "objectExplorer.removeView",
+    "keywords": [
+      "object explorer remove view",
+      "object explorer"
+    ]
+  },
+  {
+    "id": "queryHistory.toggleVisibility",
+    "title": "queryHistory.toggleVisibility",
+    "keywords": [
+      "query history toggle visibility",
+      "query history"
+    ]
+  },
+  {
+    "id": "queryHistory.removeView",
+    "title": "queryHistory.removeView",
+    "keywords": [
+      "query history remove view",
+      "query history"
+    ]
+  },
+  {
+    "id": "queryResult.toggleVisibility",
+    "title": "queryResult.toggleVisibility",
+    "keywords": [
+      "query result toggle visibility",
+      "query result"
+    ]
+  },
+  {
+    "id": "queryResult.removeView",
+    "title": "queryResult.removeView",
+    "keywords": [
+      "query result remove view",
+      "query result"
+    ]
+  },
+  {
+    "id": "migrate.java.quickStartWelcomeView.toggleVisibility",
+    "title": "migrate.java.quickStartWelcomeView.toggleVisibility",
+    "keywords": [
+      "migrate java quick start welcome view toggle visibility",
+      "migrate java"
+    ]
+  },
+  {
+    "id": "migrate.java.quickStartWelcomeView.removeView",
+    "title": "migrate.java.quickStartWelcomeView.removeView",
+    "keywords": [
+      "migrate java quick start welcome view remove view",
+      "migrate java"
+    ]
+  },
+  {
+    "id": "migrate.java.formulaTreeView.toggleVisibility",
+    "title": "migrate.java.formulaTreeView.toggleVisibility",
+    "keywords": [
+      "migrate java formula tree view toggle visibility",
+      "migrate java"
+    ]
+  },
+  {
+    "id": "migrate.java.formulaTreeView.removeView",
+    "title": "migrate.java.formulaTreeView.removeView",
+    "keywords": [
+      "migrate java formula tree view remove view",
+      "migrate java"
+    ]
+  },
+  {
+    "id": "migrate.java.helpFeedbackView.toggleVisibility",
+    "title": "migrate.java.helpFeedbackView.toggleVisibility",
+    "keywords": [
+      "migrate java help feedback view toggle visibility",
+      "migrate java"
+    ]
+  },
+  {
+    "id": "migrate.java.helpFeedbackView.removeView",
+    "title": "migrate.java.helpFeedbackView.removeView",
+    "keywords": [
+      "migrate java help feedback view remove view",
+      "migrate java"
+    ]
+  },
+  {
     "id": "workbench.action.openRemoteSettings",
     "title": "workbench.action.openRemoteSettings",
     "keywords": [
@@ -19034,22 +19930,6 @@
     "keywords": [
       "open remote settings file",
       "open remote"
-    ]
-  },
-  {
-    "id": "editor.action.inlineSuggest.renameSymbol",
-    "title": "editor.action.inlineSuggest.renameSymbol",
-    "keywords": [
-      "inline suggest rename symbol",
-      "inline suggest"
-    ]
-  },
-  {
-    "id": "workbench.action.terminal.newWithProfile",
-    "title": "workbench.action.terminal.newWithProfile",
-    "keywords": [
-      "terminal new with profile",
-      "terminal new"
     ]
   },
   {
@@ -19182,37 +20062,6 @@
     "keywords": [
       "settings switch to json",
       "settings switch"
-    ]
-  },
-  {
-    "id": "workbench.action.chat.manage",
-    "title": "workbench.action.chat.manage",
-    "keywords": [
-      "chat manage"
-    ]
-  },
-  {
-    "id": "chat.models.action.clearSearchResults",
-    "title": "chat.models.action.clearSearchResults",
-    "keywords": [
-      "chat models action clear search results",
-      "chat models"
-    ]
-  },
-  {
-    "id": "workbench.action.openLanguageModelsJson",
-    "title": "workbench.action.openLanguageModelsJson",
-    "keywords": [
-      "open language models json",
-      "open language"
-    ]
-  },
-  {
-    "id": "aiCustomization.openManagementEditor",
-    "title": "aiCustomization.openManagementEditor",
-    "keywords": [
-      "ai customization open management editor",
-      "ai customization"
     ]
   },
   {
@@ -20536,6 +21385,37 @@
     ]
   },
   {
+    "id": "workbench.action.chat.manage",
+    "title": "workbench.action.chat.manage",
+    "keywords": [
+      "chat manage"
+    ]
+  },
+  {
+    "id": "chat.models.action.clearSearchResults",
+    "title": "chat.models.action.clearSearchResults",
+    "keywords": [
+      "chat models action clear search results",
+      "chat models"
+    ]
+  },
+  {
+    "id": "workbench.action.openLanguageModelsJson",
+    "title": "workbench.action.openLanguageModelsJson",
+    "keywords": [
+      "open language models json",
+      "open language"
+    ]
+  },
+  {
+    "id": "aiCustomization.openManagementEditor",
+    "title": "aiCustomization.openManagementEditor",
+    "keywords": [
+      "ai customization open management editor",
+      "ai customization"
+    ]
+  },
+  {
     "id": "workbench.action.chat.hideSetup",
     "title": "workbench.action.chat.hideSetup",
     "keywords": [
@@ -20548,6 +21428,22 @@
     "title": "workbench.agentPlugins.browse",
     "keywords": [
       "workbench agent plugins browse",
+      "workbench agent"
+    ]
+  },
+  {
+    "id": "workbench.agentPlugins.checkForUpdates",
+    "title": "workbench.agentPlugins.checkForUpdates",
+    "keywords": [
+      "workbench agent plugins check for updates",
+      "workbench agent"
+    ]
+  },
+  {
+    "id": "workbench.agentPlugins.forceUpdate",
+    "title": "workbench.agentPlugins.forceUpdate",
+    "keywords": [
+      "workbench agent plugins force update",
       "workbench agent"
     ]
   },
@@ -20792,14 +21688,6 @@
     ]
   },
   {
-    "id": "workbench.action.output.show.ptyhost",
-    "title": "workbench.action.output.show.ptyhost",
-    "keywords": [
-      "output show ptyhost",
-      "output show"
-    ]
-  },
-  {
     "id": "workbench.action.output.show.shared",
     "title": "workbench.action.output.show.shared",
     "keywords": [
@@ -20812,6 +21700,14 @@
     "title": "workbench.action.output.show.userDataSync",
     "keywords": [
       "output show user data sync",
+      "output show"
+    ]
+  },
+  {
+    "id": "workbench.action.output.show.ptyhost",
+    "title": "workbench.action.output.show.ptyhost",
+    "keywords": [
+      "output show ptyhost",
       "output show"
     ]
   },
@@ -21089,6 +21985,38 @@
     "keywords": [
       "~remote forwarded ports remove view",
       "~remote forwarded"
+    ]
+  },
+  {
+    "id": "workbench.action.terminal.newWithProfile",
+    "title": "workbench.action.terminal.newWithProfile",
+    "keywords": [
+      "terminal new with profile",
+      "terminal new"
+    ]
+  },
+  {
+    "id": "workbench.action.output.show.exthost",
+    "title": "workbench.action.output.show.exthost",
+    "keywords": [
+      "output show exthost",
+      "output show"
+    ]
+  },
+  {
+    "id": "workbench.panel.repl.view.toggleVisibility",
+    "title": "workbench.panel.repl.view.toggleVisibility",
+    "keywords": [
+      "workbench panel repl view toggle visibility",
+      "workbench panel"
+    ]
+  },
+  {
+    "id": "workbench.panel.repl.view.removeView",
+    "title": "workbench.panel.repl.view.removeView",
+    "keywords": [
+      "workbench panel repl view remove view",
+      "workbench panel"
     ]
   },
   {
@@ -21749,35 +22677,67 @@
     ]
   },
   {
-    "id": "workbench.action.output.show.exthost",
-    "title": "workbench.action.output.show.exthost",
-    "keywords": [
-      "output show exthost",
-      "output show"
-    ]
-  },
-  {
-    "id": "workbench.panel.repl.view.toggleVisibility",
-    "title": "workbench.panel.repl.view.toggleVisibility",
-    "keywords": [
-      "workbench panel repl view toggle visibility",
-      "workbench panel"
-    ]
-  },
-  {
-    "id": "workbench.panel.repl.view.removeView",
-    "title": "workbench.panel.repl.view.removeView",
-    "keywords": [
-      "workbench panel repl view remove view",
-      "workbench panel"
-    ]
-  },
-  {
     "id": "workbench.extensions.installMissingDependencies",
     "title": "workbench.extensions.installMissingDependencies",
     "keywords": [
       "workbench extensions install missing dependencies",
       "workbench extensions"
+    ]
+  },
+  {
+    "id": "workbench.action.chat.openmodernize-azure-java",
+    "title": "workbench.action.chat.openmodernize-azure-java",
+    "keywords": [
+      "chat openmodernize azure java",
+      "chat openmodernize"
+    ]
+  },
+  {
+    "id": "workbench.action.chat.openmodernize-java-assessment",
+    "title": "workbench.action.chat.openmodernize-java-assessment",
+    "keywords": [
+      "chat openmodernize java assessment",
+      "chat openmodernize"
+    ]
+  },
+  {
+    "id": "workbench.action.chat.openmodernize-azure-dotnet",
+    "title": "workbench.action.chat.openmodernize-azure-dotnet",
+    "keywords": [
+      "chat openmodernize azure dotnet",
+      "chat openmodernize"
+    ]
+  },
+  {
+    "id": "workbench.action.chat.openmodernize-java-upgrade",
+    "title": "workbench.action.chat.openmodernize-java-upgrade",
+    "keywords": [
+      "chat openmodernize java upgrade",
+      "chat openmodernize"
+    ]
+  },
+  {
+    "id": "workbench.action.chat.openmodernize-java-security",
+    "title": "workbench.action.chat.openmodernize-java-security",
+    "keywords": [
+      "chat openmodernize java security",
+      "chat openmodernize"
+    ]
+  },
+  {
+    "id": "workbench.action.chat.openmodernize-rearchitecture",
+    "title": "workbench.action.chat.openmodernize-rearchitecture",
+    "keywords": [
+      "chat openmodernize rearchitecture",
+      "chat openmodernize"
+    ]
+  },
+  {
+    "id": "workbench.action.chat.openmodernize-java",
+    "title": "workbench.action.chat.openmodernize-java",
+    "keywords": [
+      "chat openmodernize java",
+      "chat openmodernize"
     ]
   },
   {
@@ -22332,6 +23292,22 @@
     ]
   },
   {
+    "id": "vsintellicode.completionItemSelected",
+    "title": "vsintellicode.completionItemSelected",
+    "keywords": [
+      "vsintellicode completion item selected",
+      "vsintellicode completion"
+    ]
+  },
+  {
+    "id": "terminal.integrated.suggest.clearCachedGlobals",
+    "title": "terminal.integrated.suggest.clearCachedGlobals",
+    "keywords": [
+      "terminal integrated suggest clear cached globals",
+      "terminal integrated"
+    ]
+  },
+  {
     "id": "git-base.api.getRemoteSources",
     "title": "git-base.api.getRemoteSources",
     "keywords": [
@@ -22345,6 +23321,30 @@
     "keywords": [
       "python view output",
       "python view"
+    ]
+  },
+  {
+    "id": "workbench.action.output.show.extension-output-VisualStudioExptTeam.intellicode-api-usage-examples-#1-IntelliCode API Examples",
+    "title": "workbench.action.output.show.extension-output-VisualStudioExptTeam.intellicode-api-usage-examples-#1-IntelliCode API Examples",
+    "keywords": [
+      "output show extension output visual studio expt team intellicode api usage examples #1 intelli code api examples",
+      "output show"
+    ]
+  },
+  {
+    "id": "workbench.action.output.show.extension-output-VisualStudioExptTeam.vscodeintellicode-#1-VS IntelliCode",
+    "title": "workbench.action.output.show.extension-output-VisualStudioExptTeam.vscodeintellicode-#1-VS IntelliCode",
+    "keywords": [
+      "output show extension output visual studio expt team vscodeintellicode #1 vs intelli code",
+      "output show"
+    ]
+  },
+  {
+    "id": "workbench.action.output.show.extension-output-VisualStudioExptTeam.intellicode-api-usage-examples-#2-API Usage Examples LSP",
+    "title": "workbench.action.output.show.extension-output-VisualStudioExptTeam.intellicode-api-usage-examples-#2-API Usage Examples LSP",
+    "keywords": [
+      "output show extension output visual studio expt team intellicode api usage examples #2 api usage examples lsp",
+      "output show"
     ]
   },
   {
@@ -22372,18 +23372,18 @@
     ]
   },
   {
-    "id": "workbench.action.output.show.ms-python.vscode-python-envs.Python Environments.log",
-    "title": "workbench.action.output.show.ms-python.vscode-python-envs.Python Environments.log",
-    "keywords": [
-      "output show ms python vscode python envs python environments log",
-      "output show"
-    ]
-  },
-  {
     "id": "workbench.action.output.show.GitHub.copilot-chat.GitHub Copilot Chat.log",
     "title": "workbench.action.output.show.GitHub.copilot-chat.GitHub Copilot Chat.log",
     "keywords": [
       "output show git hub copilot chat git hub copilot chat log",
+      "output show"
+    ]
+  },
+  {
+    "id": "workbench.action.output.show.ms-python.vscode-python-envs.Python Environments.log",
+    "title": "workbench.action.output.show.ms-python.vscode-python-envs.Python Environments.log",
+    "keywords": [
+      "output show ms python vscode python envs python environments log",
       "output show"
     ]
   },
@@ -22577,6 +23577,14 @@
     "keywords": [
       "pylance install missing packages",
       "pylance install"
+    ]
+  },
+  {
+    "id": "workbench.action.output.show.vscode.microsoft-authentication.Microsoft Authentication.log",
+    "title": "workbench.action.output.show.vscode.microsoft-authentication.Microsoft Authentication.log",
+    "keywords": [
+      "output show vscode microsoft authentication microsoft authentication log",
+      "output show"
     ]
   },
   {
@@ -22828,19 +23836,899 @@
     ]
   },
   {
-    "id": "workbench.action.output.show.vscode.microsoft-authentication.Microsoft Authentication.log",
-    "title": "workbench.action.output.show.vscode.microsoft-authentication.Microsoft Authentication.log",
-    "keywords": [
-      "output show vscode microsoft authentication microsoft authentication log",
-      "output show"
-    ]
-  },
-  {
     "id": "workbench.action.output.show.vscode.git.Git.log",
     "title": "workbench.action.output.show.vscode.git.Git.log",
     "keywords": [
       "output show vscode git git log",
       "output show"
+    ]
+  },
+  {
+    "id": "github.copilot.chat.attachFile",
+    "title": "github.copilot.chat.attachFile",
+    "keywords": [
+      "github copilot chat attach file",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.chat.attachSelection",
+    "title": "github.copilot.chat.attachSelection",
+    "keywords": [
+      "github copilot chat attach selection",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.debug.extensionState",
+    "title": "github.copilot.debug.extensionState",
+    "keywords": [
+      "github copilot debug extension state",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.chat.triggerPermissiveSignIn",
+    "title": "github.copilot.chat.triggerPermissiveSignIn",
+    "keywords": [
+      "github copilot chat trigger permissive sign in",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.debug.collectDiagnostics",
+    "title": "github.copilot.debug.collectDiagnostics",
+    "keywords": [
+      "github copilot debug collect diagnostics",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.debug.collectDiagnostics.internal",
+    "title": "github.copilot.debug.collectDiagnostics.internal",
+    "keywords": [
+      "github copilot debug collect diagnostics internal",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.debug.showOutputChannel.internal",
+    "title": "github.copilot.debug.showOutputChannel.internal",
+    "keywords": [
+      "github copilot debug show output channel internal",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.debug.showNodeSystemCertificatesErrors",
+    "title": "github.copilot.debug.showNodeSystemCertificatesErrors",
+    "keywords": [
+      "github copilot debug show node system certificates errors",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.debug.togglePowerSaveBlocker",
+    "title": "github.copilot.debug.togglePowerSaveBlocker",
+    "keywords": [
+      "github copilot debug toggle power save blocker",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.refreshToken",
+    "title": "github.copilot.refreshToken",
+    "keywords": [
+      "github copilot refresh token",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.debug.showChatLogView",
+    "title": "github.copilot.debug.showChatLogView",
+    "keywords": [
+      "github copilot debug show chat log view",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.chat.startCopilotDebugCommand",
+    "title": "github.copilot.chat.startCopilotDebugCommand",
+    "keywords": [
+      "github copilot chat start copilot debug command",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.debug.generateSTest",
+    "title": "github.copilot.debug.generateSTest",
+    "keywords": [
+      "github copilot debug generate stest",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.createLaunchJsonFileWithContents",
+    "title": "github.copilot.createLaunchJsonFileWithContents",
+    "keywords": [
+      "github copilot create launch json file with contents",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.startDebugging",
+    "title": "github.copilot.startDebugging",
+    "keywords": [
+      "github copilot start debugging",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.open.walkthrough",
+    "title": "github.copilot.open.walkthrough",
+    "keywords": [
+      "github copilot open walkthrough",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.mcp.viewContext7",
+    "title": "github.copilot.mcp.viewContext7",
+    "keywords": [
+      "github copilot mcp view context7",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.chat.sendCompletionFeedback",
+    "title": "github.copilot.chat.sendCompletionFeedback",
+    "keywords": [
+      "github copilot chat send completion feedback",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.chat.completions.enable",
+    "title": "github.copilot.chat.completions.enable",
+    "keywords": [
+      "github copilot chat completions enable",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.chat.completions.disable",
+    "title": "github.copilot.chat.completions.disable",
+    "keywords": [
+      "github copilot chat completions disable",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.chat.completions.toggle",
+    "title": "github.copilot.chat.completions.toggle",
+    "keywords": [
+      "github copilot chat completions toggle",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.completions.enable",
+    "title": "github.copilot.completions.enable",
+    "keywords": [
+      "github copilot completions enable",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.completions.disable",
+    "title": "github.copilot.completions.disable",
+    "keywords": [
+      "github copilot completions disable",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.completions.toggle",
+    "title": "github.copilot.completions.toggle",
+    "keywords": [
+      "github copilot completions toggle",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.toggleStatusMenu",
+    "title": "github.copilot.toggleStatusMenu",
+    "keywords": [
+      "github copilot toggle status menu",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.chat.toggleStatusMenu",
+    "title": "github.copilot.chat.toggleStatusMenu",
+    "keywords": [
+      "github copilot chat toggle status menu",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.openDocs",
+    "title": "github.copilot.openDocs",
+    "keywords": [
+      "github copilot open docs",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.openLogs",
+    "title": "github.copilot.openLogs",
+    "keywords": [
+      "github copilot open logs",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.chat.openSuggestionsPanel",
+    "title": "github.copilot.chat.openSuggestionsPanel",
+    "keywords": [
+      "github copilot chat open suggestions panel",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.generate",
+    "title": "github.copilot.generate",
+    "keywords": [
+      "github copilot generate",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.acceptCursorPanelSolution",
+    "title": "github.copilot.acceptCursorPanelSolution",
+    "keywords": [
+      "github copilot accept cursor panel solution",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.previousPanelSolution",
+    "title": "github.copilot.previousPanelSolution",
+    "keywords": [
+      "github copilot previous panel solution",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.nextPanelSolution",
+    "title": "github.copilot.nextPanelSolution",
+    "keywords": [
+      "github copilot next panel solution",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.openModelPicker",
+    "title": "github.copilot.openModelPicker",
+    "keywords": [
+      "github copilot open model picker",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.chat.openModelPicker",
+    "title": "github.copilot.chat.openModelPicker",
+    "keywords": [
+      "github copilot chat open model picker",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.survey.signalUsage",
+    "title": "github.copilot.survey.signalUsage",
+    "keywords": [
+      "github copilot survey signal usage",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.report",
+    "title": "github.copilot.report",
+    "keywords": [
+      "github copilot report",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.debug.showContextInspectorView",
+    "title": "github.copilot.debug.showContextInspectorView",
+    "keywords": [
+      "github copilot debug show context inspector view",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.nes.prepareRename",
+    "title": "github.copilot.nes.prepareRename",
+    "keywords": [
+      "github copilot nes prepare rename",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.nes.postRename",
+    "title": "github.copilot.nes.postRename",
+    "keywords": [
+      "github copilot nes post rename",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.debug.validateNesRename",
+    "title": "github.copilot.debug.validateNesRename",
+    "keywords": [
+      "github copilot debug validate nes rename",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.search.markHelpful",
+    "title": "github.copilot.search.markHelpful",
+    "keywords": [
+      "github copilot search mark helpful",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.search.markUnhelpful",
+    "title": "github.copilot.search.markUnhelpful",
+    "keywords": [
+      "github copilot search mark unhelpful",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.search.feedback",
+    "title": "github.copilot.search.feedback",
+    "keywords": [
+      "github copilot search feedback",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "chat.enablePremiumOverages",
+    "title": "chat.enablePremiumOverages",
+    "keywords": [
+      "chat enable premium overages",
+      "chat enable"
+    ]
+  },
+  {
+    "id": "github.copilot.chat.notebook.enableFollowCellExecution",
+    "title": "github.copilot.chat.notebook.enableFollowCellExecution",
+    "keywords": [
+      "github copilot chat notebook enable follow cell execution",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.chat.notebook.disableFollowCellExecution",
+    "title": "github.copilot.chat.notebook.disableFollowCellExecution",
+    "keywords": [
+      "github copilot chat notebook disable follow cell execution",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.chat.replay",
+    "title": "github.copilot.chat.replay",
+    "keywords": [
+      "github copilot chat replay",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.chat.replay.enableWorkspaceEditTracing",
+    "title": "github.copilot.chat.replay.enableWorkspaceEditTracing",
+    "keywords": [
+      "github copilot chat replay enable workspace edit tracing",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.chat.replay.disableWorkspaceEditTracing",
+    "title": "github.copilot.chat.replay.disableWorkspaceEditTracing",
+    "keywords": [
+      "github copilot chat replay disable workspace edit tracing",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.chat.showAsChatSession",
+    "title": "github.copilot.chat.showAsChatSession",
+    "keywords": [
+      "github copilot chat show as chat session",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.buildRemoteWorkspaceIndex",
+    "title": "github.copilot.buildRemoteWorkspaceIndex",
+    "keywords": [
+      "github copilot build remote workspace index",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.deleteExternalIngestWorkspaceIndex",
+    "title": "github.copilot.deleteExternalIngestWorkspaceIndex",
+    "keywords": [
+      "github copilot delete external ingest workspace index",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.debug.collectWorkspaceIndexDiagnostics",
+    "title": "github.copilot.debug.collectWorkspaceIndexDiagnostics",
+    "keywords": [
+      "github copilot debug collect workspace index diagnostics",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.chat.checkoutPullRequestReroute",
+    "title": "github.copilot.chat.checkoutPullRequestReroute",
+    "keywords": [
+      "github copilot chat checkout pull request reroute",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.chat.openPullRequestReroute",
+    "title": "github.copilot.chat.openPullRequestReroute",
+    "keywords": [
+      "github copilot chat open pull request reroute",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.chat.cloudSessions.openRepository",
+    "title": "github.copilot.chat.cloudSessions.openRepository",
+    "keywords": [
+      "github copilot chat cloud sessions open repository",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.chat.cloudSessions.clearCaches",
+    "title": "github.copilot.chat.cloudSessions.clearCaches",
+    "keywords": [
+      "github copilot chat cloud sessions clear caches",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.cloud.resetWorkspaceConfirmations",
+    "title": "github.copilot.cloud.resetWorkspaceConfirmations",
+    "keywords": [
+      "github copilot cloud reset workspace confirmations",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.cloud.sessions.openInBrowser",
+    "title": "github.copilot.cloud.sessions.openInBrowser",
+    "keywords": [
+      "github copilot cloud sessions open in browser",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.cloud.sessions.proxy.closeChatSessionPullRequest",
+    "title": "github.copilot.cloud.sessions.proxy.closeChatSessionPullRequest",
+    "keywords": [
+      "github copilot cloud sessions proxy close chat session pull request",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.cloud.sessions.installPRExtension",
+    "title": "github.copilot.cloud.sessions.installPRExtension",
+    "keywords": [
+      "github copilot cloud sessions install prextension",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.chat.copilotCLI.addFileReference",
+    "title": "github.copilot.chat.copilotCLI.addFileReference",
+    "keywords": [
+      "github copilot chat copilot cli add file reference",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.chat.copilotCLI.addSelection",
+    "title": "github.copilot.chat.copilotCLI.addSelection",
+    "keywords": [
+      "github copilot chat copilot cli add selection",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.chat.copilotCLI.acceptDiff",
+    "title": "github.copilot.chat.copilotCLI.acceptDiff",
+    "keywords": [
+      "github copilot chat copilot cli accept diff",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.chat.copilotCLI.rejectDiff",
+    "title": "github.copilot.chat.copilotCLI.rejectDiff",
+    "keywords": [
+      "github copilot chat copilot cli reject diff",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.cli.sessions.delete",
+    "title": "github.copilot.cli.sessions.delete",
+    "keywords": [
+      "github copilot cli sessions delete",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.cli.sessions.resumeInTerminal",
+    "title": "github.copilot.cli.sessions.resumeInTerminal",
+    "keywords": [
+      "github copilot cli sessions resume in terminal",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.cli.sessions.rename",
+    "title": "github.copilot.cli.sessions.rename",
+    "keywords": [
+      "github copilot cli sessions rename",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.cli.sessions.setTitle",
+    "title": "github.copilot.cli.sessions.setTitle",
+    "keywords": [
+      "github copilot cli sessions set title",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.cli.newSession",
+    "title": "github.copilot.cli.newSession",
+    "keywords": [
+      "github copilot cli new session",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.cli.newSessionToSide",
+    "title": "github.copilot.cli.newSessionToSide",
+    "keywords": [
+      "github copilot cli new session to side",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.cli.openInCopilotCLI",
+    "title": "github.copilot.cli.openInCopilotCLI",
+    "keywords": [
+      "github copilot cli open in copilot cli",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.cli.sessions.openWorktreeInNewWindow",
+    "title": "github.copilot.cli.sessions.openWorktreeInNewWindow",
+    "keywords": [
+      "github copilot cli sessions open worktree in new window",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.cli.sessions.openWorktreeInTerminal",
+    "title": "github.copilot.cli.sessions.openWorktreeInTerminal",
+    "keywords": [
+      "github copilot cli sessions open worktree in terminal",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.cli.sessions.copyWorktreeBranchName",
+    "title": "github.copilot.cli.sessions.copyWorktreeBranchName",
+    "keywords": [
+      "github copilot cli sessions copy worktree branch name",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.cli.sessions.openRepository",
+    "title": "github.copilot.cli.sessions.openRepository",
+    "keywords": [
+      "github copilot cli sessions open repository",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.chat.applyCopilotCLIAgentSessionChanges",
+    "title": "github.copilot.chat.applyCopilotCLIAgentSessionChanges",
+    "keywords": [
+      "github copilot chat apply copilot cliagent session changes",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.chat.applyCopilotCLIAgentSessionChanges.apply",
+    "title": "github.copilot.chat.applyCopilotCLIAgentSessionChanges.apply",
+    "keywords": [
+      "github copilot chat apply copilot cliagent session changes apply",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.chat.mergeCopilotCLIAgentSessionChanges.merge",
+    "title": "github.copilot.chat.mergeCopilotCLIAgentSessionChanges.merge",
+    "keywords": [
+      "github copilot chat merge copilot cliagent session changes merge",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.chat.mergeCopilotCLIAgentSessionChanges.mergeAndSync",
+    "title": "github.copilot.chat.mergeCopilotCLIAgentSessionChanges.mergeAndSync",
+    "keywords": [
+      "github copilot chat merge copilot cliagent session changes merge and sync",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.chat.updateCopilotCLIAgentSessionChanges.update",
+    "title": "github.copilot.chat.updateCopilotCLIAgentSessionChanges.update",
+    "keywords": [
+      "github copilot chat update copilot cliagent session changes update",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.sessions.refreshChanges",
+    "title": "github.copilot.sessions.refreshChanges",
+    "keywords": [
+      "github copilot sessions refresh changes",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.sessions.commitChanges",
+    "title": "github.copilot.sessions.commitChanges",
+    "keywords": [
+      "github copilot sessions commit changes",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.sessions.discardChanges",
+    "title": "github.copilot.sessions.discardChanges",
+    "keywords": [
+      "github copilot sessions discard changes",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.chat.createPullRequestCopilotCLIAgentSession.createPR",
+    "title": "github.copilot.chat.createPullRequestCopilotCLIAgentSession.createPR",
+    "keywords": [
+      "github copilot chat create pull request copilot cliagent session create pr",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.chat.createDraftPullRequestCopilotCLIAgentSession.createDraftPR",
+    "title": "github.copilot.chat.createDraftPullRequestCopilotCLIAgentSession.createDraftPR",
+    "keywords": [
+      "github copilot chat create draft pull request copilot cliagent session create draft pr",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.chat.createPullRequestCopilotCLIAgentSession.updatePR",
+    "title": "github.copilot.chat.createPullRequestCopilotCLIAgentSession.updatePR",
+    "keywords": [
+      "github copilot chat create pull request copilot cliagent session update pr",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.chat.openPullRequestCopilotCLIAgentSession.openPR",
+    "title": "github.copilot.chat.openPullRequestCopilotCLIAgentSession.openPR",
+    "keywords": [
+      "github copilot chat open pull request copilot cliagent session open pr",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.cli.sessions.commitToWorktree",
+    "title": "github.copilot.cli.sessions.commitToWorktree",
+    "keywords": [
+      "github copilot cli sessions commit to worktree",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.cli.sessions.commitToRepository",
+    "title": "github.copilot.cli.sessions.commitToRepository",
+    "keywords": [
+      "github copilot cli sessions commit to repository",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "copilot.claude.agents",
+    "title": "copilot.claude.agents",
+    "keywords": [
+      "copilot claude agents",
+      "copilot claude"
+    ]
+  },
+  {
+    "id": "copilot.claude.hooks",
+    "title": "copilot.claude.hooks",
+    "keywords": [
+      "copilot claude hooks",
+      "copilot claude"
+    ]
+  },
+  {
+    "id": "copilot.claude.memory",
+    "title": "copilot.claude.memory",
+    "keywords": [
+      "copilot claude memory",
+      "copilot claude"
+    ]
+  },
+  {
+    "id": "github.copilot.claude.sessions.rename",
+    "title": "github.copilot.claude.sessions.rename",
+    "keywords": [
+      "github copilot claude sessions rename",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "agentSessions.filter.toggleExclude:local.agentsessionsviewerfiltersubmenu",
+    "title": "agentSessions.filter.toggleExclude:local.agentsessionsviewerfiltersubmenu",
+    "keywords": [
+      "agent sessions filter toggle exclude:local agentsessionsviewerfiltersubmenu",
+      "agent sessions"
+    ]
+  },
+  {
+    "id": "agentSessions.filter.toggleExclude:claude-code.agentsessionsviewerfiltersubmenu",
+    "title": "agentSessions.filter.toggleExclude:claude-code.agentsessionsviewerfiltersubmenu",
+    "keywords": [
+      "agent sessions filter toggle exclude:claude code agentsessionsviewerfiltersubmenu",
+      "agent sessions"
+    ]
+  },
+  {
+    "id": "agentSessions.filter.toggleExclude:copilotcli.agentsessionsviewerfiltersubmenu",
+    "title": "agentSessions.filter.toggleExclude:copilotcli.agentsessionsviewerfiltersubmenu",
+    "keywords": [
+      "agent sessions filter toggle exclude:copilotcli agentsessionsviewerfiltersubmenu",
+      "agent sessions"
+    ]
+  },
+  {
+    "id": "agentSessions.filter.toggleExclude:copilot-cloud-agent.agentsessionsviewerfiltersubmenu",
+    "title": "agentSessions.filter.toggleExclude:copilot-cloud-agent.agentsessionsviewerfiltersubmenu",
+    "keywords": [
+      "agent sessions filter toggle exclude:copilot cloud agent agentsessionsviewerfiltersubmenu",
+      "agent sessions"
+    ]
+  },
+  {
+    "id": "agentSessions.filter.toggleExcludeState:1.agentsessionsviewerfiltersubmenu",
+    "title": "agentSessions.filter.toggleExcludeState:1.agentsessionsviewerfiltersubmenu",
+    "keywords": [
+      "agent sessions filter toggle exclude state:1 agentsessionsviewerfiltersubmenu",
+      "agent sessions"
+    ]
+  },
+  {
+    "id": "agentSessions.filter.toggleExcludeState:2.agentsessionsviewerfiltersubmenu",
+    "title": "agentSessions.filter.toggleExcludeState:2.agentsessionsviewerfiltersubmenu",
+    "keywords": [
+      "agent sessions filter toggle exclude state:2 agentsessionsviewerfiltersubmenu",
+      "agent sessions"
+    ]
+  },
+  {
+    "id": "agentSessions.filter.toggleExcludeState:3.agentsessionsviewerfiltersubmenu",
+    "title": "agentSessions.filter.toggleExcludeState:3.agentsessionsviewerfiltersubmenu",
+    "keywords": [
+      "agent sessions filter toggle exclude state:3 agentsessionsviewerfiltersubmenu",
+      "agent sessions"
+    ]
+  },
+  {
+    "id": "agentSessions.filter.toggleExcludeState:0.agentsessionsviewerfiltersubmenu",
+    "title": "agentSessions.filter.toggleExcludeState:0.agentsessionsviewerfiltersubmenu",
+    "keywords": [
+      "agent sessions filter toggle exclude state:0 agentsessionsviewerfiltersubmenu",
+      "agent sessions"
+    ]
+  },
+  {
+    "id": "agentSessions.filter.toggleExcludeArchived.agentsessionsviewerfiltersubmenu",
+    "title": "agentSessions.filter.toggleExcludeArchived.agentsessionsviewerfiltersubmenu",
+    "keywords": [
+      "agent sessions filter toggle exclude archived agentsessionsviewerfiltersubmenu",
+      "agent sessions"
+    ]
+  },
+  {
+    "id": "agentSessions.filter.toggleExcludeRead.agentsessionsviewerfiltersubmenu",
+    "title": "agentSessions.filter.toggleExcludeRead.agentsessionsviewerfiltersubmenu",
+    "keywords": [
+      "agent sessions filter toggle exclude read agentsessionsviewerfiltersubmenu",
+      "agent sessions"
+    ]
+  },
+  {
+    "id": "agentSessions.filter.resetExcludes.agentsessionsviewerfiltersubmenu",
+    "title": "agentSessions.filter.resetExcludes.agentsessionsviewerfiltersubmenu",
+    "keywords": [
+      "agent sessions filter reset excludes agentsessionsviewerfiltersubmenu",
+      "agent sessions"
+    ]
+  },
+  {
+    "id": "github.copilot.chat.otel.flush",
+    "title": "github.copilot.chat.otel.flush",
+    "keywords": [
+      "github copilot chat otel flush",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "github.copilot.chat.otel.exportAgentTracesDB",
+    "title": "github.copilot.chat.otel.exportAgentTracesDB",
+    "keywords": [
+      "github copilot chat otel export agent traces db",
+      "github copilot"
+    ]
+  },
+  {
+    "id": "gaia_hover.show_call_summary_document",
+    "title": "gaia_hover.show_call_summary_document",
+    "keywords": [
+      "gaia hover show call summary document",
+      "gaia hover"
+    ]
+  },
+  {
+    "id": "gaia_feedback.submit_feedback",
+    "title": "gaia_feedback.submit_feedback",
+    "keywords": [
+      "gaia feedback submit feedback",
+      "gaia feedback"
+    ]
+  },
+  {
+    "id": "gaia.copyExample",
+    "title": "gaia.copyExample",
+    "keywords": [
+      "gaia copy example",
+      "gaia copy"
     ]
   },
   {
@@ -24319,806 +26207,6 @@
     ]
   },
   {
-    "id": "github.copilot.chat.attachFile",
-    "title": "github.copilot.chat.attachFile",
-    "keywords": [
-      "github copilot chat attach file",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.chat.attachSelection",
-    "title": "github.copilot.chat.attachSelection",
-    "keywords": [
-      "github copilot chat attach selection",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.debug.extensionState",
-    "title": "github.copilot.debug.extensionState",
-    "keywords": [
-      "github copilot debug extension state",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.chat.triggerPermissiveSignIn",
-    "title": "github.copilot.chat.triggerPermissiveSignIn",
-    "keywords": [
-      "github copilot chat trigger permissive sign in",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.debug.collectDiagnostics",
-    "title": "github.copilot.debug.collectDiagnostics",
-    "keywords": [
-      "github copilot debug collect diagnostics",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.debug.collectDiagnostics.internal",
-    "title": "github.copilot.debug.collectDiagnostics.internal",
-    "keywords": [
-      "github copilot debug collect diagnostics internal",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.debug.showOutputChannel.internal",
-    "title": "github.copilot.debug.showOutputChannel.internal",
-    "keywords": [
-      "github copilot debug show output channel internal",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.debug.togglePowerSaveBlocker",
-    "title": "github.copilot.debug.togglePowerSaveBlocker",
-    "keywords": [
-      "github copilot debug toggle power save blocker",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.refreshToken",
-    "title": "github.copilot.refreshToken",
-    "keywords": [
-      "github copilot refresh token",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.debug.showChatLogView",
-    "title": "github.copilot.debug.showChatLogView",
-    "keywords": [
-      "github copilot debug show chat log view",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.chat.startCopilotDebugCommand",
-    "title": "github.copilot.chat.startCopilotDebugCommand",
-    "keywords": [
-      "github copilot chat start copilot debug command",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.debug.generateSTest",
-    "title": "github.copilot.debug.generateSTest",
-    "keywords": [
-      "github copilot debug generate stest",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.createLaunchJsonFileWithContents",
-    "title": "github.copilot.createLaunchJsonFileWithContents",
-    "keywords": [
-      "github copilot create launch json file with contents",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.startDebugging",
-    "title": "github.copilot.startDebugging",
-    "keywords": [
-      "github copilot start debugging",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.open.walkthrough",
-    "title": "github.copilot.open.walkthrough",
-    "keywords": [
-      "github copilot open walkthrough",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.mcp.viewContext7",
-    "title": "github.copilot.mcp.viewContext7",
-    "keywords": [
-      "github copilot mcp view context7",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.chat.sendCompletionFeedback",
-    "title": "github.copilot.chat.sendCompletionFeedback",
-    "keywords": [
-      "github copilot chat send completion feedback",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.chat.completions.enable",
-    "title": "github.copilot.chat.completions.enable",
-    "keywords": [
-      "github copilot chat completions enable",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.chat.completions.disable",
-    "title": "github.copilot.chat.completions.disable",
-    "keywords": [
-      "github copilot chat completions disable",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.chat.completions.toggle",
-    "title": "github.copilot.chat.completions.toggle",
-    "keywords": [
-      "github copilot chat completions toggle",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.completions.enable",
-    "title": "github.copilot.completions.enable",
-    "keywords": [
-      "github copilot completions enable",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.completions.disable",
-    "title": "github.copilot.completions.disable",
-    "keywords": [
-      "github copilot completions disable",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.completions.toggle",
-    "title": "github.copilot.completions.toggle",
-    "keywords": [
-      "github copilot completions toggle",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.toggleStatusMenu",
-    "title": "github.copilot.toggleStatusMenu",
-    "keywords": [
-      "github copilot toggle status menu",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.chat.toggleStatusMenu",
-    "title": "github.copilot.chat.toggleStatusMenu",
-    "keywords": [
-      "github copilot chat toggle status menu",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.openDocs",
-    "title": "github.copilot.openDocs",
-    "keywords": [
-      "github copilot open docs",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.openLogs",
-    "title": "github.copilot.openLogs",
-    "keywords": [
-      "github copilot open logs",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.chat.openSuggestionsPanel",
-    "title": "github.copilot.chat.openSuggestionsPanel",
-    "keywords": [
-      "github copilot chat open suggestions panel",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.generate",
-    "title": "github.copilot.generate",
-    "keywords": [
-      "github copilot generate",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.acceptCursorPanelSolution",
-    "title": "github.copilot.acceptCursorPanelSolution",
-    "keywords": [
-      "github copilot accept cursor panel solution",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.previousPanelSolution",
-    "title": "github.copilot.previousPanelSolution",
-    "keywords": [
-      "github copilot previous panel solution",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.nextPanelSolution",
-    "title": "github.copilot.nextPanelSolution",
-    "keywords": [
-      "github copilot next panel solution",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.openModelPicker",
-    "title": "github.copilot.openModelPicker",
-    "keywords": [
-      "github copilot open model picker",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.chat.openModelPicker",
-    "title": "github.copilot.chat.openModelPicker",
-    "keywords": [
-      "github copilot chat open model picker",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.survey.signalUsage",
-    "title": "github.copilot.survey.signalUsage",
-    "keywords": [
-      "github copilot survey signal usage",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.report",
-    "title": "github.copilot.report",
-    "keywords": [
-      "github copilot report",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.debug.showContextInspectorView",
-    "title": "github.copilot.debug.showContextInspectorView",
-    "keywords": [
-      "github copilot debug show context inspector view",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.nes.prepareRename",
-    "title": "github.copilot.nes.prepareRename",
-    "keywords": [
-      "github copilot nes prepare rename",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.nes.postRename",
-    "title": "github.copilot.nes.postRename",
-    "keywords": [
-      "github copilot nes post rename",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.debug.validateNesRename",
-    "title": "github.copilot.debug.validateNesRename",
-    "keywords": [
-      "github copilot debug validate nes rename",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.search.markHelpful",
-    "title": "github.copilot.search.markHelpful",
-    "keywords": [
-      "github copilot search mark helpful",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.search.markUnhelpful",
-    "title": "github.copilot.search.markUnhelpful",
-    "keywords": [
-      "github copilot search mark unhelpful",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.search.feedback",
-    "title": "github.copilot.search.feedback",
-    "keywords": [
-      "github copilot search feedback",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "chat.enablePremiumOverages",
-    "title": "chat.enablePremiumOverages",
-    "keywords": [
-      "chat enable premium overages",
-      "chat enable"
-    ]
-  },
-  {
-    "id": "github.copilot.chat.notebook.enableFollowCellExecution",
-    "title": "github.copilot.chat.notebook.enableFollowCellExecution",
-    "keywords": [
-      "github copilot chat notebook enable follow cell execution",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.chat.notebook.disableFollowCellExecution",
-    "title": "github.copilot.chat.notebook.disableFollowCellExecution",
-    "keywords": [
-      "github copilot chat notebook disable follow cell execution",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.chat.replay",
-    "title": "github.copilot.chat.replay",
-    "keywords": [
-      "github copilot chat replay",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.chat.replay.enableWorkspaceEditTracing",
-    "title": "github.copilot.chat.replay.enableWorkspaceEditTracing",
-    "keywords": [
-      "github copilot chat replay enable workspace edit tracing",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.chat.replay.disableWorkspaceEditTracing",
-    "title": "github.copilot.chat.replay.disableWorkspaceEditTracing",
-    "keywords": [
-      "github copilot chat replay disable workspace edit tracing",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.chat.showAsChatSession",
-    "title": "github.copilot.chat.showAsChatSession",
-    "keywords": [
-      "github copilot chat show as chat session",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.buildLocalWorkspaceIndex",
-    "title": "github.copilot.buildLocalWorkspaceIndex",
-    "keywords": [
-      "github copilot build local workspace index",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.buildRemoteWorkspaceIndex",
-    "title": "github.copilot.buildRemoteWorkspaceIndex",
-    "keywords": [
-      "github copilot build remote workspace index",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.deleteExternalIngestWorkspaceIndex",
-    "title": "github.copilot.deleteExternalIngestWorkspaceIndex",
-    "keywords": [
-      "github copilot delete external ingest workspace index",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.debug.collectWorkspaceIndexDiagnostics",
-    "title": "github.copilot.debug.collectWorkspaceIndexDiagnostics",
-    "keywords": [
-      "github copilot debug collect workspace index diagnostics",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "copilot.claude.agents",
-    "title": "copilot.claude.agents",
-    "keywords": [
-      "copilot claude agents",
-      "copilot claude"
-    ]
-  },
-  {
-    "id": "copilot.claude.hooks",
-    "title": "copilot.claude.hooks",
-    "keywords": [
-      "copilot claude hooks",
-      "copilot claude"
-    ]
-  },
-  {
-    "id": "copilot.claude.memory",
-    "title": "copilot.claude.memory",
-    "keywords": [
-      "copilot claude memory",
-      "copilot claude"
-    ]
-  },
-  {
-    "id": "github.copilot.claude.sessions.rename",
-    "title": "github.copilot.claude.sessions.rename",
-    "keywords": [
-      "github copilot claude sessions rename",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.chat.checkoutPullRequestReroute",
-    "title": "github.copilot.chat.checkoutPullRequestReroute",
-    "keywords": [
-      "github copilot chat checkout pull request reroute",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.chat.openPullRequestReroute",
-    "title": "github.copilot.chat.openPullRequestReroute",
-    "keywords": [
-      "github copilot chat open pull request reroute",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.chat.cloudSessions.openRepository",
-    "title": "github.copilot.chat.cloudSessions.openRepository",
-    "keywords": [
-      "github copilot chat cloud sessions open repository",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.chat.cloudSessions.clearCaches",
-    "title": "github.copilot.chat.cloudSessions.clearCaches",
-    "keywords": [
-      "github copilot chat cloud sessions clear caches",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.cloud.resetWorkspaceConfirmations",
-    "title": "github.copilot.cloud.resetWorkspaceConfirmations",
-    "keywords": [
-      "github copilot cloud reset workspace confirmations",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.cloud.sessions.openInBrowser",
-    "title": "github.copilot.cloud.sessions.openInBrowser",
-    "keywords": [
-      "github copilot cloud sessions open in browser",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.cloud.sessions.proxy.closeChatSessionPullRequest",
-    "title": "github.copilot.cloud.sessions.proxy.closeChatSessionPullRequest",
-    "keywords": [
-      "github copilot cloud sessions proxy close chat session pull request",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.cloud.sessions.installPRExtension",
-    "title": "github.copilot.cloud.sessions.installPRExtension",
-    "keywords": [
-      "github copilot cloud sessions install prextension",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "agentSessions.filter.toggleExclude:local.agentsessionsviewerfiltersubmenu",
-    "title": "agentSessions.filter.toggleExclude:local.agentsessionsviewerfiltersubmenu",
-    "keywords": [
-      "agent sessions filter toggle exclude:local agentsessionsviewerfiltersubmenu",
-      "agent sessions"
-    ]
-  },
-  {
-    "id": "agentSessions.filter.toggleExclude:claude-code.agentsessionsviewerfiltersubmenu",
-    "title": "agentSessions.filter.toggleExclude:claude-code.agentsessionsviewerfiltersubmenu",
-    "keywords": [
-      "agent sessions filter toggle exclude:claude code agentsessionsviewerfiltersubmenu",
-      "agent sessions"
-    ]
-  },
-  {
-    "id": "agentSessions.filter.toggleExclude:copilotcli.agentsessionsviewerfiltersubmenu",
-    "title": "agentSessions.filter.toggleExclude:copilotcli.agentsessionsviewerfiltersubmenu",
-    "keywords": [
-      "agent sessions filter toggle exclude:copilotcli agentsessionsviewerfiltersubmenu",
-      "agent sessions"
-    ]
-  },
-  {
-    "id": "agentSessions.filter.toggleExclude:copilot-cloud-agent.agentsessionsviewerfiltersubmenu",
-    "title": "agentSessions.filter.toggleExclude:copilot-cloud-agent.agentsessionsviewerfiltersubmenu",
-    "keywords": [
-      "agent sessions filter toggle exclude:copilot cloud agent agentsessionsviewerfiltersubmenu",
-      "agent sessions"
-    ]
-  },
-  {
-    "id": "agentSessions.filter.toggleExcludeState:1.agentsessionsviewerfiltersubmenu",
-    "title": "agentSessions.filter.toggleExcludeState:1.agentsessionsviewerfiltersubmenu",
-    "keywords": [
-      "agent sessions filter toggle exclude state:1 agentsessionsviewerfiltersubmenu",
-      "agent sessions"
-    ]
-  },
-  {
-    "id": "agentSessions.filter.toggleExcludeState:2.agentsessionsviewerfiltersubmenu",
-    "title": "agentSessions.filter.toggleExcludeState:2.agentsessionsviewerfiltersubmenu",
-    "keywords": [
-      "agent sessions filter toggle exclude state:2 agentsessionsviewerfiltersubmenu",
-      "agent sessions"
-    ]
-  },
-  {
-    "id": "agentSessions.filter.toggleExcludeState:3.agentsessionsviewerfiltersubmenu",
-    "title": "agentSessions.filter.toggleExcludeState:3.agentsessionsviewerfiltersubmenu",
-    "keywords": [
-      "agent sessions filter toggle exclude state:3 agentsessionsviewerfiltersubmenu",
-      "agent sessions"
-    ]
-  },
-  {
-    "id": "agentSessions.filter.toggleExcludeState:0.agentsessionsviewerfiltersubmenu",
-    "title": "agentSessions.filter.toggleExcludeState:0.agentsessionsviewerfiltersubmenu",
-    "keywords": [
-      "agent sessions filter toggle exclude state:0 agentsessionsviewerfiltersubmenu",
-      "agent sessions"
-    ]
-  },
-  {
-    "id": "agentSessions.filter.toggleExcludeArchived.agentsessionsviewerfiltersubmenu",
-    "title": "agentSessions.filter.toggleExcludeArchived.agentsessionsviewerfiltersubmenu",
-    "keywords": [
-      "agent sessions filter toggle exclude archived agentsessionsviewerfiltersubmenu",
-      "agent sessions"
-    ]
-  },
-  {
-    "id": "agentSessions.filter.toggleExcludeRead.agentsessionsviewerfiltersubmenu",
-    "title": "agentSessions.filter.toggleExcludeRead.agentsessionsviewerfiltersubmenu",
-    "keywords": [
-      "agent sessions filter toggle exclude read agentsessionsviewerfiltersubmenu",
-      "agent sessions"
-    ]
-  },
-  {
-    "id": "agentSessions.filter.resetExcludes.agentsessionsviewerfiltersubmenu",
-    "title": "agentSessions.filter.resetExcludes.agentsessionsviewerfiltersubmenu",
-    "keywords": [
-      "agent sessions filter reset excludes agentsessionsviewerfiltersubmenu",
-      "agent sessions"
-    ]
-  },
-  {
-    "id": "github.copilot.chat.copilotCLI.addFileReference",
-    "title": "github.copilot.chat.copilotCLI.addFileReference",
-    "keywords": [
-      "github copilot chat copilot cli add file reference",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.chat.copilotCLI.addSelection",
-    "title": "github.copilot.chat.copilotCLI.addSelection",
-    "keywords": [
-      "github copilot chat copilot cli add selection",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.chat.copilotCLI.acceptDiff",
-    "title": "github.copilot.chat.copilotCLI.acceptDiff",
-    "keywords": [
-      "github copilot chat copilot cli accept diff",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.chat.copilotCLI.rejectDiff",
-    "title": "github.copilot.chat.copilotCLI.rejectDiff",
-    "keywords": [
-      "github copilot chat copilot cli reject diff",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.cli.sessions.delete",
-    "title": "github.copilot.cli.sessions.delete",
-    "keywords": [
-      "github copilot cli sessions delete",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.cli.sessions.resumeInTerminal",
-    "title": "github.copilot.cli.sessions.resumeInTerminal",
-    "keywords": [
-      "github copilot cli sessions resume in terminal",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.cli.sessions.rename",
-    "title": "github.copilot.cli.sessions.rename",
-    "keywords": [
-      "github copilot cli sessions rename",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.cli.newSession",
-    "title": "github.copilot.cli.newSession",
-    "keywords": [
-      "github copilot cli new session",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.cli.newSessionToSide",
-    "title": "github.copilot.cli.newSessionToSide",
-    "keywords": [
-      "github copilot cli new session to side",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.cli.openInCopilotCLI",
-    "title": "github.copilot.cli.openInCopilotCLI",
-    "keywords": [
-      "github copilot cli open in copilot cli",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.cli.sessions.openWorktreeInNewWindow",
-    "title": "github.copilot.cli.sessions.openWorktreeInNewWindow",
-    "keywords": [
-      "github copilot cli sessions open worktree in new window",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.cli.sessions.openWorktreeInTerminal",
-    "title": "github.copilot.cli.sessions.openWorktreeInTerminal",
-    "keywords": [
-      "github copilot cli sessions open worktree in terminal",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.cli.sessions.copyWorktreeBranchName",
-    "title": "github.copilot.cli.sessions.copyWorktreeBranchName",
-    "keywords": [
-      "github copilot cli sessions copy worktree branch name",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.cli.sessions.openRepository",
-    "title": "github.copilot.cli.sessions.openRepository",
-    "keywords": [
-      "github copilot cli sessions open repository",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.chat.applyCopilotCLIAgentSessionChanges",
-    "title": "github.copilot.chat.applyCopilotCLIAgentSessionChanges",
-    "keywords": [
-      "github copilot chat apply copilot cliagent session changes",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.chat.applyCopilotCLIAgentSessionChanges.apply",
-    "title": "github.copilot.chat.applyCopilotCLIAgentSessionChanges.apply",
-    "keywords": [
-      "github copilot chat apply copilot cliagent session changes apply",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.chat.mergeCopilotCLIAgentSessionChanges.merge",
-    "title": "github.copilot.chat.mergeCopilotCLIAgentSessionChanges.merge",
-    "keywords": [
-      "github copilot chat merge copilot cliagent session changes merge",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.chat.updateCopilotCLIAgentSessionChanges.update",
-    "title": "github.copilot.chat.updateCopilotCLIAgentSessionChanges.update",
-    "keywords": [
-      "github copilot chat update copilot cliagent session changes update",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.chat.createPullRequestCopilotCLIAgentSession.createPR",
-    "title": "github.copilot.chat.createPullRequestCopilotCLIAgentSession.createPR",
-    "keywords": [
-      "github copilot chat create pull request copilot cliagent session create pr",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.chat.openPullRequestCopilotCLIAgentSession.openPR",
-    "title": "github.copilot.chat.openPullRequestCopilotCLIAgentSession.openPR",
-    "keywords": [
-      "github copilot chat open pull request copilot cliagent session open pr",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.cli.sessions.commitToWorktree",
-    "title": "github.copilot.cli.sessions.commitToWorktree",
-    "keywords": [
-      "github copilot cli sessions commit to worktree",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.cli.sessions.commitToRepository",
-    "title": "github.copilot.cli.sessions.commitToRepository",
-    "keywords": [
-      "github copilot cli sessions commit to repository",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.chat.otel.flush",
-    "title": "github.copilot.chat.otel.flush",
-    "keywords": [
-      "github copilot chat otel flush",
-      "github copilot"
-    ]
-  },
-  {
     "id": "github.publish",
     "title": "github.publish",
     "keywords": [
@@ -25198,11 +26286,11 @@
     ]
   },
   {
-    "id": "github.checkOpenPullRequest",
-    "title": "github.checkOpenPullRequest",
+    "id": "workbench.action.output.show.extension-output-EchoCode.echo-code-#1-EchoCode",
+    "title": "workbench.action.output.show.extension-output-EchoCode.echo-code-#1-EchoCode",
     "keywords": [
-      "github check open pull request",
-      "github check"
+      "output show extension output echo code echo code #1 echo code",
+      "output show"
     ]
   },
   {
@@ -25278,18 +26366,11 @@
     ]
   },
   {
-    "id": "pylint.showLogs",
-    "title": "pylint.showLogs",
+    "id": "workbench.action.output.show.extension-output-vadimcn.vscode-lldb-#1-LLDB",
+    "title": "workbench.action.output.show.extension-output-vadimcn.vscode-lldb-#1-LLDB",
     "keywords": [
-      "pylint show logs",
-      "pylint show"
-    ]
-  },
-  {
-    "id": "pylint.restart",
-    "title": "pylint.restart",
-    "keywords": [
-      "pylint restart"
+      "output show extension output vadimcn vscode lldb #1 lldb",
+      "output show"
     ]
   },
   {
@@ -25381,19 +26462,192 @@
     ]
   },
   {
-    "id": "terminal.integrated.suggest.clearCachedGlobals",
-    "title": "terminal.integrated.suggest.clearCachedGlobals",
+    "id": "code-runner.run",
+    "title": "code-runner.run",
     "keywords": [
-      "terminal integrated suggest clear cached globals",
-      "terminal integrated"
+      "code runner run",
+      "code runner"
     ]
   },
   {
-    "id": "python.getRecommendedEnvironment",
-    "title": "python.getRecommendedEnvironment",
+    "id": "code-runner.runCustomCommand",
+    "title": "code-runner.runCustomCommand",
     "keywords": [
-      "python get recommended environment",
-      "python get"
+      "code runner run custom command",
+      "code runner"
+    ]
+  },
+  {
+    "id": "code-runner.runByLanguage",
+    "title": "code-runner.runByLanguage",
+    "keywords": [
+      "code runner run by language",
+      "code runner"
+    ]
+  },
+  {
+    "id": "code-runner.stop",
+    "title": "code-runner.stop",
+    "keywords": [
+      "code runner stop",
+      "code runner"
+    ]
+  },
+  {
+    "id": "workbench.action.output.show.extension-output-formulahendry.code-runner-#1-Code",
+    "title": "workbench.action.output.show.extension-output-formulahendry.code-runner-#1-Code",
+    "keywords": [
+      "output show extension output formulahendry code runner #1 code",
+      "output show"
+    ]
+  },
+  {
+    "id": "lldb.diagnose",
+    "title": "lldb.diagnose",
+    "keywords": [
+      "lldb diagnose"
+    ]
+  },
+  {
+    "id": "lldb.getCargoLaunchConfigs",
+    "title": "lldb.getCargoLaunchConfigs",
+    "keywords": [
+      "lldb get cargo launch configs",
+      "lldb get"
+    ]
+  },
+  {
+    "id": "lldb.pickMyProcess",
+    "title": "lldb.pickMyProcess",
+    "keywords": [
+      "lldb pick my process",
+      "lldb pick"
+    ]
+  },
+  {
+    "id": "lldb.pickProcess",
+    "title": "lldb.pickProcess",
+    "keywords": [
+      "lldb pick process",
+      "lldb pick"
+    ]
+  },
+  {
+    "id": "lldb.attach",
+    "title": "lldb.attach",
+    "keywords": [
+      "lldb attach"
+    ]
+  },
+  {
+    "id": "lldb.alternateBackend",
+    "title": "lldb.alternateBackend",
+    "keywords": [
+      "lldb alternate backend",
+      "lldb alternate"
+    ]
+  },
+  {
+    "id": "lldb.commandPrompt",
+    "title": "lldb.commandPrompt",
+    "keywords": [
+      "lldb command prompt",
+      "lldb command"
+    ]
+  },
+  {
+    "id": "lldb.symbols",
+    "title": "lldb.symbols",
+    "keywords": [
+      "lldb symbols"
+    ]
+  },
+  {
+    "id": "lldb.viewMemory",
+    "title": "lldb.viewMemory",
+    "keywords": [
+      "lldb view memory",
+      "lldb view"
+    ]
+  },
+  {
+    "id": "lldb.changeDisplaySettings",
+    "title": "lldb.changeDisplaySettings",
+    "keywords": [
+      "lldb change display settings",
+      "lldb change"
+    ]
+  },
+  {
+    "id": "lldb.toggleConsoleMode",
+    "title": "lldb.toggleConsoleMode",
+    "keywords": [
+      "lldb toggle console mode",
+      "lldb toggle"
+    ]
+  },
+  {
+    "id": "lldb.showDisassembly",
+    "title": "lldb.showDisassembly",
+    "keywords": [
+      "lldb show disassembly",
+      "lldb show"
+    ]
+  },
+  {
+    "id": "lldb.toggleDisassembly",
+    "title": "lldb.toggleDisassembly",
+    "keywords": [
+      "lldb toggle disassembly",
+      "lldb toggle"
+    ]
+  },
+  {
+    "id": "lldb.displayFormat",
+    "title": "lldb.displayFormat",
+    "keywords": [
+      "lldb display format",
+      "lldb display"
+    ]
+  },
+  {
+    "id": "lldb.toggleDerefPointers",
+    "title": "lldb.toggleDerefPointers",
+    "keywords": [
+      "lldb toggle deref pointers",
+      "lldb toggle"
+    ]
+  },
+  {
+    "id": "lldb.modules.copyValue",
+    "title": "lldb.modules.copyValue",
+    "keywords": [
+      "lldb modules copy value",
+      "lldb modules"
+    ]
+  },
+  {
+    "id": "lldb.excludedCallers.add",
+    "title": "lldb.excludedCallers.add",
+    "keywords": [
+      "lldb excluded callers add",
+      "lldb excluded"
+    ]
+  },
+  {
+    "id": "lldb.excludedCallers.remove",
+    "title": "lldb.excludedCallers.remove",
+    "keywords": [
+      "lldb excluded callers remove",
+      "lldb excluded"
+    ]
+  },
+  {
+    "id": "lldb.excludedCallers.removeAll",
+    "title": "lldb.excludedCallers.removeAll",
+    "keywords": [
+      "lldb excluded callers remove all",
+      "lldb excluded"
     ]
   },
   {
@@ -25405,27 +26659,19 @@
     ]
   },
   {
-    "id": "workbench.action.output.show.extension-output-EchoCode.echo-code-#1-EchoCode",
-    "title": "workbench.action.output.show.extension-output-EchoCode.echo-code-#1-EchoCode",
-    "keywords": [
-      "output show extension output echo code echo code #1 echo code",
-      "output show"
-    ]
-  },
-  {
-    "id": "workbench.action.output.show.ms-python.pylint.Pylint.log",
-    "title": "workbench.action.output.show.ms-python.pylint.Pylint.log",
-    "keywords": [
-      "output show ms python pylint pylint log",
-      "output show"
-    ]
-  },
-  {
     "id": "workbench.action.output.show.ms-python.debugpy.Python Debugger.log",
     "title": "workbench.action.output.show.ms-python.debugpy.Python Debugger.log",
     "keywords": [
       "output show ms python debugpy python debugger log",
       "output show"
+    ]
+  },
+  {
+    "id": "python.getRecommendedEnvironment",
+    "title": "python.getRecommendedEnvironment",
+    "keywords": [
+      "python get recommended environment",
+      "python get"
     ]
   },
   {
@@ -25445,10 +26691,10 @@
     ]
   },
   {
-    "id": "pylance.generateCopilotSummary",
-    "title": "pylance.generateCopilotSummary",
+    "id": "pylance.generateDocumentation",
+    "title": "pylance.generateDocumentation",
     "keywords": [
-      "pylance generate copilot summary",
+      "pylance generate documentation",
       "pylance generate"
     ]
   },
@@ -26001,22 +27247,6 @@
     "title": "github.copilot.chat.mcp.setup.check",
     "keywords": [
       "github copilot chat mcp setup check",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.chat.debug.exportTrajectories",
-    "title": "github.copilot.chat.debug.exportTrajectories",
-    "keywords": [
-      "github copilot chat debug export trajectories",
-      "github copilot"
-    ]
-  },
-  {
-    "id": "github.copilot.chat.debug.exportSingleTrajectory",
-    "title": "github.copilot.chat.debug.exportSingleTrajectory",
-    "keywords": [
-      "github copilot chat debug export single trajectory",
       "github copilot"
     ]
   },

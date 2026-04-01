@@ -85,19 +85,35 @@ async function tryExecuteVoiceCommand(transcript, outputChannel) {
     );
     const commands = JSON.parse(fs.readFileSync(commandsPath, "utf-8"));
 
-    for (const cmd of commands) {
-      if (cmd.keywords.some((k) => cleaned.includes(k))) {
-        await vscode.commands.executeCommand(cmd.id);
-        vscode.window.showInformationMessage(`✅ Executed: ${cmd.title}`);
-        outputChannel.appendLine(`[Voice Command] Matched: ${cmd.id}`);
-        return { handled: true, command: cmd.id };
-      }
+   const { getMode } = require("./Core/program_settings/mode");
+const { STUDENT_LOCKED_COMMANDS } = require("./Core/program_settings/guard");
+const { speakMessage } = require("./Core/program_settings/speech_settings/speechHandler");
+
+for (const cmd of commands) {
+  if (cmd.keywords.some((k) => cleaned.includes(k))) {
+    const currentMode = getMode();
+
+    if (currentMode !== "dev" && STUDENT_LOCKED_COMMANDS.has(cmd.id)) {
+      await speakMessage("That command is disabled in student mode.");
+      return { handled: true };
     }
 
+    await vscode.commands.executeCommand(cmd.id);
+    outputChannel.appendLine(`[Voice Command] Matched: ${cmd.id}`);
+    return { handled: true, command: cmd.id };
+  }
+}
+
     // Priority 2: External/user-defined commands (NEW — two lines)
-    const externalCmd = matchExternalCommand(cleaned);
     if (externalCmd) {
-      await vscode.commands.executeCommand(externalCmd.id);
+  const currentMode = getMode();
+
+  if (currentMode === "student" && STUDENT_LOCKED_COMMANDS.includes(externalCmd.id)) {
+    await speakMessage("That command is disabled in student mode.");
+    return { handled: true };
+  }
+
+  await vscode.commands.executeCommand(externalCmd.id);
       vscode.window.showInformationMessage(`✅ External: ${externalCmd.title}`);
       outputChannel.appendLine(
         `[Voice Command] External Matched: ${externalCmd.id}`
@@ -208,8 +224,7 @@ async function tryExecuteVoiceCommand(transcript, outputChannel) {
 //student/dev mode system
 const { announceMode } = require("./Core/program_settings/modeAudio");
 const { refreshModeContext, onModeChange, getMode } = require("./Core/program_settings/mode");
-const { guard } = require("./Core/program_settings/guard");
-
+const { guard, STUDENT_LOCKED_COMMANDS } = require("./Core/program_settings/guard");
 
 // Python (optional adapter)
 const { ensurePylintInstalled } = require("./Language/Python/pylintHandler");
@@ -362,6 +377,40 @@ const toggleModeCommand = vscode.commands.registerCommand(
     outputChannel.appendLine(`[EchoCode] Mode toggled to: ${newMode}`);
   }
 );
+const switchToStudentModeCommand = vscode.commands.registerCommand(
+  "echocode.switchToStudentMode",
+  async () => {
+    await vscode.workspace
+      .getConfiguration("echocode")
+      .update("mode", "student", vscode.ConfigurationTarget.Global);
+
+    await refreshModeContext();
+
+    vscode.window.showInformationMessage("EchoCode switched to STUDENT mode");
+    outputChannel.appendLine("[EchoCode] Mode switched to: student");
+    announceMode("student", outputChannel);
+  }
+);
+
+const switchToDevModeCommand = vscode.commands.registerCommand(
+  "echocode.switchToDevMode",
+  async () => {
+    await vscode.workspace
+      .getConfiguration("echocode")
+      .update("mode", "dev", vscode.ConfigurationTarget.Global);
+
+    await refreshModeContext();
+
+    vscode.window.showInformationMessage("EchoCode switched to DEV mode");
+    outputChannel.appendLine("[EchoCode] Mode switched to: dev");
+    announceMode("dev", outputChannel);
+  }
+);
+
+context.subscriptions.push(
+  switchToStudentModeCommand,
+  switchToDevModeCommand
+);
 
 context.subscriptions.push(toggleModeCommand);
 // Ensure Copilot (stable, chat, or nightly) is available for AI features
@@ -505,16 +554,23 @@ await ensureCopilotActivated(outputChannel);
             __dirname,
             "Core/program_settings/program_settings/voice_commands.json"
           );
-          const internalCommands = JSON.parse(
-            fs.readFileSync(commandsPath, "utf-8")
-          );
-          for (const cmd of internalCommands) {
-            if (cmd.keywords.some((k) => cleaned.includes(k))) {
-              await vscode.commands.executeCommand(cmd.id);
-              vscode.window.showInformationMessage(`✅ Executed: ${cmd.title}`);
-              return;
-            }
-          }
+         const internalCommands = JSON.parse(
+  fs.readFileSync(commandsPath, "utf-8")
+);
+for (const cmd of internalCommands) {
+  if (cmd.keywords.some((k) => cleaned.includes(k))) {
+    const currentMode = getMode();
+
+    if (currentMode !== "dev" && STUDENT_LOCKED_COMMANDS.has(cmd.id)) {
+      await speakMessage("That command is disabled in student mode.");
+      return;
+    }
+
+    await vscode.commands.executeCommand(cmd.id);
+    return;
+  }
+}
+          
 
           // Priority 2: External/user-defined commands
           const externalCmd = matchExternalCommand(cleaned);

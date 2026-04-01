@@ -43,6 +43,16 @@
     ]
   },
   {
+  "id": "echocode.switchToStudentMode",
+  "title": "Switch to Student Mode",
+  "keywords": ["student mode", "switch to student mode", "turn on student mode"]
+  },
+  {
+  "id": "echocode.switchToDevMode",
+  "title": "Switch to Developer Mode",
+  "keywords": ["developer mode", "dev mode", "switch to developer mode", "turn on developer mode"]
+  },
+  {
     "id": "echocode.jumpToNextFunction",
     "title": "Next Function",
     "keywords": [

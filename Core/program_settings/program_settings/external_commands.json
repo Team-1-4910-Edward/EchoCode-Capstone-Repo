@@ -17860,10 +17860,10 @@
     ]
   },
   {
-    "id": "changeEditorIndentation10",
-    "title": "changeEditorIndentation10",
+    "id": "changeEditorIndentation20",
+    "title": "changeEditorIndentation20",
     "keywords": [
-      "change editor indentation10",
+      "change editor indentation20",
       "change editor"
     ]
   },
@@ -18260,14 +18260,6 @@
     "keywords": [
       "workbench explorer file view reset view location",
       "workbench explorer"
-    ]
-  },
-  {
-    "id": "editor.action.inlineSuggest.renameSymbol",
-    "title": "editor.action.inlineSuggest.renameSymbol",
-    "keywords": [
-      "inline suggest rename symbol",
-      "inline suggest"
     ]
   },
   {
@@ -19930,6 +19922,14 @@
     "keywords": [
       "open remote settings file",
       "open remote"
+    ]
+  },
+  {
+    "id": "editor.action.inlineSuggest.renameSymbol",
+    "title": "editor.action.inlineSuggest.renameSymbol",
+    "keywords": [
+      "inline suggest rename symbol",
+      "inline suggest"
     ]
   },
   {
@@ -21988,38 +21988,6 @@
     ]
   },
   {
-    "id": "workbench.action.terminal.newWithProfile",
-    "title": "workbench.action.terminal.newWithProfile",
-    "keywords": [
-      "terminal new with profile",
-      "terminal new"
-    ]
-  },
-  {
-    "id": "workbench.action.output.show.exthost",
-    "title": "workbench.action.output.show.exthost",
-    "keywords": [
-      "output show exthost",
-      "output show"
-    ]
-  },
-  {
-    "id": "workbench.panel.repl.view.toggleVisibility",
-    "title": "workbench.panel.repl.view.toggleVisibility",
-    "keywords": [
-      "workbench panel repl view toggle visibility",
-      "workbench panel"
-    ]
-  },
-  {
-    "id": "workbench.panel.repl.view.removeView",
-    "title": "workbench.panel.repl.view.removeView",
-    "keywords": [
-      "workbench panel repl view remove view",
-      "workbench panel"
-    ]
-  },
-  {
     "id": "update.check",
     "title": "update.check",
     "keywords": [
@@ -22442,6 +22410,38 @@
     "keywords": [
       "workbench actions sync load activity",
       "workbench actions"
+    ]
+  },
+  {
+    "id": "workbench.action.terminal.newWithProfile",
+    "title": "workbench.action.terminal.newWithProfile",
+    "keywords": [
+      "terminal new with profile",
+      "terminal new"
+    ]
+  },
+  {
+    "id": "workbench.action.output.show.exthost",
+    "title": "workbench.action.output.show.exthost",
+    "keywords": [
+      "output show exthost",
+      "output show"
+    ]
+  },
+  {
+    "id": "workbench.panel.repl.view.toggleVisibility",
+    "title": "workbench.panel.repl.view.toggleVisibility",
+    "keywords": [
+      "workbench panel repl view toggle visibility",
+      "workbench panel"
+    ]
+  },
+  {
+    "id": "workbench.panel.repl.view.removeView",
+    "title": "workbench.panel.repl.view.removeView",
+    "keywords": [
+      "workbench panel repl view remove view",
+      "workbench panel"
     ]
   },
   {
@@ -23580,14 +23580,6 @@
     ]
   },
   {
-    "id": "workbench.action.output.show.vscode.microsoft-authentication.Microsoft Authentication.log",
-    "title": "workbench.action.output.show.vscode.microsoft-authentication.Microsoft Authentication.log",
-    "keywords": [
-      "output show vscode microsoft authentication microsoft authentication log",
-      "output show"
-    ]
-  },
-  {
     "id": "python.execInTerminal",
     "title": "python.execInTerminal",
     "keywords": [
@@ -23833,6 +23825,14 @@
     "keywords": [
       "python exec in interactive window enter",
       "python exec"
+    ]
+  },
+  {
+    "id": "workbench.action.output.show.vscode.microsoft-authentication.Microsoft Authentication.log",
+    "title": "workbench.action.output.show.vscode.microsoft-authentication.Microsoft Authentication.log",
+    "keywords": [
+      "output show vscode microsoft authentication microsoft authentication log",
+      "output show"
     ]
   },
   {
@@ -24705,30 +24705,6 @@
     "keywords": [
       "github copilot chat otel export agent traces db",
       "github copilot"
-    ]
-  },
-  {
-    "id": "gaia_hover.show_call_summary_document",
-    "title": "gaia_hover.show_call_summary_document",
-    "keywords": [
-      "gaia hover show call summary document",
-      "gaia hover"
-    ]
-  },
-  {
-    "id": "gaia_feedback.submit_feedback",
-    "title": "gaia_feedback.submit_feedback",
-    "keywords": [
-      "gaia feedback submit feedback",
-      "gaia feedback"
-    ]
-  },
-  {
-    "id": "gaia.copyExample",
-    "title": "gaia.copyExample",
-    "keywords": [
-      "gaia copy example",
-      "gaia copy"
     ]
   },
   {
@@ -26286,6 +26262,30 @@
     ]
   },
   {
+    "id": "gaia_hover.show_call_summary_document",
+    "title": "gaia_hover.show_call_summary_document",
+    "keywords": [
+      "gaia hover show call summary document",
+      "gaia hover"
+    ]
+  },
+  {
+    "id": "gaia_feedback.submit_feedback",
+    "title": "gaia_feedback.submit_feedback",
+    "keywords": [
+      "gaia feedback submit feedback",
+      "gaia feedback"
+    ]
+  },
+  {
+    "id": "gaia.copyExample",
+    "title": "gaia.copyExample",
+    "keywords": [
+      "gaia copy example",
+      "gaia copy"
+    ]
+  },
+  {
     "id": "workbench.action.output.show.extension-output-EchoCode.echo-code-#1-EchoCode",
     "title": "workbench.action.output.show.extension-output-EchoCode.echo-code-#1-EchoCode",
     "keywords": [
@@ -26651,22 +26651,6 @@
     ]
   },
   {
-    "id": "workbench.action.output.show.vscode.github.GitHub.log",
-    "title": "workbench.action.output.show.vscode.github.GitHub.log",
-    "keywords": [
-      "output show vscode github git hub log",
-      "output show"
-    ]
-  },
-  {
-    "id": "workbench.action.output.show.ms-python.debugpy.Python Debugger.log",
-    "title": "workbench.action.output.show.ms-python.debugpy.Python Debugger.log",
-    "keywords": [
-      "output show ms python debugpy python debugger log",
-      "output show"
-    ]
-  },
-  {
     "id": "python.getRecommendedEnvironment",
     "title": "python.getRecommendedEnvironment",
     "keywords": [
@@ -26720,6 +26704,22 @@
     "keywords": [
       "python view language server output",
       "python view"
+    ]
+  },
+  {
+    "id": "workbench.action.output.show.vscode.github.GitHub.log",
+    "title": "workbench.action.output.show.vscode.github.GitHub.log",
+    "keywords": [
+      "output show vscode github git hub log",
+      "output show"
+    ]
+  },
+  {
+    "id": "workbench.action.output.show.ms-python.debugpy.Python Debugger.log",
+    "title": "workbench.action.output.show.ms-python.debugpy.Python Debugger.log",
+    "keywords": [
+      "output show ms python debugpy python debugger log",
+      "output show"
     ]
   },
   {

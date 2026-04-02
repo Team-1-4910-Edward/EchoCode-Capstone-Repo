@@ -30,7 +30,6 @@
     "onCommand:echocode.summarizeClass",
     "onCommand:echocode.summarizeFunction",
     "onCommand:echocode.summarizeProgram",
-    "onCommand:echocode.startVoiceInput",
     "onCommand:echocode.selectMicrophone",
     "onCommand:echocode.loadAssignmentFile",
     "onCommand:echocode.increaseSpeechSpeed",
@@ -92,10 +91,6 @@
       {
         "command": "echocode.openChat",
         "title": "Open EchoCode Tutor Chat"
-      },
-      {
-        "command": "echocode.startVoiceInput",
-        "title": "Start Voice Input"
       },
       {
         "command": "echocode.loadAssignmentFile",
@@ -304,18 +299,15 @@
       },
       {
         "command": "echocode.speakNextAnnotation",
-        "key": "ctrl+alt+s",
-        "when": "editorTextFocus && echocode:isDev"
+        "key": "ctrl+alt+s"
       },
       {
         "command": "echocode.annotate",
-        "key": "ctrl+alt+a",
-        "when": "editorTextFocus && echocode:isDev"
+        "key": "ctrl+alt+a"
       },
       {
         "command": "echocode.readAllAnnotations",
-        "key": "ctrl+alt+q",
-        "when": "editorTextFocus && echocode:isDev"
+        "key": "ctrl+alt+q"
       },
       {
         "command": "echocode.jumpToNextFunction",
@@ -341,11 +333,6 @@
         "command": "echocode.summarizeProgram",
         "key": "ctrl+alt+e p",
         "when": "editorTextFocus && echocode:isDev"
-      },
-      {
-        "command": "echocode.startVoiceInput",
-        "key": "ctrl+alt+v",
-        "when": "echocode:isDev"
       },
       {
         "command": "echocode.toggleVoice",
@@ -534,14 +521,6 @@
           "command": "echocode.annotate",
           "when": "echocode:isDev",
           "group": "navigation"
-        }
-      ],
-      "view/title": [
-        {
-          "command": "echocode.startVoiceInput",
-          "when": "view == echocode.chatView && echocode:isDev",
-          "group": "navigation",
-          "icon": "$(comment)"
         }
       ]
     }

@@ -10,7 +10,7 @@
   "icon": "images/icon.png",
   "publisher": "EchoCode",
   "engines": {
-    "vscode": "^1.99.1"
+    "vscode": "^1.105.0"
   },
   "categories": [
     "Other",
@@ -42,7 +42,7 @@
     "onCommand:echocode.setGuidanceLevel",
     "onCommand:echocode.cycleGuidanceLevel"
   ],
-  "main": "./extension.js",
+  "main": "./dist/extension.js",
   "extensionDependencies": [
     "ms-python.python"
   ],
@@ -540,7 +540,10 @@
   },
   "scripts": {
     "lint-python": "pylint **/*.py",
-    "vscode:prepublish": "npm run compile",
+    "vscode:prepublish": "npm run esbuild-base -- --minify",
+    "esbuild-base": "esbuild ./extension.js --bundle --outfile=dist/extension.js --external:vscode --format=cjs --platform=node && node copy-assets.js",
+    "esbuild": "npm run esbuild-base -- --sourcemap",
+    "esbuild-watch": "npm run esbuild-base -- --sourcemap --watch",
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
     "pretest": "npm run compile",
@@ -557,6 +560,7 @@
     "@vscode/test-cli": "^0.0.9",
     "@vscode/test-electron": "^2.5.2",
     "chai": "^6.2.0",
+    "esbuild": "^0.28.0",
     "eslint": "^9.24.0",
     "glob": "^10.3.10",
     "mocha": "^10.8.2",

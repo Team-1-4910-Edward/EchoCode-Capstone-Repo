@@ -1,24 +1,35 @@
-# 🚀 Ignore VS Code workspace settings
-!node_modules/**
+# 🚀 Ignore Node.js dependencies entirely (We are using esbuild now!)
+node_modules/**
 
-# 🚀 Ignore Node.js dependencies (not needed in the packaged extension)
-node_modules/
+# 🚀 Ignore Heavy Python Environments & Cache
+.venv/**
+echo_venv/**
+__pycache__/**
+**/*.pyc
+
+# 🚀 Ignore unbundled source code (We only need the 'dist' folder and copied assets)
+Core/**/*.js
+program_features/**/*.js
+navigation_features/**/*.js
+Language/**/*.js
+extension.js
+copy-assets.js
 
 # 🚀 Ignore Git metadata
-.git/
+.git/**
 .gitignore
 
 # 🚀 Ignore VSIX build artifacts
 *.vsix
 
 # 🚀 Ignore test-related files
-.vscode-test/
-test/
+.vscode-test/**
+test/**
 
 # 🚀 Ignore temporary or cache files
 **/*.map
 **/.vscode-test.*
 
 # 🚀 Ignore unnecessary config files
-**/jsconfig.json
-**/eslint.config.mjs
+jsconfig.json
+tsconfig.json

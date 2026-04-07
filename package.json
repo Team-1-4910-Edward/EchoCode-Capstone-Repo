@@ -10,7 +10,7 @@
   "icon": "images/icon.png",
   "publisher": "EchoCode",
   "engines": {
-    "vscode": "^1.99.1"
+    "vscode": "^1.105.0"
   },
   "categories": [
     "Other",
@@ -141,7 +141,7 @@
         "title": "EchoCode: Switch to Student Mode"
       },
       {
-      "command": "echocode.switchToDevMode",
+        "command": "echocode.switchToDevMode",
         "title": "EchoCode: Switch to Developer Mode"
       },
       {

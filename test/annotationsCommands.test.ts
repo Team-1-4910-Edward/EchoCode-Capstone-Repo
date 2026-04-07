@@ -2,12 +2,14 @@ import "./helpers/vscodeMock.js";
 import { strict as assert } from "assert";
 import { suite, test, suiteSetup } from "mocha";
 
+// @ts-ignore
 import * as VS from "./helpers/vscodeMock.js";
 const vscode: any = VS;
 
+// @ts-ignore
 import * as ext from "../out/extension.js";
 
-suite("EchoCode – Annotation Commands", () => {
+suite("EchoCode - Annotation Commands", () => {
   suiteSetup(async () => {
     const ctx = vscode.__createMockContext();
     await ext.activate(ctx);
@@ -39,7 +41,7 @@ suite("EchoCode – Annotation Commands", () => {
       // From extension.ts: "[Test] Toggle annotations" / "Toggling EchoCode annotations..."
       assert.ok(
         msg!.toLowerCase().includes("toggle annotations") ||
-          msg!.toLowerCase().includes("toggling echocode annotations"),
+        msg!.toLowerCase().includes("toggling echocode annotations"),
         `Unexpected message: ${msg}`
       );
     } finally {
@@ -56,7 +58,7 @@ suite("EchoCode – Annotation Commands", () => {
       // From extension.ts: "[Test] Read all annotations" / "Reading all annotations aloud..."
       assert.ok(
         msg!.toLowerCase().includes("read all annotations") ||
-          msg!.toLowerCase().includes("reading all annotations aloud"),
+        msg!.toLowerCase().includes("reading all annotations aloud"),
         `Unexpected message: ${msg}`
       );
     } finally {
@@ -73,7 +75,7 @@ suite("EchoCode – Annotation Commands", () => {
       // From extension.ts: "[Test] Speak next annotation" / "Speaking next annotation..."
       assert.ok(
         msg!.toLowerCase().includes("speak next annotation") ||
-          msg!.toLowerCase().includes("speaking next annotation"),
+        msg!.toLowerCase().includes("speaking next annotation"),
         `Unexpected message: ${msg}`
       );
     } finally {

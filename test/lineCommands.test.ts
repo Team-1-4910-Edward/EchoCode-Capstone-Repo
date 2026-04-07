@@ -2,10 +2,12 @@ import "./helpers/vscodeMock.js"; // ensure mock is loaded first
 import { strict as assert } from "assert";
 import { suite, test, suiteSetup } from "mocha";
 
+// @ts-ignore
 import * as VS from "./helpers/vscodeMock.js";
 const vscode: any = VS;
 
 // Import compiled extension so commands are registered
+// @ts-ignore
 import * as ext from "../out/extension.js";
 
 suite("EchoCode – Line Commands", () => {

@@ -2,9 +2,11 @@ import "./helpers/vscodeMock.js";
 import { strict as assert } from "assert";
 import { suite, test, suiteSetup } from "mocha";
 
+// @ts-ignore
 import * as VS from "./helpers/vscodeMock.js";
 const vscode: any = VS;
 
+// @ts-ignore
 import * as ext from "../out/extension.js";
 
 suite("EchoCode – Function Navigation", () => {

@@ -2,7 +2,7 @@
   "name": "echo-code",
   "displayName": "Echo Code",
   "description": "AI-assisted speech, chat, and summaries for any language; Python lint-on-save + C++ support.",
-  "version": "2.1.0",
+  "version": "3.0.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/Team-1-4910-Edward/EchoCode-Capstone-Repo.git"
@@ -10,7 +10,7 @@
   "icon": "images/icon.png",
   "publisher": "EchoCode",
   "engines": {
-    "vscode": "^1.99.1"
+    "vscode": "^1.105.0"
   },
   "categories": [
     "Other",
@@ -30,7 +30,6 @@
     "onCommand:echocode.summarizeClass",
     "onCommand:echocode.summarizeFunction",
     "onCommand:echocode.summarizeProgram",
-    "onCommand:echocode.startVoiceInput",
     "onCommand:echocode.selectMicrophone",
     "onCommand:echocode.loadAssignmentFile",
     "onCommand:echocode.increaseSpeechSpeed",
@@ -94,10 +93,6 @@
         "title": "Open EchoCode Tutor Chat"
       },
       {
-        "command": "echocode.startVoiceInput",
-        "title": "Start Voice Input"
-      },
-      {
         "command": "echocode.loadAssignmentFile",
         "title": "Load Assignment File"
       },
@@ -146,7 +141,7 @@
         "title": "EchoCode: Switch to Student Mode"
       },
       {
-      "command": "echocode.switchToDevMode",
+        "command": "echocode.switchToDevMode",
         "title": "EchoCode: Switch to Developer Mode"
       },
       {
@@ -304,18 +299,15 @@
       },
       {
         "command": "echocode.speakNextAnnotation",
-        "key": "ctrl+alt+s",
-        "when": "editorTextFocus && echocode:isDev"
+        "key": "ctrl+alt+s"
       },
       {
         "command": "echocode.annotate",
-        "key": "ctrl+alt+a",
-        "when": "editorTextFocus && echocode:isDev"
+        "key": "ctrl+alt+a"
       },
       {
         "command": "echocode.readAllAnnotations",
-        "key": "ctrl+alt+q",
-        "when": "editorTextFocus && echocode:isDev"
+        "key": "ctrl+alt+q"
       },
       {
         "command": "echocode.jumpToNextFunction",
@@ -341,11 +333,6 @@
         "command": "echocode.summarizeProgram",
         "key": "ctrl+alt+e p",
         "when": "editorTextFocus && echocode:isDev"
-      },
-      {
-        "command": "echocode.startVoiceInput",
-        "key": "ctrl+alt+v",
-        "when": "echocode:isDev"
       },
       {
         "command": "echocode.toggleVoice",
@@ -534,14 +521,6 @@
           "command": "echocode.annotate",
           "when": "echocode:isDev",
           "group": "navigation"
-        }
-      ],
-      "view/title": [
-        {
-          "command": "echocode.startVoiceInput",
-          "when": "view == echocode.chatView && echocode:isDev",
-          "group": "navigation",
-          "icon": "$(comment)"
         }
       ]
     }
